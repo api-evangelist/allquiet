@@ -1,0 +1,152 @@
+aid: allquiet
+url: https://raw.githubusercontent.com/api-evangelist/allquiet/refs/heads/main/apis.yml
+name: All Quiet
+kind: company
+description: All Quiet is a lean, SRE-first incident management and on-call alerting
+  platform for engineering teams. Its Public REST API (US and EU regions, API-key
+  authenticated) lets teams programmatically create and manage incidents, configure
+  inbound and outbound integrations, manage teams and escalation schedules, and read
+  who is on call.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Incident Management
+- On-Call
+- Alerting
+- Incident Response
+- DevOps
+created: '2026-06-21'
+modified: '2026-06-21'
+specificationVersion: '0.19'
+apis:
+- aid: allquiet:incidents
+  name: All Quiet Incidents API
+  tags:
+  - Incidents
+  - Incident Response
+  - Alerting
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.allquiet.app/advanced/api
+  baseURL: https://allquiet.app/api/public/v1
+  properties:
+  - url: https://docs.allquiet.app/essentials/incident
+    type: Documentation
+  - url: https://allquiet.app/api/public/swagger-ui/index.html
+    type: APIReference
+  - url: openapi/allquiet-openapi.yml
+    type: OpenAPI
+  - url: collections/allquiet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/allquiet.opencollection.json
+    type: OpenCollection
+  description: Create, retrieve, search, update (PATCH), and delete incidents, including
+    severity, status, team assignment, user assignments, and attributes. A Markdown
+    rendering of any incident is also available.
+- aid: allquiet:inbound-integrations
+  name: All Quiet Inbound Integrations API
+  tags:
+  - Inbound Integrations
+  - Webhooks
+  - Alerting
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.allquiet.app/essentials/inbound
+  baseURL: https://allquiet.app/api/public/v1
+  properties:
+  - url: https://docs.allquiet.app/integrations/inbound/webhook
+    type: Documentation
+  - url: https://allquiet.app/api/public/swagger-ui/index.html
+    type: APIReference
+  - url: openapi/allquiet-openapi.yml
+    type: OpenAPI
+  - url: collections/allquiet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/allquiet.opencollection.json
+    type: OpenCollection
+  description: Manage inbound integrations that turn observability and alerting signals
+    into All Quiet incidents, including the generic inbound webhook endpoint, payload
+    attribute mapping, integration types, and maintenance windows.
+- aid: allquiet:teams
+  name: All Quiet Teams API
+  tags:
+  - Teams
+  - Membership
+  - Organization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.allquiet.app/essentials/teams
+  baseURL: https://allquiet.app/api/public/v1
+  properties:
+  - url: https://docs.allquiet.app/essentials/teams
+    type: Documentation
+  - url: https://allquiet.app/api/public/swagger-ui/index.html
+    type: APIReference
+  - url: openapi/allquiet-openapi.yml
+    type: OpenAPI
+  - url: collections/allquiet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/allquiet.opencollection.json
+    type: OpenCollection
+  description: Create, read, update, and delete teams, team memberships, and organization
+    memberships (users), the building blocks for routing incidents and on-call duty.
+- aid: allquiet:on-call-schedules
+  name: All Quiet On-Call Schedules API
+  tags:
+  - On-Call
+  - Schedules
+  - Escalations
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.allquiet.app/essentials/escalations
+  baseURL: https://allquiet.app/api/public/v1
+  properties:
+  - url: https://docs.allquiet.app/essentials/escalations
+    type: Documentation
+  - url: https://allquiet.app/api/public/swagger-ui/index.html
+    type: APIReference
+  - url: openapi/allquiet-openapi.yml
+    type: OpenAPI
+  - url: collections/allquiet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/allquiet.opencollection.json
+    type: OpenCollection
+  description: Read who is on call across teams and users at a point in time, configure
+    team escalation tiers and rotations, and create on-call overrides for coverage
+    swaps.
+- aid: allquiet:webhooks
+  name: All Quiet Webhooks API
+  tags:
+  - Webhooks
+  - Outbound Integrations
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://docs.allquiet.app/integrations/outbound/webhook
+  baseURL: https://allquiet.app/api/public/v1
+  properties:
+  - url: https://docs.allquiet.app/essentials/outbound
+    type: Documentation
+  - url: https://allquiet.app/api/public/swagger-ui/index.html
+    type: APIReference
+  - url: openapi/allquiet-openapi.yml
+    type: OpenAPI
+  - url: collections/allquiet.postman_collection.json
+    type: PostmanCollection
+  - url: collections/allquiet.opencollection.json
+    type: OpenCollection
+  description: Manage outbound integrations that forward All Quiet incidents to third-party
+    platforms, including a generic outbound webhook that POSTs incident events to any
+    HTTP endpoint, plus Slack and Mattermost delivery.
+common:
+- type: GitHubOrganization
+  url: https://github.com/AllQuietApp
+- type: LinkedIn
+  url: https://www.linkedin.com/company/allquiet
+- type: Website
+  url: https://allquiet.app/
+- type: Documentation
+  url: https://docs.allquiet.app
+- type: Plans
+  url: plans/allquiet-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/allquiet-rate-limits.yml
+- type: FinOps
+  url: finops/allquiet-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

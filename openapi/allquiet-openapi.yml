@@ -1,0 +1,610 @@
+openapi: 3.0.1
+info:
+  title: All Quiet Public API
+  description: >-
+    The All Quiet Public REST API lets you manage incident management and on-call
+    resources programmatically. It is available in the US (https://allquiet.app/api)
+    and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan.
+    Authenticate with an organization API key sent either as an `X-Api-Key` header
+    or as a `Authorization: Bearer` token. This document captures the documented
+    Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks
+    (outbound integrations) surfaces of the public v1 API.
+  termsOfService: https://allquiet.app/legal/terms
+  contact:
+    name: All Quiet Support
+    email: support@allquiet.app
+  version: v1
+servers:
+  - url: https://allquiet.app/api
+    description: US region
+  - url: https://allquiet.eu/api
+    description: EU region
+security:
+  - ApiKeyHeader: []
+  - BearerAuth: []
+tags:
+  - name: Incidents
+    description: Create, search, read, update, and delete incidents.
+  - name: Inbound Integrations
+    description: Integrations that turn external signals into All Quiet incidents.
+  - name: Teams
+    description: Teams, team membership, and organization membership (users).
+  - name: On-Call Schedules
+    description: On-call lookups, escalation tiers, and on-call overrides.
+  - name: Webhooks
+    description: Outbound integrations that forward incidents to third-party platforms.
+paths:
+  /public/v1/incident:
+    post:
+      tags:
+        - Incidents
+      summary: Create an incident
+      description: Creates a new incident with a title, severity, status, and optional team and user assignments.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentCreateRequest'
+      responses:
+        '200':
+          description: The created incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/list:
+    get:
+      tags:
+        - Incidents
+      summary: Search incidents
+      description: Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range.
+      parameters:
+        - { name: Statuses, in: query, schema: { type: array, items: { type: string } } }
+        - { name: Severities, in: query, schema: { type: array, items: { type: string } } }
+        - { name: IntegrationIds, in: query, schema: { type: array, items: { type: string } } }
+        - { name: TeamIds, in: query, schema: { type: array, items: { type: string } } }
+        - { name: UserIds, in: query, schema: { type: array, items: { type: string } } }
+        - { name: SearchTerm, in: query, schema: { type: string } }
+        - { name: IsArchived, in: query, schema: { type: boolean } }
+        - { name: CreatedFrom, in: query, schema: { type: string, format: date-time } }
+        - { name: CreatedUntil, in: query, schema: { type: string, format: date-time } }
+        - { name: Limit, in: query, schema: { type: integer } }
+        - { name: Offset, in: query, schema: { type: integer } }
+        - { name: SortBy, in: query, schema: { type: string } }
+        - { name: Asc, in: query, schema: { type: boolean } }
+      responses:
+        '200':
+          description: A paged list of incidents.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/{incidentId}:
+    get:
+      tags:
+        - Incidents
+      summary: Get an incident
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: The requested incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/{incidentId}/markdown:
+    get:
+      tags:
+        - Incidents
+      summary: Get an incident as Markdown
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: A Markdown rendering of the incident.
+          content:
+            text/markdown:
+              schema: { type: string }
+  /public/v1/incident/{incidentId}:
+    patch:
+      tags:
+        - Incidents
+      summary: Update an incident
+      description: Applies a list of patch operations (e.g. change status, severity, assignments) to an incident.
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentPatchRequest'
+      responses:
+        '200':
+          description: The updated incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+    delete:
+      tags:
+        - Incidents
+      summary: Delete an incident
+      parameters:
+        - name: incidentId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: The incident was deleted.
+  /public/v1/inbound-integration:
+    post:
+      tags:
+        - Inbound Integrations
+      summary: Create an inbound integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The created inbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundIntegration'
+  /public/v1/inbound-integration/{id}:
+    get:
+      tags: [Inbound Integrations]
+      summary: Get an inbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The requested inbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundIntegration'
+    put:
+      tags: [Inbound Integrations]
+      summary: Update an inbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The updated inbound integration.
+    delete:
+      tags: [Inbound Integrations]
+      summary: Delete an inbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The inbound integration was deleted.
+  /public/v1/inbound-integration/types:
+    get:
+      tags: [Inbound Integrations]
+      summary: List inbound integration types
+      responses:
+        '200':
+          description: The supported inbound integration types.
+  /public/v1/inbound-integration/search/list:
+    get:
+      tags: [Inbound Integrations]
+      summary: Search inbound integrations
+      responses:
+        '200':
+          description: A list of inbound integrations.
+  /public/v1/team:
+    post:
+      tags: [Teams]
+      summary: Create a team
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: The created team.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+  /public/v1/team/{id}:
+    get:
+      tags: [Teams]
+      summary: Get a team
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The requested team.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+    put:
+      tags: [Teams]
+      summary: Update a team
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: The updated team.
+    delete:
+      tags: [Teams]
+      summary: Delete a team
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The team was deleted.
+  /public/v1/team/search/list:
+    get:
+      tags: [Teams]
+      summary: Search teams
+      responses:
+        '200':
+          description: A list of teams.
+  /public/v1/team-membership:
+    post:
+      tags: [Teams]
+      summary: Add a team membership
+      responses:
+        '200':
+          description: The created team membership.
+  /public/v1/organization-membership:
+    post:
+      tags: [Teams]
+      summary: Add an organization membership (user)
+      responses:
+        '200':
+          description: The created organization membership.
+  /public/v1/user:
+    post:
+      tags: [Teams]
+      summary: Create a user
+      responses:
+        '200':
+          description: The created user.
+  /public/v1/on-call:
+    get:
+      tags: [On-Call Schedules]
+      summary: Get who is on call
+      description: Returns the users on call for the given teams or users at the supplied timestamp (defaults to now).
+      parameters:
+        - { name: TeamIds, in: query, schema: { type: array, items: { type: string } } }
+        - { name: UserIds, in: query, schema: { type: array, items: { type: string } } }
+        - { name: Timestamp, in: query, schema: { type: string, format: date-time } }
+      responses:
+        '200':
+          description: The on-call result set.
+  /public/v1/team-escalations:
+    post:
+      tags: [On-Call Schedules]
+      summary: Create team escalations
+      description: Defines escalation tiers, schedules, and rotations for a team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamEscalationsRequest'
+      responses:
+        '200':
+          description: The created team escalations.
+  /public/v1/team-escalations/{id}:
+    get:
+      tags: [On-Call Schedules]
+      summary: Get team escalations
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The requested team escalations.
+    put:
+      tags: [On-Call Schedules]
+      summary: Update team escalations
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamEscalationsRequest'
+      responses:
+        '200':
+          description: The updated team escalations.
+    delete:
+      tags: [On-Call Schedules]
+      summary: Delete team escalations
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The team escalations were deleted.
+  /public/v1/on-call-override:
+    post:
+      tags: [On-Call Schedules]
+      summary: Create an on-call override
+      description: Overrides who is on call for a team and escalation tier over a time window.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnCallOverrideRequest'
+      responses:
+        '200':
+          description: The created on-call override.
+  /public/v1/on-call-override/{id}:
+    get:
+      tags: [On-Call Schedules]
+      summary: Get an on-call override
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The requested on-call override.
+    put:
+      tags: [On-Call Schedules]
+      summary: Update an on-call override
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnCallOverrideRequest'
+      responses:
+        '200':
+          description: The updated on-call override.
+    delete:
+      tags: [On-Call Schedules]
+      summary: Delete an on-call override
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The on-call override was deleted.
+  /public/v1/outbound-integration:
+    post:
+      tags: [Webhooks]
+      summary: Create an outbound integration
+      description: Creates an outbound integration (e.g. generic webhook, Slack, Mattermost) that forwards incidents to a third-party platform.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The created outbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundIntegration'
+  /public/v1/outbound-integration/{id}:
+    get:
+      tags: [Webhooks]
+      summary: Get an outbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The requested outbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundIntegration'
+    put:
+      tags: [Webhooks]
+      summary: Update an outbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OutboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The updated outbound integration.
+    delete:
+      tags: [Webhooks]
+      summary: Delete an outbound integration
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string } }
+      responses:
+        '200':
+          description: The outbound integration was deleted.
+  /public/v1/outbound-integration/types:
+    get:
+      tags: [Webhooks]
+      summary: List outbound integration types
+      responses:
+        '200':
+          description: The supported outbound integration types.
+components:
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Organization API key sent in the X-Api-Key header.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Organization API key sent as a Bearer token in the Authorization header.
+  schemas:
+    IncidentCreateRequest:
+      type: object
+      required:
+        - title
+        - severity
+        - status
+      properties:
+        title: { type: string }
+        message: { type: string }
+        messageIsPublic: { type: boolean }
+        integrationId: { type: string }
+        teamIds:
+          type: array
+          items: { type: string }
+        status: { type: string, description: 'Incident status, e.g. Open, Resolved.' }
+        severity: { type: string, description: 'Incident severity, e.g. Critical, Warning, Minor.' }
+        serviceIds:
+          type: array
+          items: { type: string }
+        excludeFromUptimeCalculation: { type: boolean }
+        userAssignments:
+          type: array
+          items: { type: object }
+        attributes:
+          type: array
+          items: { type: object }
+        publicComment: { type: string }
+    IncidentPatchRequest:
+      type: object
+      required:
+        - operations
+      properties:
+        operations:
+          type: array
+          description: A list of patch operations to apply to the incident.
+          items: { type: object }
+    Incident:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        status: { type: string }
+        severity: { type: string }
+        teamIds:
+          type: array
+          items: { type: string }
+        createdAt: { type: string, format: date-time }
+    InboundIntegrationCreateRequest:
+      type: object
+      required:
+        - displayName
+        - teamId
+        - type
+      properties:
+        displayName: { type: string }
+        teamId: { type: string }
+        type: { type: string, description: 'Integration type, e.g. Webhook, Datadog, Prometheus.' }
+        isMuted: { type: boolean }
+        isInMaintenance: { type: boolean }
+        snoozeSettings: { type: object }
+        webhookAuthentication: { type: object }
+        integrationSettings: { type: object }
+        labels:
+          type: array
+          items: { type: string }
+    InboundIntegration:
+      type: object
+      properties:
+        id: { type: string }
+        displayName: { type: string }
+        teamId: { type: string }
+        type: { type: string }
+    TeamRequest:
+      type: object
+      required:
+        - displayName
+        - timeZoneId
+      properties:
+        displayName: { type: string }
+        timeZoneId: { type: string }
+        labels:
+          type: array
+          items: { type: string }
+        incidentEngagementReportSettings: { type: object }
+        calendarPublishingSettings: { type: object }
+    Team:
+      type: object
+      properties:
+        id: { type: string }
+        displayName: { type: string }
+        timeZoneId: { type: string }
+    TeamEscalationsRequest:
+      type: object
+      properties:
+        teamId: { type: string }
+        tiers:
+          type: array
+          description: Escalation tiers with their schedules and rotations.
+          items: { type: object }
+    OnCallOverrideRequest:
+      type: object
+      required:
+        - type
+        - userId
+      properties:
+        userId: { type: string }
+        teamId: { type: string }
+        escalationTier: { type: integer }
+        replacementUserIds:
+          type: array
+          items: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        type: { type: string }
+    OutboundIntegrationCreateRequest:
+      type: object
+      required:
+        - displayName
+        - teamId
+        - type
+      properties:
+        displayName: { type: string }
+        teamId: { type: string }
+        type: { type: string, description: 'Integration type, e.g. Webhook, Slack, Mattermost.' }
+        triggersOnlyOnForwarded: { type: boolean }
+        skipUpdatingAfterForwarding: { type: boolean }
+        teamConnectionSettings: { type: object }
+        slackSettings: { type: object }
+        mattermostSettings: { type: object }
+    OutboundIntegration:
+      type: object
+      properties:
+        id: { type: string }
+        displayName: { type: string }
+        teamId: { type: string }
+        type: { type: string }

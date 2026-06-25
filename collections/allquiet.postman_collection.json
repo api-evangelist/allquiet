@@ -1,0 +1,280 @@
+{
+  "info": {
+    "name": "All Quiet Public API",
+    "description": "The All Quiet Public REST API for incident management and on-call alerting. Authenticate with an organization API key sent as a Bearer token in the Authorization header (or as an X-Api-Key header). Requires a Pro or Enterprise plan. US base URL https://allquiet.app/api; EU base URL https://allquiet.eu/api.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{apiKey}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://allquiet.app/api" }
+  ],
+  "item": [
+    {
+      "name": "Incidents",
+      "item": [
+        {
+          "name": "Create an incident",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident" ] },
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"status\": \"<string>\",\n  \"teamIds\": [ \"<string>\" ],\n  \"message\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Creates a new incident with a title, severity, status, and optional team and user assignments."
+          }
+        },
+        {
+          "name": "Search incidents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident/search/list", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident", "search", "list" ] },
+            "description": "Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range."
+          }
+        },
+        {
+          "name": "Get an incident",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident/search/:incidentId", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident", "search", ":incidentId" ], "variable": [ { "key": "incidentId", "value": "" } ] },
+            "description": "Retrieves a single incident by ID."
+          }
+        },
+        {
+          "name": "Get an incident as Markdown",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident/search/:incidentId/markdown", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident", "search", ":incidentId", "markdown" ], "variable": [ { "key": "incidentId", "value": "" } ] },
+            "description": "Returns a Markdown rendering of the incident."
+          }
+        },
+        {
+          "name": "Update an incident",
+          "request": {
+            "method": "PATCH",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident/:incidentId", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident", ":incidentId" ], "variable": [ { "key": "incidentId", "value": "" } ] },
+            "body": { "mode": "raw", "raw": "{\n  \"operations\": []\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Applies a list of patch operations to an incident."
+          }
+        },
+        {
+          "name": "Delete an incident",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/incident/:incidentId", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "incident", ":incidentId" ], "variable": [ { "key": "incidentId", "value": "" } ] },
+            "description": "Deletes an incident."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Inbound Integrations",
+      "item": [
+        {
+          "name": "Create an inbound integration",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/inbound-integration", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "inbound-integration" ] },
+            "body": { "mode": "raw", "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Creates an inbound integration that turns external signals into All Quiet incidents."
+          }
+        },
+        {
+          "name": "Get an inbound integration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/inbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "inbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves an inbound integration by ID."
+          }
+        },
+        {
+          "name": "Update an inbound integration",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/inbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "inbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Updates an inbound integration."
+          }
+        },
+        {
+          "name": "Delete an inbound integration",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/inbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "inbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Deletes an inbound integration."
+          }
+        },
+        {
+          "name": "List inbound integration types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/inbound-integration/types", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "inbound-integration", "types" ] },
+            "description": "Lists the supported inbound integration types."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Teams",
+      "item": [
+        {
+          "name": "Create a team",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/team", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team" ] },
+            "body": { "mode": "raw", "raw": "{\n  \"displayName\": \"<string>\",\n  \"timeZoneId\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Creates a team."
+          }
+        },
+        {
+          "name": "Get a team",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/team/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves a team by ID."
+          }
+        },
+        {
+          "name": "Update a team",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/team/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Updates a team."
+          }
+        },
+        {
+          "name": "Delete a team",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/team/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Deletes a team."
+          }
+        },
+        {
+          "name": "Add a team membership",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/team-membership", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team-membership" ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Adds a user to a team."
+          }
+        },
+        {
+          "name": "Add an organization membership",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/organization-membership", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "organization-membership" ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Adds a user to the organization."
+          }
+        }
+      ]
+    },
+    {
+      "name": "On-Call Schedules",
+      "item": [
+        {
+          "name": "Get who is on call",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/on-call", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "on-call" ] },
+            "description": "Returns the users on call for the given teams or users at the supplied timestamp (defaults to now)."
+          }
+        },
+        {
+          "name": "Create team escalations",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/team-escalations", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "team-escalations" ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Defines escalation tiers, schedules, and rotations for a team."
+          }
+        },
+        {
+          "name": "Create an on-call override",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/on-call-override", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "on-call-override" ] },
+            "body": { "mode": "raw", "raw": "{\n  \"userId\": \"<string>\",\n  \"type\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Overrides who is on call for a team and escalation tier over a time window."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Create an outbound integration",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/outbound-integration", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "outbound-integration" ] },
+            "body": { "mode": "raw", "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\"\n}", "options": { "raw": { "language": "json" } } },
+            "description": "Creates an outbound integration (e.g. generic webhook, Slack, Mattermost) that forwards incidents to a third-party platform."
+          }
+        },
+        {
+          "name": "Get an outbound integration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/outbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "outbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Retrieves an outbound integration by ID."
+          }
+        },
+        {
+          "name": "Update an outbound integration",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "{{baseUrl}}/public/v1/outbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "outbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "body": { "mode": "raw", "raw": "{}", "options": { "raw": { "language": "json" } } },
+            "description": "Updates an outbound integration."
+          }
+        },
+        {
+          "name": "Delete an outbound integration",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/outbound-integration/:id", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "outbound-integration", ":id" ], "variable": [ { "key": "id", "value": "" } ] },
+            "description": "Deletes an outbound integration."
+          }
+        },
+        {
+          "name": "List outbound integration types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/public/v1/outbound-integration/types", "host": [ "{{baseUrl}}" ], "path": [ "public", "v1", "outbound-integration", "types" ] },
+            "description": "Lists the supported outbound integration types."
+          }
+        }
+      ]
+    }
+  ]
+}

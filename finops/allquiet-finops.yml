@@ -1,0 +1,79 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: All Quiet
+providerId: allquiet
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: true
+tags:
+- Incident Management
+- On-Call
+- Alerting
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of All Quiet spend. All Quiet bills on a per-user, per-month
+  subscription basis (Standard $4.99, Pro $9.99) with unlimited usage of
+  integrations, incidents, and communications, plus a custom-priced Enterprise
+  plan. The Public REST API and Terraform provider are included with the Pro and
+  Enterprise plans at no metered surcharge, so API consumption itself is not a
+  separately billed meter; the primary cost driver is the number of seats.
+notes: >-
+  Per-seat list prices are subject to change; verify against the All Quiet
+  pricing page during reconciliation.
+sources:
+- https://allquiet.app/pricing
+- https://docs.allquiet.app/advanced/api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: All Quiet
+serviceCategory: Management and Governance
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: All Quiet
+  ServiceCategory: Management and Governance
+  ProviderName: All Quiet
+  PublisherName: All Quiet
+  InvoiceIssuerName: All Quiet
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Subscription-Based
+meters:
+- name: seats
+  description: Per-user subscription seats billed monthly at the plan's per-user rate.
+  unit: users
+  aggregation: sum
+  dimensions:
+  - organization
+  - plan
+- name: plan
+  description: The subscribed plan (Standard, Pro, Enterprise) that determines per-seat rate and feature access.
+  unit: plan
+  aggregation: max
+  dimensions:
+  - organization
+principles:
+- name: Visibility
+  description: Track active seat count and plan tier against the monthly invoice from All Quiet.
+- name: Allocation
+  description: Map seats and teams to internal cost centers using team and label metadata exposed by the API.
+- name: Optimization
+  description: Right-size the plan to required features (API/Terraform require Pro+); reclaim inactive seats.
+- name: Accountability
+  description: Assign an owner per organization/billing account and review seat growth monthly against budget.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,126 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: All Quiet
+providerId: allquiet
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: true
+tags:
+- Incident Management
+- On-Call
+- Alerting
+- Plans
+description: >-
+  All Quiet uses transparent per-user, per-month pricing with unlimited users,
+  integrations, incidents, and communications (SMS, calls, email, push) on every
+  paid plan. A 14-day free trial is available. The Public REST API and Terraform
+  provider are available only on the Pro and Enterprise plans; the Standard plan
+  does not include API access.
+notes: >-
+  Prices are list per-user/month as published on the All Quiet pricing page and
+  may change; verify at https://allquiet.app/pricing during reconciliation.
+sources:
+- https://allquiet.app/pricing
+- https://docs.allquiet.app/advanced/api
+plans:
+- id: allquiet-trial
+  name: Free Trial
+  type: trial
+  description: >-
+    14-day free trial with full access to key features. No long-term commitment.
+  entries:
+  - label: Trial Period
+    name: trial_period
+    type: trial
+    metric: days
+    limit: 14
+    timeFrame: day
+    geo: global
+    unit: 1
+    price: free
+    userMultiplied: false
+  elements:
+  - name: Incident Management
+  - name: On-Call Scheduling
+  - name: Multi-Channel Alerting
+- id: allquiet-standard
+  name: Standard
+  type: subscription
+  description: >-
+    Entry-level plan for small teams. Unlimited users, integrations, incidents,
+    and communications. Does not include the Public API or Terraform provider.
+    6-month incident retention.
+  entries:
+  - label: Standard Seat
+    name: standard_seat
+    type: recurring
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $4.99 per user / month
+    userMultiplied: true
+  elements:
+  - name: Unlimited Users
+  - name: Unlimited Integrations
+  - name: Unlimited Incidents
+  - name: SMS / Call / Email / Push Alerting
+  - name: 6-Month Incident Retention
+- id: allquiet-pro
+  name: Pro
+  type: subscription
+  description: >-
+    For organizations with multiple teams. Everything in Standard plus Status
+    Pages, OIDC + SCIM, the Terraform provider, the Public REST API, Live Call
+    Routing, Cross-Team Collaboration, and Advanced Reporting. 12-month retention.
+  entries:
+  - label: Pro Seat
+    name: pro_seat
+    type: recurring
+    metric: users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $9.99 per user / month
+    userMultiplied: true
+  elements:
+  - name: Everything in Standard
+  - name: Public REST API
+  - name: Terraform Provider
+  - name: Status Pages
+  - name: OIDC + SCIM
+  - name: Live Call Routing
+  - name: Cross-Team Collaboration
+  - name: Advanced Reporting
+  - name: 12-Month Incident Retention
+- id: allquiet-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Custom pricing. Everything in Pro plus Advanced Auditing & Logging,
+    On-Request Customization, Whiteglove Onboarding, a Dedicated Customer Success
+    Channel, and Custom Billing. Contact sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Everything in Pro
+  - name: Advanced Auditing & Logging
+  - name: On-Request Customization
+  - name: Whiteglove Onboarding
+  - name: Dedicated Customer Success Channel
+  - name: Custom Billing
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

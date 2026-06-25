@@ -1,0 +1,94 @@
+aid: allquiet
+name: All Quiet
+review:
+  question: Does All Quiet expose a documented public WebSocket API?
+  answer: false
+  date: '2026-06-21'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. All Quiet's Public API is a synchronous
+    REST (HTTPS) API. The platform's event-driven surfaces are inbound HTTP
+    webhooks (POST to https://allquiet.app/api/webhook/{id}) and outbound HTTP
+    webhooks that POST incident events to a customer-supplied URL. Neither is a
+    streaming WebSocket nor a Server-Sent Events surface, so no AsyncAPI
+    channel modeling was warranted.
+findings:
+  summary: |
+    All Quiet does not publish a documented public WebSocket API. The All Quiet
+    Public API is OpenAPI 3.0.4 (swagger.json title "All Quiet Public API",
+    version v1) and exposes only REST (HTTPS) endpoints under
+    https://allquiet.app/api (US) and https://allquiet.eu/api (EU). Real-time
+    behavior is delivered through HTTP webhooks: an inbound webhook endpoint
+    that receives third-party payloads and an outbound webhook that POSTs
+    incident events to an external URL. No realtime, bidirectional WebSocket
+    (ws:// or wss://) endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://allquiet.app/api/public/v1
+      documented: true
+    - protocol: REST
+      scheme: https
+      baseURL: https://allquiet.eu/api/public/v1
+      documented: true
+      note: EU region equivalent of the US public API.
+    - protocol: Webhook
+      scheme: https
+      note: Inbound webhook (POST to /api/webhook/{id}) and outbound webhook (POST to a customer URL). One-way HTTP, not WebSocket.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented in the All Quiet API docs or swagger.json as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://allquiet.app/api/public/v1/incident
+    - GET    https://allquiet.app/api/public/v1/incident/search/list
+    - GET    https://allquiet.app/api/public/v1/incident/search/{incidentId}
+    - GET    https://allquiet.app/api/public/v1/incident/search/{incidentId}/markdown
+    - PATCH  https://allquiet.app/api/public/v1/incident/{incidentId}
+    - DELETE https://allquiet.app/api/public/v1/incident/{incidentId}
+    - POST   https://allquiet.app/api/public/v1/inbound-integration
+    - GET    https://allquiet.app/api/public/v1/inbound-integration/{id}
+    - PUT    https://allquiet.app/api/public/v1/inbound-integration/{id}
+    - DELETE https://allquiet.app/api/public/v1/inbound-integration/{id}
+    - GET    https://allquiet.app/api/public/v1/inbound-integration/types
+    - POST   https://allquiet.app/api/public/v1/team
+    - GET    https://allquiet.app/api/public/v1/team/{id}
+    - PUT    https://allquiet.app/api/public/v1/team/{id}
+    - DELETE https://allquiet.app/api/public/v1/team/{id}
+    - POST   https://allquiet.app/api/public/v1/team-membership
+    - POST   https://allquiet.app/api/public/v1/organization-membership
+    - POST   https://allquiet.app/api/public/v1/user
+    - GET    https://allquiet.app/api/public/v1/on-call
+    - POST   https://allquiet.app/api/public/v1/team-escalations
+    - POST   https://allquiet.app/api/public/v1/on-call-override
+    - POST   https://allquiet.app/api/public/v1/outbound-integration
+    - GET    https://allquiet.app/api/public/v1/outbound-integration/{id}
+    - PUT    https://allquiet.app/api/public/v1/outbound-integration/{id}
+    - DELETE https://allquiet.app/api/public/v1/outbound-integration/{id}
+sources:
+  - url: https://docs.allquiet.app/advanced/api
+    type: Documentation
+    note: Documents REST base URLs (US/EU), API key + bearer auth, and Swagger links; no WebSocket mentioned.
+  - url: https://allquiet.app/api/swagger/public-v1/swagger.json
+    type: APIReference
+    note: OpenAPI 3.0.4 schema; all documented operations are HTTPS REST.
+  - url: https://docs.allquiet.app/integrations/inbound/webhook
+    type: Documentation
+    note: Inbound webhook POSTs payloads to /api/webhook/{id}; one-way HTTP, not WebSocket.
+  - url: https://docs.allquiet.app/integrations/outbound/webhook
+    type: Documentation
+    note: Outbound webhook POSTs incident events to a third-party URL; one-way HTTP, not WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists and the event-driven surfaces are
+    one-way HTTP webhooks rather than streaming channels, so no AsyncAPI
+    document was authored. The apis.yml catalogs the five documented REST
+    surfaces (Incidents, Inbound Integrations, Teams, On-Call Schedules,
+    Webhooks).
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

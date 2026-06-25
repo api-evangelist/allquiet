@@ -1,0 +1,45 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: All Quiet
+providerId: allquiet
+created: '2026-06-21'
+modified: '2026-06-21'
+reconciled: false
+tags:
+- Incident Management
+- On-Call
+- Alerting
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  All Quiet's Public REST API is gated to the Pro and Enterprise plans and is
+  authenticated with an organization API key. Specific numeric request-rate
+  limits for the public v1 API are not published in the public documentation or
+  the Swagger/OpenAPI schema as of the research date, so they are not reconciled
+  in this artifact. Clients should implement retry-with-backoff and honor any
+  HTTP 429 responses returned by the API.
+notes: >-
+  No public per-endpoint rate-limit values were found in the All Quiet
+  documentation or swagger.json. Confirm limits with All Quiet support during
+  reconciliation.
+sources:
+- https://docs.allquiet.app/advanced/api
+- https://allquiet.app/api/swagger/public-v1/swagger.json
+responseCodes:
+  throttled: 429
+limits:
+- name: Public API Requests
+  scope: organization
+  metric: requests
+  limit: see provider documentation
+  notes: No published numeric request rate limit was found for the public v1 API.
+policies:
+- name: Plan Gating
+  description: Public API access requires a Pro or Enterprise plan; Standard plan keys cannot call the API.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor any HTTP 429 / Retry-After responses.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

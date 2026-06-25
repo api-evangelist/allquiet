@@ -1,0 +1,307 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Incidents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create an incident", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/incident",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"title\": \"\",\n  \"severity\": \"\",\n  \"status\": \"\",\n  \"teamIds\": []\n}"
+            }
+          },
+          "docs": "Creates a new incident with a title, severity, status, and optional team and user assignments."
+        },
+        {
+          "info": { "name": "Search incidents", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/list"
+          },
+          "docs": "Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range."
+        },
+        {
+          "info": { "name": "Get an incident", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/:incidentId",
+            "params": [
+              { "name": "incidentId", "value": "", "type": "path", "description": "The ID of the incident to retrieve." }
+            ]
+          },
+          "docs": "Retrieves a single incident by ID."
+        },
+        {
+          "info": { "name": "Get an incident as Markdown", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/:incidentId/markdown",
+            "params": [
+              { "name": "incidentId", "value": "", "type": "path", "description": "The ID of the incident to render." }
+            ]
+          },
+          "docs": "Returns a Markdown rendering of the incident."
+        },
+        {
+          "info": { "name": "Update an incident", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "https://allquiet.app/api/public/v1/incident/:incidentId",
+            "params": [
+              { "name": "incidentId", "value": "", "type": "path", "description": "The ID of the incident to update." }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"operations\": []\n}"
+            }
+          },
+          "docs": "Applies a list of patch operations (e.g. change status, severity, assignments) to an incident."
+        },
+        {
+          "info": { "name": "Delete an incident", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/incident/:incidentId",
+            "params": [
+              { "name": "incidentId", "value": "", "type": "path", "description": "The ID of the incident to delete." }
+            ]
+          },
+          "docs": "Deletes an incident."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Inbound Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create an inbound integration", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"displayName\": \"\",\n  \"teamId\": \"\",\n  \"type\": \"\"\n}"
+            }
+          },
+          "docs": "Creates an inbound integration that turns external signals into All Quiet incidents."
+        },
+        {
+          "info": { "name": "Get an inbound integration", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves an inbound integration by ID."
+        },
+        {
+          "info": { "name": "Update an inbound integration", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an inbound integration."
+        },
+        {
+          "info": { "name": "Delete an inbound integration", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Deletes an inbound integration."
+        },
+        {
+          "info": { "name": "List inbound integration types", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/types"
+          },
+          "docs": "Lists the supported inbound integration types."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create a team", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"displayName\": \"\",\n  \"timeZoneId\": \"\"\n}"
+            }
+          },
+          "docs": "Creates a team."
+        },
+        {
+          "info": { "name": "Get a team", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves a team by ID."
+        },
+        {
+          "info": { "name": "Update a team", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a team."
+        },
+        {
+          "info": { "name": "Delete a team", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Deletes a team."
+        },
+        {
+          "info": { "name": "Add a team membership", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team-membership",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Adds a user to a team."
+        },
+        {
+          "info": { "name": "Add an organization membership", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/organization-membership",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Adds a user to the organization."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "On-Call Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Get who is on call", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/on-call"
+          },
+          "docs": "Returns the users on call for the given teams or users at the supplied timestamp (defaults to now)."
+        },
+        {
+          "info": { "name": "Create team escalations", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team-escalations",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Defines escalation tiers, schedules, and rotations for a team."
+        },
+        {
+          "info": { "name": "Create an on-call override", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/on-call-override",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"userId\": \"\",\n  \"type\": \"\"\n}"
+            }
+          },
+          "docs": "Overrides who is on call for a team and escalation tier over a time window."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create an outbound integration", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"displayName\": \"\",\n  \"teamId\": \"\",\n  \"type\": \"\"\n}"
+            }
+          },
+          "docs": "Creates an outbound integration (e.g. generic webhook, Slack, Mattermost) that forwards incidents to a third-party platform."
+        },
+        {
+          "info": { "name": "Get an outbound integration", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Retrieves an outbound integration by ID."
+        },
+        {
+          "info": { "name": "Update an outbound integration", "type": "http" },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates an outbound integration."
+        },
+        {
+          "info": { "name": "Delete an outbound integration", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [ { "name": "id", "value": "", "type": "path" } ]
+          },
+          "docs": "Deletes an outbound integration."
+        },
+        {
+          "info": { "name": "List outbound integration types", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/types"
+          },
+          "docs": "Lists the supported outbound integration types."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
