@@ -1,0 +1,13 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://allquiet.app/security
+url: https://allquiet.app/security
+certifications:
+- ISO 27001
+- GDPR
+evidence:
+- source: https://allquiet.app/security
+  keywords:
+  - iso 27001
+  - gdpr

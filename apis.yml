@@ -133,6 +133,12 @@ apis:
     platforms, including a generic outbound webhook that POSTs incident events to any
     HTTP endpoint, plus Slack and Mattermost delivery.
 common:
+- type: TrustCenter
+  url: security/allquiet-trust-center.yml
+- type: DomainSecurity
+  url: security/allquiet-domain-security.yml
+- type: Authentication
+  url: authentication/allquiet-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/AllQuietApp
 - type: LinkedIn
@@ -147,6 +153,8 @@ common:
   url: rate-limits/allquiet-rate-limits.yml
 - type: FinOps
   url: finops/allquiet-finops.yml
+- url: https://allquiet.app/blog/feed.xml
+  type: Blog
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
