@@ -133,6 +133,8 @@ apis:
     platforms, including a generic outbound webhook that POSTs incident events to any
     HTTP endpoint, plus Slack and Mattermost delivery.
 common:
+- type: AgenticAccess
+  url: agentic-access/allquiet-agentic-access.yml
 - type: TrustCenter
   url: security/allquiet-trust-center.yml
 - type: DomainSecurity
