@@ -1,0 +1,156 @@
+openapi: 3.0.1
+info:
+  title: All Quiet Public Inbound Integrations API
+  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  termsOfService: https://allquiet.app/legal/terms
+  contact:
+    name: All Quiet Support
+    email: support@allquiet.app
+  version: v1
+servers:
+- url: https://allquiet.app/api
+  description: US region
+- url: https://allquiet.eu/api
+  description: EU region
+security:
+- ApiKeyHeader: []
+- BearerAuth: []
+tags:
+- name: Inbound Integrations
+  description: Integrations that turn external signals into All Quiet incidents.
+paths:
+  /public/v1/inbound-integration:
+    post:
+      tags:
+      - Inbound Integrations
+      summary: Create an inbound integration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The created inbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundIntegration'
+  /public/v1/inbound-integration/{id}:
+    get:
+      tags:
+      - Inbound Integrations
+      summary: Get an inbound integration
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested inbound integration.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InboundIntegration'
+    put:
+      tags:
+      - Inbound Integrations
+      summary: Update an inbound integration
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InboundIntegrationCreateRequest'
+      responses:
+        '200':
+          description: The updated inbound integration.
+    delete:
+      tags:
+      - Inbound Integrations
+      summary: Delete an inbound integration
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The inbound integration was deleted.
+  /public/v1/inbound-integration/types:
+    get:
+      tags:
+      - Inbound Integrations
+      summary: List inbound integration types
+      responses:
+        '200':
+          description: The supported inbound integration types.
+  /public/v1/inbound-integration/search/list:
+    get:
+      tags:
+      - Inbound Integrations
+      summary: Search inbound integrations
+      responses:
+        '200':
+          description: A list of inbound integrations.
+components:
+  schemas:
+    InboundIntegration:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        teamId:
+          type: string
+        type:
+          type: string
+    InboundIntegrationCreateRequest:
+      type: object
+      required:
+      - displayName
+      - teamId
+      - type
+      properties:
+        displayName:
+          type: string
+        teamId:
+          type: string
+        type:
+          type: string
+          description: Integration type, e.g. Webhook, Datadog, Prometheus.
+        isMuted:
+          type: boolean
+        isInMaintenance:
+          type: boolean
+        snoozeSettings:
+          type: object
+        webhookAuthentication:
+          type: object
+        integrationSettings:
+          type: object
+        labels:
+          type: array
+          items:
+            type: string
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Organization API key sent in the X-Api-Key header.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Organization API key sent as a Bearer token in the Authorization header.

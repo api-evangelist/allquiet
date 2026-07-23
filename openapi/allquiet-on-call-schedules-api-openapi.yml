@@ -1,0 +1,216 @@
+openapi: 3.0.1
+info:
+  title: All Quiet Public Inbound Integrations On-Call Schedules API
+  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  termsOfService: https://allquiet.app/legal/terms
+  contact:
+    name: All Quiet Support
+    email: support@allquiet.app
+  version: v1
+servers:
+- url: https://allquiet.app/api
+  description: US region
+- url: https://allquiet.eu/api
+  description: EU region
+security:
+- ApiKeyHeader: []
+- BearerAuth: []
+tags:
+- name: On-Call Schedules
+  description: On-call lookups, escalation tiers, and on-call overrides.
+paths:
+  /public/v1/on-call:
+    get:
+      tags:
+      - On-Call Schedules
+      summary: Get who is on call
+      description: Returns the users on call for the given teams or users at the supplied timestamp (defaults to now).
+      parameters:
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: UserIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Timestamp
+        in: query
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: The on-call result set.
+  /public/v1/team-escalations:
+    post:
+      tags:
+      - On-Call Schedules
+      summary: Create team escalations
+      description: Defines escalation tiers, schedules, and rotations for a team.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamEscalationsRequest'
+      responses:
+        '200':
+          description: The created team escalations.
+  /public/v1/team-escalations/{id}:
+    get:
+      tags:
+      - On-Call Schedules
+      summary: Get team escalations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested team escalations.
+    put:
+      tags:
+      - On-Call Schedules
+      summary: Update team escalations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamEscalationsRequest'
+      responses:
+        '200':
+          description: The updated team escalations.
+    delete:
+      tags:
+      - On-Call Schedules
+      summary: Delete team escalations
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The team escalations were deleted.
+  /public/v1/on-call-override:
+    post:
+      tags:
+      - On-Call Schedules
+      summary: Create an on-call override
+      description: Overrides who is on call for a team and escalation tier over a time window.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnCallOverrideRequest'
+      responses:
+        '200':
+          description: The created on-call override.
+  /public/v1/on-call-override/{id}:
+    get:
+      tags:
+      - On-Call Schedules
+      summary: Get an on-call override
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested on-call override.
+    put:
+      tags:
+      - On-Call Schedules
+      summary: Update an on-call override
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OnCallOverrideRequest'
+      responses:
+        '200':
+          description: The updated on-call override.
+    delete:
+      tags:
+      - On-Call Schedules
+      summary: Delete an on-call override
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The on-call override was deleted.
+components:
+  schemas:
+    OnCallOverrideRequest:
+      type: object
+      required:
+      - type
+      - userId
+      properties:
+        userId:
+          type: string
+        teamId:
+          type: string
+        escalationTier:
+          type: integer
+        replacementUserIds:
+          type: array
+          items:
+            type: string
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        type:
+          type: string
+    TeamEscalationsRequest:
+      type: object
+      properties:
+        teamId:
+          type: string
+        tiers:
+          type: array
+          description: Escalation tiers with their schedules and rotations.
+          items:
+            type: object
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Organization API key sent in the X-Api-Key header.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Organization API key sent as a Bearer token in the Authorization header.

@@ -1,0 +1,275 @@
+openapi: 3.0.1
+info:
+  title: All Quiet Public Inbound Integrations Incidents API
+  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  termsOfService: https://allquiet.app/legal/terms
+  contact:
+    name: All Quiet Support
+    email: support@allquiet.app
+  version: v1
+servers:
+- url: https://allquiet.app/api
+  description: US region
+- url: https://allquiet.eu/api
+  description: EU region
+security:
+- ApiKeyHeader: []
+- BearerAuth: []
+tags:
+- name: Incidents
+  description: Create, search, read, update, and delete incidents.
+paths:
+  /public/v1/incident:
+    post:
+      tags:
+      - Incidents
+      summary: Create an incident
+      description: Creates a new incident with a title, severity, status, and optional team and user assignments.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentCreateRequest'
+      responses:
+        '200':
+          description: The created incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/list:
+    get:
+      tags:
+      - Incidents
+      summary: Search incidents
+      description: Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range.
+      parameters:
+      - name: Statuses
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Severities
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: IntegrationIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: UserIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: SearchTerm
+        in: query
+        schema:
+          type: string
+      - name: IsArchived
+        in: query
+        schema:
+          type: boolean
+      - name: CreatedFrom
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: CreatedUntil
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+      - name: Offset
+        in: query
+        schema:
+          type: integer
+      - name: SortBy
+        in: query
+        schema:
+          type: string
+      - name: Asc
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: A paged list of incidents.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/{incidentId}:
+    get:
+      tags:
+      - Incidents
+      summary: Get an incident
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+  /public/v1/incident/search/{incidentId}/markdown:
+    get:
+      tags:
+      - Incidents
+      summary: Get an incident as Markdown
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A Markdown rendering of the incident.
+          content:
+            text/markdown:
+              schema:
+                type: string
+  /public/v1/incident/{incidentId}:
+    patch:
+      tags:
+      - Incidents
+      summary: Update an incident
+      description: Applies a list of patch operations (e.g. change status, severity, assignments) to an incident.
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncidentPatchRequest'
+      responses:
+        '200':
+          description: The updated incident.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Incident'
+    delete:
+      tags:
+      - Incidents
+      summary: Delete an incident
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The incident was deleted.
+components:
+  schemas:
+    IncidentCreateRequest:
+      type: object
+      required:
+      - title
+      - severity
+      - status
+      properties:
+        title:
+          type: string
+        message:
+          type: string
+        messageIsPublic:
+          type: boolean
+        integrationId:
+          type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        status:
+          type: string
+          description: Incident status, e.g. Open, Resolved.
+        severity:
+          type: string
+          description: Incident severity, e.g. Critical, Warning, Minor.
+        serviceIds:
+          type: array
+          items:
+            type: string
+        excludeFromUptimeCalculation:
+          type: boolean
+        userAssignments:
+          type: array
+          items:
+            type: object
+        attributes:
+          type: array
+          items:
+            type: object
+        publicComment:
+          type: string
+    Incident:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        severity:
+          type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    IncidentPatchRequest:
+      type: object
+      required:
+      - operations
+      properties:
+        operations:
+          type: array
+          description: A list of patch operations to apply to the incident.
+          items:
+            type: object
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Organization API key sent in the X-Api-Key header.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Organization API key sent as a Bearer token in the Authorization header.

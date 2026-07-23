@@ -1,0 +1,160 @@
+openapi: 3.0.1
+info:
+  title: All Quiet Public Inbound Integrations Teams API
+  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  termsOfService: https://allquiet.app/legal/terms
+  contact:
+    name: All Quiet Support
+    email: support@allquiet.app
+  version: v1
+servers:
+- url: https://allquiet.app/api
+  description: US region
+- url: https://allquiet.eu/api
+  description: EU region
+security:
+- ApiKeyHeader: []
+- BearerAuth: []
+tags:
+- name: Teams
+  description: Teams, team membership, and organization membership (users).
+paths:
+  /public/v1/team:
+    post:
+      tags:
+      - Teams
+      summary: Create a team
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: The created team.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+  /public/v1/team/{id}:
+    get:
+      tags:
+      - Teams
+      summary: Get a team
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The requested team.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+    put:
+      tags:
+      - Teams
+      summary: Update a team
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamRequest'
+      responses:
+        '200':
+          description: The updated team.
+    delete:
+      tags:
+      - Teams
+      summary: Delete a team
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The team was deleted.
+  /public/v1/team/search/list:
+    get:
+      tags:
+      - Teams
+      summary: Search teams
+      responses:
+        '200':
+          description: A list of teams.
+  /public/v1/team-membership:
+    post:
+      tags:
+      - Teams
+      summary: Add a team membership
+      responses:
+        '200':
+          description: The created team membership.
+  /public/v1/organization-membership:
+    post:
+      tags:
+      - Teams
+      summary: Add an organization membership (user)
+      responses:
+        '200':
+          description: The created organization membership.
+  /public/v1/user:
+    post:
+      tags:
+      - Teams
+      summary: Create a user
+      responses:
+        '200':
+          description: The created user.
+components:
+  schemas:
+    TeamRequest:
+      type: object
+      required:
+      - displayName
+      - timeZoneId
+      properties:
+        displayName:
+          type: string
+        timeZoneId:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        incidentEngagementReportSettings:
+          type: object
+        calendarPublishingSettings:
+          type: object
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        timeZoneId:
+          type: string
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: Organization API key sent in the X-Api-Key header.
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: Organization API key sent as a Bearer token in the Authorization header.
