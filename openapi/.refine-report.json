@@ -1,0 +1,22 @@
+{
+  "provider": "allquiet",
+  "sources": [
+    "allquiet-inbound-integrations-api-openapi.yml",
+    "allquiet-incidents-api-openapi.yml",
+    "allquiet-on-call-schedules-api-openapi.yml",
+    "allquiet-teams-api-openapi.yml",
+    "allquiet-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "allquiet-inbound-integrations-api-openapi.yml",
+    "allquiet-incidents-api-openapi.yml",
+    "allquiet-on-call-schedules-api-openapi.yml",
+    "allquiet-teams-api-openapi.yml",
+    "allquiet-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
