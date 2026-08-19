@@ -1,0 +1,195 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public Inbound Integrations Incidents API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Incidents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an incident",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/incident",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new incident with a title, severity, status, and optional team and user assignments."
+        },
+        {
+          "info": {
+            "name": "Search incidents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/list",
+            "params": [
+              {
+                "name": "Statuses",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Severities",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "IntegrationIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "TeamIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "UserIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "SearchTerm",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "IsArchived",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "CreatedFrom",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "CreatedUntil",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "SortBy",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Asc",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range."
+        },
+        {
+          "info": {
+            "name": "Get an incident",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/:incidentId",
+            "params": [
+              {
+                "name": "incidentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an incident"
+        },
+        {
+          "info": {
+            "name": "Get an incident as Markdown",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/incident/search/:incidentId/markdown",
+            "params": [
+              {
+                "name": "incidentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an incident as Markdown"
+        },
+        {
+          "info": {
+            "name": "Update an incident",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://allquiet.app/api/public/v1/incident/:incidentId",
+            "params": [
+              {
+                "name": "incidentId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Applies a list of patch operations (e.g. change status, severity, assignments) to an incident."
+        },
+        {
+          "info": {
+            "name": "Delete an incident",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/incident/:incidentId",
+            "params": [
+              {
+                "name": "incidentId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an incident"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

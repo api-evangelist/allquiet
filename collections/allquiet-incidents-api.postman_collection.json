@@ -1,0 +1,810 @@
+{
+  "item": [
+    {
+      "id": "c3d0d80d-9231-4dd8-80cc-00bb05af80f7",
+      "name": "Incidents",
+      "description": {
+        "content": "Create, search, read, update, and delete incidents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "330c2de6-cb24-47c4-8100-d0a3147e4d57",
+          "name": "Create an incident",
+          "request": {
+            "name": "Create an incident",
+            "description": {
+              "content": "Creates a new incident with a title, severity, status, and optional team and user assignments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"status\": \"<string>\",\n  \"message\": \"<string>\",\n  \"messageIsPublic\": \"<boolean>\",\n  \"integrationId\": \"<string>\",\n  \"teamIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"serviceIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"excludeFromUptimeCalculation\": \"<boolean>\",\n  \"userAssignments\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"attributes\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"publicComment\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b074c1c0-7e69-4611-8c9f-2513270c9d12",
+              "name": "The created incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"<string>\",\n  \"severity\": \"<string>\",\n  \"status\": \"<string>\",\n  \"message\": \"<string>\",\n  \"messageIsPublic\": \"<boolean>\",\n  \"integrationId\": \"<string>\",\n  \"teamIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"serviceIds\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"excludeFromUptimeCalculation\": \"<boolean>\",\n  \"userAssignments\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"attributes\": [\n    \"<object>\",\n    \"<object>\"\n  ],\n  \"publicComment\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"status\": \"string\",\n  \"severity\": \"string\",\n  \"teamIds\": [\n    \"string\",\n    \"string\"\n  ],\n  \"createdAt\": \"2000-04-21T19:17:55.499Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "83c11a0f-4921-425b-8608-c7b1a832f558",
+          "name": "Search incidents",
+          "request": {
+            "name": "Search incidents",
+            "description": {
+              "content": "Returns a paged list of incidents filtered by status, severity, team, user, integration, and time range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident",
+                "search",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "Statuses",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Statuses",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Severities",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Severities",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "IntegrationIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "IntegrationIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "TeamIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "TeamIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "UserIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "UserIds",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "SearchTerm",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "IsArchived",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "CreatedFrom",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "CreatedUntil",
+                  "value": "<dateTime>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Limit",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Offset",
+                  "value": "<integer>"
+                },
+                {
+                  "disabled": false,
+                  "key": "SortBy",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "Asc",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "509ccb77-657a-425c-bb1e-4f952bb15ded",
+              "name": "A paged list of incidents.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident",
+                    "search",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "Statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Statuses",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Severities",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Severities",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "IntegrationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "IntegrationIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "TeamIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "TeamIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "UserIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "UserIds",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "SearchTerm",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "IsArchived",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "CreatedFrom",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "CreatedUntil",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "Limit",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "Offset",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "SortBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "Asc",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"status\": \"string\",\n    \"severity\": \"string\",\n    \"teamIds\": [\n      \"string\",\n      \"string\"\n    ],\n    \"createdAt\": \"1995-10-17T05:27:22.230Z\"\n  },\n  {\n    \"id\": \"string\",\n    \"title\": \"string\",\n    \"status\": \"string\",\n    \"severity\": \"string\",\n    \"teamIds\": [\n      \"string\",\n      \"string\"\n    ],\n    \"createdAt\": \"1962-12-24T23:10:24.577Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19154219-b2c3-48ee-a34e-f1f2576c06da",
+          "name": "Get an incident",
+          "request": {
+            "name": "Get an incident",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident",
+                "search",
+                ":incidentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "incidentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "91581f29-9290-4c97-88d7-b17869844afc",
+              "name": "The requested incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident",
+                    "search",
+                    ":incidentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "incidentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"status\": \"string\",\n  \"severity\": \"string\",\n  \"teamIds\": [\n    \"string\",\n    \"string\"\n  ],\n  \"createdAt\": \"1988-09-09T00:30:24.897Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7705dc47-de73-4773-a887-bf4e23514c51",
+          "name": "Get an incident as Markdown",
+          "request": {
+            "name": "Get an incident as Markdown",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident",
+                "search",
+                ":incidentId",
+                "markdown"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "incidentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/markdown"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "180fa2aa-e9eb-4c18-86e0-ccf12576d53c",
+              "name": "A Markdown rendering of the incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident",
+                    "search",
+                    ":incidentId",
+                    "markdown"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "incidentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/markdown"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/markdown"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8a703a3e-747f-418e-b4af-11bf478d9f71",
+          "name": "Update an incident",
+          "request": {
+            "name": "Update an incident",
+            "description": {
+              "content": "Applies a list of patch operations (e.g. change status, severity, assignments) to an incident.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident",
+                ":incidentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "incidentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operations\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "186a13c6-5bc2-40a0-989b-0bfdd316192f",
+              "name": "The updated incident.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident",
+                    ":incidentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "incidentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operations\": [\n    \"<object>\",\n    \"<object>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"title\": \"string\",\n  \"status\": \"string\",\n  \"severity\": \"string\",\n  \"teamIds\": [\n    \"string\",\n    \"string\"\n  ],\n  \"createdAt\": \"1988-09-09T00:30:24.897Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3d480ef5-5ab6-4f01-b993-4135eef0fa23",
+          "name": "Delete an incident",
+          "request": {
+            "name": "Delete an incident",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "incident",
+                ":incidentId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "incidentId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "96757a39-a5bf-4d1b-ac1b-0c640666e852",
+              "name": "The incident was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "incident",
+                    ":incidentId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "incidentId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://allquiet.app/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6ba045aa-aa69-4d69-b87d-6b0023a0b87f",
+    "name": "All Quiet Public Inbound Integrations Incidents API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.\n\nContact Support:\n Name: All Quiet Support\n Email: support@allquiet.app",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public Inbound Integrations Webhooks API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an outbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an outbound integration (e.g. generic webhook, Slack, Mattermost) that forwards incidents to a third-party platform."
+        },
+        {
+          "info": {
+            "name": "Get an outbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an outbound integration"
+        },
+        {
+          "info": {
+            "name": "Update an outbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an outbound integration"
+        },
+        {
+          "info": {
+            "name": "Delete an outbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an outbound integration"
+        },
+        {
+          "info": {
+            "name": "List outbound integration types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/outbound-integration/types"
+          },
+          "docs": "List outbound integration types"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

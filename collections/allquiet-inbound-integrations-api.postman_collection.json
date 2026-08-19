@@ -1,0 +1,587 @@
+{
+  "item": [
+    {
+      "id": "03bf9e30-1e21-4061-8284-06b58cd0f880",
+      "name": "Inbound Integrations",
+      "description": {
+        "content": "Integrations that turn external signals into All Quiet incidents.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1422b160-e51b-4bba-bc52-4c4ccc24460b",
+          "name": "Create an inbound integration",
+          "request": {
+            "name": "Create an inbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"isMuted\": \"<boolean>\",\n  \"isInMaintenance\": \"<boolean>\",\n  \"snoozeSettings\": \"<object>\",\n  \"webhookAuthentication\": \"<object>\",\n  \"integrationSettings\": \"<object>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "b4ff8ddd-f192-4b17-af2f-0de35435efbb",
+              "name": "The created inbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"isMuted\": \"<boolean>\",\n  \"isInMaintenance\": \"<boolean>\",\n  \"snoozeSettings\": \"<object>\",\n  \"webhookAuthentication\": \"<object>\",\n  \"integrationSettings\": \"<object>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"displayName\": \"string\",\n  \"teamId\": \"string\",\n  \"type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1c7a8e06-5607-47cf-bc25-44a60437fa11",
+          "name": "Get an inbound integration",
+          "request": {
+            "name": "Get an inbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "103cb760-93af-4c9d-a1fc-e983917c80ad",
+              "name": "The requested inbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"displayName\": \"string\",\n  \"teamId\": \"string\",\n  \"type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8809b91a-fac2-440f-b216-0117f76ccd62",
+          "name": "Update an inbound integration",
+          "request": {
+            "name": "Update an inbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"isMuted\": \"<boolean>\",\n  \"isInMaintenance\": \"<boolean>\",\n  \"snoozeSettings\": \"<object>\",\n  \"webhookAuthentication\": \"<object>\",\n  \"integrationSettings\": \"<object>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "d1e5cdc6-da67-47f6-9159-1873c8ddae3c",
+              "name": "The updated inbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"isMuted\": \"<boolean>\",\n  \"isInMaintenance\": \"<boolean>\",\n  \"snoozeSettings\": \"<object>\",\n  \"webhookAuthentication\": \"<object>\",\n  \"integrationSettings\": \"<object>\",\n  \"labels\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "32a67d90-75d5-4ede-80f9-2e79c08c9363",
+          "name": "Delete an inbound integration",
+          "request": {
+            "name": "Delete an inbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c519a4f0-b9be-44e1-a5af-4ba9cfe61ab7",
+              "name": "The inbound integration was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee00635d-9675-47fd-922d-4bf181792f3c",
+          "name": "List inbound integration types",
+          "request": {
+            "name": "List inbound integration types",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration",
+                "types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "72064430-c294-46e6-b32d-225026845bc1",
+              "name": "The supported inbound integration types.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "852d49bf-e7ee-41cb-b781-046b2266483a",
+          "name": "Search inbound integrations",
+          "request": {
+            "name": "Search inbound integrations",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "inbound-integration",
+                "search",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4677e6f7-5e41-4f17-8908-b9f189c906b5",
+              "name": "A list of inbound integrations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "inbound-integration",
+                    "search",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://allquiet.app/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c861082b-be60-4584-80d8-f360eca3d951",
+    "name": "All Quiet Public Inbound Integrations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.\n\nContact Support:\n Name: All Quiet Support\n Email: support@allquiet.app",
+      "type": "text/plain"
+    }
+  }
+}

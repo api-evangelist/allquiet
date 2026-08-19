@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public Inbound Integrations Teams API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a team"
+        },
+        {
+          "info": {
+            "name": "Get a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get a team"
+        },
+        {
+          "info": {
+            "name": "Update a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a team"
+        },
+        {
+          "info": {
+            "name": "Delete a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/team/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a team"
+        },
+        {
+          "info": {
+            "name": "Search teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/team/search/list"
+          },
+          "docs": "Search teams"
+        },
+        {
+          "info": {
+            "name": "Add a team membership",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team-membership"
+          },
+          "docs": "Add a team membership"
+        },
+        {
+          "info": {
+            "name": "Add an organization membership (user)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/organization-membership"
+          },
+          "docs": "Add an organization membership (user)"
+        },
+        {
+          "info": {
+            "name": "Create a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/user"
+          },
+          "docs": "Create a user"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

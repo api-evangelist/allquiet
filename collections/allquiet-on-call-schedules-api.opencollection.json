@@ -1,0 +1,200 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public Inbound Integrations On-Call Schedules API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "On-Call Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get who is on call",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/on-call",
+            "params": [
+              {
+                "name": "TeamIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "UserIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "Timestamp",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the users on call for the given teams or users at the supplied timestamp (defaults to now)."
+        },
+        {
+          "info": {
+            "name": "Create team escalations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/team-escalations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Defines escalation tiers, schedules, and rotations for a team."
+        },
+        {
+          "info": {
+            "name": "Get team escalations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/team-escalations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get team escalations"
+        },
+        {
+          "info": {
+            "name": "Update team escalations",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/team-escalations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update team escalations"
+        },
+        {
+          "info": {
+            "name": "Delete team escalations",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/team-escalations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete team escalations"
+        },
+        {
+          "info": {
+            "name": "Create an on-call override",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/on-call-override",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Overrides who is on call for a team and escalation tier over a time window."
+        },
+        {
+          "info": {
+            "name": "Get an on-call override",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/on-call-override/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an on-call override"
+        },
+        {
+          "info": {
+            "name": "Update an on-call override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/on-call-override/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an on-call override"
+        },
+        {
+          "info": {
+            "name": "Delete an on-call override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/on-call-override/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an on-call override"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

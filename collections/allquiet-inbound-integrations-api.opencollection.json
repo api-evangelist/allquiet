@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "All Quiet Public Inbound Integrations API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Inbound Integrations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an inbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an inbound integration"
+        },
+        {
+          "info": {
+            "name": "Get an inbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get an inbound integration"
+        },
+        {
+          "info": {
+            "name": "Update an inbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an inbound integration"
+        },
+        {
+          "info": {
+            "name": "Delete an inbound integration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete an inbound integration"
+        },
+        {
+          "info": {
+            "name": "List inbound integration types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/types"
+          },
+          "docs": "List inbound integration types"
+        },
+        {
+          "info": {
+            "name": "Search inbound integrations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://allquiet.app/api/public/v1/inbound-integration/search/list"
+          },
+          "docs": "Search inbound integrations"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,517 @@
+{
+  "item": [
+    {
+      "id": "55e3970d-8c28-4dd4-9eb3-2922599ac672",
+      "name": "Webhooks",
+      "description": {
+        "content": "Outbound integrations that forward incidents to third-party platforms.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "62300a13-0bdb-4fbc-aaf7-f607eed5b435",
+          "name": "Create an outbound integration",
+          "request": {
+            "name": "Create an outbound integration",
+            "description": {
+              "content": "Creates an outbound integration (e.g. generic webhook, Slack, Mattermost) that forwards incidents to a third-party platform.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "outbound-integration"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"triggersOnlyOnForwarded\": \"<boolean>\",\n  \"skipUpdatingAfterForwarding\": \"<boolean>\",\n  \"teamConnectionSettings\": \"<object>\",\n  \"slackSettings\": \"<object>\",\n  \"mattermostSettings\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "41de0c30-501e-4c30-8c01-73610f498432",
+              "name": "The created outbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "outbound-integration"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"triggersOnlyOnForwarded\": \"<boolean>\",\n  \"skipUpdatingAfterForwarding\": \"<boolean>\",\n  \"teamConnectionSettings\": \"<object>\",\n  \"slackSettings\": \"<object>\",\n  \"mattermostSettings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"displayName\": \"string\",\n  \"teamId\": \"string\",\n  \"type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a9807af7-0c3d-4a03-a427-6420a72d9ece",
+          "name": "Get an outbound integration",
+          "request": {
+            "name": "Get an outbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "outbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ff43519-9900-4fa6-af63-a13175e0d14a",
+              "name": "The requested outbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "outbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"displayName\": \"string\",\n  \"teamId\": \"string\",\n  \"type\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "739e68be-c90a-4cd2-90e5-45061d3f9493",
+          "name": "Update an outbound integration",
+          "request": {
+            "name": "Update an outbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "outbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"triggersOnlyOnForwarded\": \"<boolean>\",\n  \"skipUpdatingAfterForwarding\": \"<boolean>\",\n  \"teamConnectionSettings\": \"<object>\",\n  \"slackSettings\": \"<object>\",\n  \"mattermostSettings\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "03c76450-1aff-47dd-b4c4-bb10a3605bba",
+              "name": "The updated outbound integration.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "outbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"<string>\",\n  \"teamId\": \"<string>\",\n  \"type\": \"<string>\",\n  \"triggersOnlyOnForwarded\": \"<boolean>\",\n  \"skipUpdatingAfterForwarding\": \"<boolean>\",\n  \"teamConnectionSettings\": \"<object>\",\n  \"slackSettings\": \"<object>\",\n  \"mattermostSettings\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9d332fef-78ba-4e8c-8483-e5514625ffa0",
+          "name": "Delete an outbound integration",
+          "request": {
+            "name": "Delete an outbound integration",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "outbound-integration",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3179ac95-17a9-4d8d-89f7-429a2ee6df58",
+              "name": "The outbound integration was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "outbound-integration",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "75129d29-a5c9-4419-8fbf-6af4b08d89e9",
+          "name": "List outbound integration types",
+          "request": {
+            "name": "List outbound integration types",
+            "description": {},
+            "url": {
+              "path": [
+                "public",
+                "v1",
+                "outbound-integration",
+                "types"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e5f122c5-36a3-4f7d-888f-7256baed07a2",
+              "name": "The supported outbound integration types.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "public",
+                    "v1",
+                    "outbound-integration",
+                    "types"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://allquiet.app/api",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f2608858-21fe-4c07-b5ec-807c8682c26b",
+    "name": "All Quiet Public Inbound Integrations Webhooks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.\n\nContact Support:\n Name: All Quiet Support\n Email: support@allquiet.app",
+      "type": "text/plain"
+    }
+  }
+}
