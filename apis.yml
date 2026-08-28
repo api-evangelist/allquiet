@@ -7,6 +7,18 @@ description: All Quiet is a lean, SRE-first incident management and on-call aler
   authenticated) lets teams programmatically create and manage incidents, configure
   inbound and outbound integrations, manage teams and escalation schedules, and read
   who is on call.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
