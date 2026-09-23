@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: All Quiet Public Inbound Integrations On-Call Schedules API
-  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  title: All Quiet Public On-Call Schedules API
+  description: The All Quiet Public REST API lets you manage incident management and on-call resources programmatically.
   termsOfService: https://allquiet.app/legal/terms
   contact:
     name: All Quiet Support
@@ -46,6 +46,8 @@ paths:
       responses:
         '200':
           description: The on-call result set.
+      operationId: getPublicV1OnCall
+      x-operation-id-source: derived
   /public/v1/team-escalations:
     post:
       tags:
@@ -61,6 +63,8 @@ paths:
       responses:
         '200':
           description: The created team escalations.
+      operationId: postPublicV1TeamEscalations
+      x-operation-id-source: derived
   /public/v1/team-escalations/{id}:
     get:
       tags:
@@ -75,6 +79,8 @@ paths:
       responses:
         '200':
           description: The requested team escalations.
+      operationId: getPublicV1TeamEscalationsById
+      x-operation-id-source: derived
     put:
       tags:
       - On-Call Schedules
@@ -94,6 +100,8 @@ paths:
       responses:
         '200':
           description: The updated team escalations.
+      operationId: putPublicV1TeamEscalationsById
+      x-operation-id-source: derived
     delete:
       tags:
       - On-Call Schedules
@@ -107,6 +115,8 @@ paths:
       responses:
         '200':
           description: The team escalations were deleted.
+      operationId: deletePublicV1TeamEscalationsById
+      x-operation-id-source: derived
   /public/v1/on-call-override:
     post:
       tags:
@@ -122,6 +132,8 @@ paths:
       responses:
         '200':
           description: The created on-call override.
+      operationId: postPublicV1OnCallOverride
+      x-operation-id-source: derived
   /public/v1/on-call-override/{id}:
     get:
       tags:
@@ -136,6 +148,8 @@ paths:
       responses:
         '200':
           description: The requested on-call override.
+      operationId: getPublicV1OnCallOverrideById
+      x-operation-id-source: derived
     put:
       tags:
       - On-Call Schedules
@@ -155,6 +169,8 @@ paths:
       responses:
         '200':
           description: The updated on-call override.
+      operationId: putPublicV1OnCallOverrideById
+      x-operation-id-source: derived
     delete:
       tags:
       - On-Call Schedules
@@ -168,8 +184,20 @@ paths:
       responses:
         '200':
           description: The on-call override was deleted.
+      operationId: deletePublicV1OnCallOverrideById
+      x-operation-id-source: derived
 components:
   schemas:
+    TeamEscalationsRequest:
+      type: object
+      properties:
+        teamId:
+          type: string
+        tiers:
+          type: array
+          description: Escalation tiers with their schedules and rotations.
+          items:
+            type: object
     OnCallOverrideRequest:
       type: object
       required:
@@ -194,16 +222,6 @@ components:
           format: date-time
         type:
           type: string
-    TeamEscalationsRequest:
-      type: object
-      properties:
-        teamId:
-          type: string
-        tiers:
-          type: array
-          description: Escalation tiers with their schedules and rotations.
-          items:
-            type: object
   securitySchemes:
     ApiKeyHeader:
       type: apiKey

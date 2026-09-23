@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: All Quiet Public Inbound Integrations Incidents API
-  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  title: All Quiet Public Incidents API
+  description: The All Quiet Public REST API lets you manage incident management and on-call resources programmatically.
   termsOfService: https://allquiet.app/legal/terms
   contact:
     name: All Quiet Support
@@ -38,6 +38,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Incident'
+      operationId: postPublicV1Incident
+      x-operation-id-source: derived
   /public/v1/incident/search/list:
     get:
       tags:
@@ -118,6 +120,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Incident'
+      operationId: getPublicV1IncidentSearchList
+      x-operation-id-source: derived
   /public/v1/incident/search/{incidentId}:
     get:
       tags:
@@ -136,6 +140,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Incident'
+      operationId: getPublicV1IncidentSearchByIncidentId
+      x-operation-id-source: derived
   /public/v1/incident/search/{incidentId}/markdown:
     get:
       tags:
@@ -154,6 +160,8 @@ paths:
             text/markdown:
               schema:
                 type: string
+      operationId: getPublicV1IncidentSearchByIncidentIdMarkdown
+      x-operation-id-source: derived
   /public/v1/incident/{incidentId}:
     patch:
       tags:
@@ -179,6 +187,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Incident'
+      operationId: patchPublicV1IncidentByIncidentId
+      x-operation-id-source: derived
     delete:
       tags:
       - Incidents
@@ -192,8 +202,38 @@ paths:
       responses:
         '200':
           description: The incident was deleted.
+      operationId: deletePublicV1IncidentByIncidentId
+      x-operation-id-source: derived
 components:
   schemas:
+    Incident:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        severity:
+          type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
+    IncidentPatchRequest:
+      type: object
+      required:
+      - operations
+      properties:
+        operations:
+          type: array
+          description: A list of patch operations to apply to the incident.
+          items:
+            type: object
     IncidentCreateRequest:
       type: object
       required:
@@ -235,34 +275,6 @@ components:
             type: object
         publicComment:
           type: string
-    Incident:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        status:
-          type: string
-        severity:
-          type: string
-        teamIds:
-          type: array
-          items:
-            type: string
-        createdAt:
-          type: string
-          format: date-time
-    IncidentPatchRequest:
-      type: object
-      required:
-      - operations
-      properties:
-        operations:
-          type: array
-          description: A list of patch operations to apply to the incident.
-          items:
-            type: object
   securitySchemes:
     ApiKeyHeader:
       type: apiKey

@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: All Quiet Public Inbound Integrations API
-  description: 'The All Quiet Public REST API lets you manage incident management and on-call resources programmatically. It is available in the US (https://allquiet.app/api) and EU (https://allquiet.eu/api) regions and requires a Pro or Enterprise plan. Authenticate with an organization API key sent either as an `X-Api-Key` header or as a `Authorization: Bearer` token. This document captures the documented Incidents, Inbound Integrations, Teams, On-Call Schedules, and Webhooks (outbound integrations) surfaces of the public v1 API.'
+  description: The All Quiet Public REST API lets you manage incident management and on-call resources programmatically.
   termsOfService: https://allquiet.app/legal/terms
   contact:
     name: All Quiet Support
@@ -37,6 +37,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InboundIntegration'
+      operationId: postPublicV1InboundIntegration
+      x-operation-id-source: derived
   /public/v1/inbound-integration/{id}:
     get:
       tags:
@@ -55,6 +57,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InboundIntegration'
+      operationId: getPublicV1InboundIntegrationById
+      x-operation-id-source: derived
     put:
       tags:
       - Inbound Integrations
@@ -74,6 +78,8 @@ paths:
       responses:
         '200':
           description: The updated inbound integration.
+      operationId: putPublicV1InboundIntegrationById
+      x-operation-id-source: derived
     delete:
       tags:
       - Inbound Integrations
@@ -87,6 +93,8 @@ paths:
       responses:
         '200':
           description: The inbound integration was deleted.
+      operationId: deletePublicV1InboundIntegrationById
+      x-operation-id-source: derived
   /public/v1/inbound-integration/types:
     get:
       tags:
@@ -95,6 +103,8 @@ paths:
       responses:
         '200':
           description: The supported inbound integration types.
+      operationId: getPublicV1InboundIntegrationTypes
+      x-operation-id-source: derived
   /public/v1/inbound-integration/search/list:
     get:
       tags:
@@ -103,6 +113,8 @@ paths:
       responses:
         '200':
           description: A list of inbound integrations.
+      operationId: getPublicV1InboundIntegrationSearchList
+      x-operation-id-source: derived
 components:
   schemas:
     InboundIntegration:
