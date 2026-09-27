@@ -188,16 +188,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    TeamEscalationsRequest:
-      type: object
-      properties:
-        teamId:
-          type: string
-        tiers:
-          type: array
-          description: Escalation tiers with their schedules and rotations.
-          items:
-            type: object
     OnCallOverrideRequest:
       type: object
       required:
@@ -222,6 +212,16 @@ components:
           format: date-time
         type:
           type: string
+    TeamEscalationsRequest:
+      type: object
+      properties:
+        teamId:
+          type: string
+        tiers:
+          type: array
+          description: Escalation tiers with their schedules and rotations.
+          items:
+            type: object
   securitySchemes:
     ApiKeyHeader:
       type: apiKey

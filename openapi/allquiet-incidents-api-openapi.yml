@@ -206,6 +206,16 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    IncidentPatchRequest:
+      type: object
+      required:
+      - operations
+      properties:
+        operations:
+          type: array
+          description: A list of patch operations to apply to the incident.
+          items:
+            type: object
     Incident:
       type: object
       properties:
@@ -224,16 +234,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    IncidentPatchRequest:
-      type: object
-      required:
-      - operations
-      properties:
-        operations:
-          type: array
-          description: A list of patch operations to apply to the incident.
-          items:
-            type: object
     IncidentCreateRequest:
       type: object
       required:
