@@ -117,17 +117,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    InboundIntegration:
-      type: object
-      properties:
-        id:
-          type: string
-        displayName:
-          type: string
-        teamId:
-          type: string
-        type:
-          type: string
     InboundIntegrationCreateRequest:
       type: object
       required:
@@ -156,6 +145,17 @@ components:
           type: array
           items:
             type: string
+    InboundIntegration:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        teamId:
+          type: string
+        type:
+          type: string
   securitySchemes:
     ApiKeyHeader:
       type: apiKey
