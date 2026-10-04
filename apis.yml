@@ -182,6 +182,9 @@ apis:
   - type: Documentation
     url: https://docs.allquiet.app/essentials/outbound
 common:
+- type: CapabilityMap
+  url: capabilities/allquiet-capability-edges.yml
+  name: All Quiet Business Capability Map
 - type: AgenticAccess
   url: agentic-access/allquiet-agentic-access.yml
 - type: TrustCenter
