@@ -216,6 +216,24 @@ components:
           description: A list of patch operations to apply to the incident.
           items:
             type: object
+    Incident:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        status:
+          type: string
+        severity:
+          type: string
+        teamIds:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: string
+          format: date-time
     IncidentCreateRequest:
       type: object
       required:
@@ -257,24 +275,6 @@ components:
             type: object
         publicComment:
           type: string
-    Incident:
-      type: object
-      properties:
-        id:
-          type: string
-        title:
-          type: string
-        status:
-          type: string
-        severity:
-          type: string
-        teamIds:
-          type: array
-          items:
-            type: string
-        createdAt:
-          type: string
-          format: date-time
   securitySchemes:
     ApiKeyHeader:
       type: apiKey

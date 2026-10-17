@@ -137,15 +137,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Team:
-      type: object
-      properties:
-        id:
-          type: string
-        displayName:
-          type: string
-        timeZoneId:
-          type: string
     TeamRequest:
       type: object
       required:
@@ -164,6 +155,15 @@ components:
           type: object
         calendarPublishingSettings:
           type: object
+    Team:
+      type: object
+      properties:
+        id:
+          type: string
+        displayName:
+          type: string
+        timeZoneId:
+          type: string
   securitySchemes:
     ApiKeyHeader:
       type: apiKey
