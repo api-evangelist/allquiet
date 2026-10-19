@@ -1,0 +1,344 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Team Membership Resource API
+  version: v1
+tags:
+- name: TeamMembershipResource
+paths:
+  /api/public/v1/team-membership/{id}:
+    get:
+      tags:
+      - TeamMembershipResource
+      summary: Get a team membership by ID
+      description: 'Returns a membership linking a user to a team with role and activation time.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: get
+        scope: team-memberships:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1TeamMembershipById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - TeamMembershipResource
+      summary: Update a team membership
+      description: 'Change a membership''s role or team assignment.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: update
+        scope: team-memberships:update
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: putApiPublicV1TeamMembershipById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - TeamMembershipResource
+      summary: Delete a team membership
+      description: 'Remove a user from a team.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: delete
+        scope: team-memberships:delete
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: deleteApiPublicV1TeamMembershipById
+      x-operation-id-source: derived
+  /api/public/v1/team-membership:
+    post:
+      tags:
+      - TeamMembershipResource
+      summary: Create a team membership
+      description: 'Add a user to a team with a role. Team-scoped keys can only manage memberships within their scoped teams.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: create
+        scope: team-memberships:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: postApiPublicV1TeamMembership
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        teamId:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        role:
+          type:
+          - string
+          - 'null'
+        activatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceRequest:
+      required:
+      - role
+      - teamId
+      type: object
+      properties:
+        teamId:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          format: email
+        role:
+          minLength: 1
+          type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

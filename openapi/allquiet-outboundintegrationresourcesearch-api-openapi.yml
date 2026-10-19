@@ -1,0 +1,438 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Outbound Integration Resource Search API
+  version: v1
+tags:
+- name: OutboundIntegrationResourceSearch
+paths:
+  /api/public/v1/outbound-integration/search:
+    get:
+      tags:
+      - OutboundIntegrationResourceSearch
+      summary: Search for a single outbound integration
+      description: 'Find one outbound integration by exact display name, optional type, and/or team ID. Returns 404 when no match exists.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `outbound-integrations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Type
+        in: query
+        schema:
+          type: string
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: outbound-integrations
+        permission: get
+        scope: outbound-integrations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OutboundIntegrationSearch
+      x-operation-id-source: derived
+  /api/public/v1/outbound-integration/search/list:
+    get:
+      tags:
+      - OutboundIntegrationResourceSearch
+      summary: List outbound integrations
+      description: 'Returns a paginated list of outbound integrations filtered by display name, type, and/or team ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `outbound-integrations:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Type
+        in: query
+        schema:
+          type: string
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: outbound-integrations
+        permission: list
+        scope: outbound-integrations:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OutboundIntegrationSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+        teamId:
+          type: string
+          format: uuid
+        triggersOnlyOnForwarded:
+          type:
+          - boolean
+          - 'null'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+        skipUpdatingAfterForwarding:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        anonymizeOutboundLogs:
+          type:
+          - boolean
+          - 'null'
+        slackSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.SlackSettingsResource'
+        mattermostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.MattermostSettingsResponse'
+      additionalProperties: false
+    AllQuiet.Api.OutboundIntegrations.Models.DedicatedChannelSettings:
+      type: object
+      properties:
+        isEnabled:
+          type:
+          - boolean
+          - 'null'
+        severities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        channelNamePrefix:
+          type:
+          - string
+          - 'null'
+        isPrivate:
+          type:
+          - boolean
+          - 'null'
+        inviteOnCallMembers:
+          type:
+          - boolean
+          - 'null'
+        archiveOnResolve:
+          type:
+          - boolean
+          - 'null'
+        archiveDelayInSeconds:
+          maximum: 2592000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Public.OutboundIntegrations.MattermostSettingsResponse:
+      type: object
+      properties:
+        sendIncidentsToMattermost:
+          type:
+          - boolean
+          - 'null'
+        createIncidentsFromMattermost:
+          type:
+          - boolean
+          - 'null'
+        baseUrl:
+          type:
+          - string
+          - 'null'
+        botToken:
+          type:
+          - string
+          - 'null'
+        slashCommandToken:
+          type:
+          - string
+          - 'null'
+        slashCommandUrl:
+          type:
+          - string
+          - 'null'
+        selectedChannelIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        severityBasedChannelSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.OutboundIntegrations.Mattermost.Models.MattermostSettings.MattermostSeverityBasedChannelSettings'
+        selectedTeamId:
+          type:
+          - string
+          - 'null'
+        isMessageReadOnly:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceListResponse:
+      type: object
+      properties:
+        outboundIntegrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Teams.Common.TeamConnectionSettings:
+      type: object
+      properties:
+        teamConnectionMode:
+          type:
+          - string
+          - 'null'
+        teamIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.OutboundIntegrations.Mattermost.Models.MattermostSettings.MattermostSeverityBasedChannelSettings:
+      type: object
+      properties:
+        selectedChannelIdsMinor:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        selectedChannelIdsWarning:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        selectedChannelIdsCritical:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.ReminderScheduleSettings:
+      type: object
+      properties:
+        runTime:
+          type:
+          - string
+          - 'null'
+          format: time
+        daysOfWeek:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.OutboundIntegrations.Slack.Models.SeverityBasedChannelSettings:
+      type: object
+      properties:
+        selectedChannelIdsMinor:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        selectedChannelIdsWarning:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        selectedChannelIdsCritical:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.OutboundIntegrations.SlackSettingsResource:
+      type: object
+      properties:
+        isProvisioned:
+          type: boolean
+        selectedChannelIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        severityBasedChannelSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.OutboundIntegrations.Slack.Models.SeverityBasedChannelSettings'
+        onCallReminderScheduleSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.ReminderScheduleSettings'
+        onCallReminderChannelIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        tagOnCallMembers:
+          type:
+          - boolean
+          - 'null'
+        disableTagOnCallMembersInOnCallMessage:
+          type:
+          - boolean
+          - 'null'
+        isSlackMessagePayloadReadOnly:
+          type:
+          - boolean
+          - 'null'
+        hideActivityHistory:
+          type:
+          - boolean
+          - 'null'
+        dedicatedChannel:
+          $ref: '#/components/schemas/AllQuiet.Api.OutboundIntegrations.Models.DedicatedChannelSettings'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

@@ -1,0 +1,150 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Service Maintenance Resource Search API
+  version: v1
+tags:
+- name: ServiceMaintenanceResourceSearch
+paths:
+  /api/public/v1/service-maintenance/search/list:
+    get:
+      tags:
+      - ServiceMaintenanceResourceSearch
+      summary: List service maintenance windows
+      description: 'Returns paginated service maintenance windows with optional organization, service, and display-name filters (default limit 20, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `service-maintenance:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: ServiceId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: OnlyCurrentAndUpcoming
+        in: query
+        schema:
+          type: boolean
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: service-maintenance
+        permission: list
+        scope: service-maintenance:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.
+      operationId: getApiPublicV1ServiceMaintenanceSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceListResponse:
+      type: object
+      properties:
+        serviceMaintenances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.ServiceMaintenance.ServiceMaintenanceResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        organizationId:
+          type: string
+          format: uuid
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

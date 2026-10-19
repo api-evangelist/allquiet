@@ -1,0 +1,357 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public On Call Override Resource API
+  version: v1
+tags:
+- name: OnCallOverrideResource
+paths:
+  /api/public/v1/on-call-override/{id}:
+    get:
+      tags:
+      - OnCallOverrideResource
+      summary: Get an on-call override by ID
+      description: 'Returns a single on-call override if the caller is authorized to access it.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.
+
+        - **Notes:** Personal access tokens may read their own overrides with team access alone.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: get
+        scope: on-call-overrides:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: Personal access tokens may read their own overrides with team access alone.
+      operationId: getApiPublicV1OnCallOverrideById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - OnCallOverrideResource
+      summary: Update an on-call override
+      description: 'Updates an existing on-call override identified by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users'' overrides requires team Administrator of the override''s team, or of a shared team for all-teams overrides.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: update
+        scope: on-call-overrides:update
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users' overrides requires team Administrator of the override's team, or of a shared team for all-teams overrides.
+      operationId: putApiPublicV1OnCallOverrideById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - OnCallOverrideResource
+      summary: Delete an on-call override
+      description: 'Permanently removes an on-call override identified by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users'' overrides requires team Administrator of the override''s team, or of a shared team for all-teams overrides.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: delete
+        scope: on-call-overrides:delete
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users' overrides requires team Administrator of the override's team, or of a shared team for all-teams overrides.
+      operationId: deleteApiPublicV1OnCallOverrideById
+      x-operation-id-source: derived
+  /api/public/v1/on-call-override:
+    post:
+      tags:
+      - OnCallOverrideResource
+      summary: Create an on-call override
+      description: 'Creates a new on-call override that temporarily replaces or adjusts on-call assignments for a user or team.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users'' overrides requires team Administrator of the override''s team, or of a shared team for all-teams overrides.'
+      parameters:
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: create
+        scope: on-call-overrides:create
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: Personal access tokens may manage overrides they are involved in (as the user or a replacement) with team access alone; managing other users' overrides requires team Administrator of the override's team, or of a shared team for all-teams overrides.
+      operationId: postApiPublicV1OnCallOverride
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceRequest:
+      required:
+      - type
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        teamId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        escalationTier:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        replacementUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        type:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        teamId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        replacementUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        type:
+          type:
+          - string
+          - 'null'
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

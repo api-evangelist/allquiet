@@ -1,0 +1,255 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public On Call Override Resource Search API
+  version: v1
+tags:
+- name: OnCallOverrideResourceSearch
+paths:
+  /api/public/v1/on-call-override/search:
+    get:
+      tags:
+      - OnCallOverrideResourceSearch
+      summary: Search for a single on-call override
+      description: 'Find one on-call override by ID, or by user ID with optional team ID and start/end window. Returns 404 when no matching override is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.
+
+        - **Notes:** Searching by override ID follows the same rules as reading an override. Searching by user requires the requested user to be readable by the caller.'
+      parameters:
+      - name: Id
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Start
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: End
+        in: query
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: get
+        scope: on-call-overrides:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Searching by override ID follows the same rules as reading an override. Searching by user requires the requested user to be readable by the caller.
+      operationId: getApiPublicV1OnCallOverrideSearch
+      x-operation-id-source: derived
+  /api/public/v1/on-call-override/search/list:
+    get:
+      tags:
+      - OnCallOverrideResourceSearch
+      summary: List on-call overrides for a user
+      description: 'Returns paginated on-call overrides for the specified user ID. Supports offset and limit query parameters.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-overrides:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.
+
+        - **Notes:** Results are limited to overrides on teams visible to the API key.'
+      parameters:
+      - name: UserId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-overrides
+        permission: list
+        scope: on-call-overrides:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Results are limited to overrides on teams visible to the API key.
+      operationId: getApiPublicV1OnCallOverrideSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceListResponse:
+      type: object
+      properties:
+        onCallOverrides:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallOverride.OnCallOverrideResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        teamId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        replacementUserIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        type:
+          type:
+          - string
+          - 'null'
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

@@ -1,0 +1,739 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Resource Search API
+  version: v1
+tags:
+- name: InboundIntegrationResourceSearch
+paths:
+  /api/public/v1/inbound-integration/search:
+    get:
+      tags:
+      - InboundIntegrationResourceSearch
+      summary: Search for a single inbound integration
+      description: 'Finds one inbound integration matching display name, type, and/or team ID. Returns 404 when no match exists.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integrations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Type
+        in: query
+        schema:
+          type: string
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integrations
+        permission: get
+        scope: inbound-integrations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationSearch
+      x-operation-id-source: derived
+  /api/public/v1/inbound-integration/search/list:
+    get:
+      tags:
+      - InboundIntegrationResourceSearch
+      summary: List inbound integrations
+      description: 'Returns a paginated list of inbound integrations filtered by display name, type, and/or team ID. Use offset and limit query parameters for pagination.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integrations:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Type
+        in: query
+        schema:
+          type: string
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integrations
+        permission: list
+        scope: inbound-integrations:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.CallRouting.Models.InboundNumberMenuConfig:
+      type: object
+      properties:
+        options:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberMenuOption'
+        menuMaxAttempts:
+          type: integer
+          format: int32
+        menuGatherTimeoutSeconds:
+          type: integer
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.SnoozeSettings:
+      type: object
+      properties:
+        snoozeWindowInMinutes:
+          maximum: 1440
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        filters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.SnoozeSettingsTimeFilter'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.HttpMonitoring.IntegrationSettingsHttpMonitoring:
+      required:
+      - intervalInSeconds
+      - method
+      - timeoutInMilliseconds
+      - url
+      type: object
+      properties:
+        url:
+          minLength: 1
+          type: string
+        method:
+          minLength: 1
+          type: string
+        overrideAcceptedStatusCodes:
+          type:
+          - array
+          - 'null'
+          items:
+            type: integer
+            format: int32
+        timeoutInMilliseconds:
+          type: integer
+          format: int32
+        intervalInSeconds:
+          type: integer
+          format: int32
+        maxRetries:
+          maximum: 5
+          minimum: 0
+          type: integer
+          format: int32
+        authenticationType:
+          type:
+          - string
+          - 'null'
+        basicAuthenticationUserName:
+          type:
+          - string
+          - 'null'
+        basicAuthenticationPassword:
+          type:
+          - string
+          - 'null'
+        bearerAuthenticationToken:
+          type:
+          - string
+          - 'null'
+        headers:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+        body:
+          type:
+          - string
+          - 'null'
+        isPaused:
+          type: boolean
+        contentTest:
+          maxLength: 1024
+          type:
+          - string
+          - 'null'
+        contentTestMode:
+          type:
+          - string
+          - 'null'
+        sslCertificateMaxAgeInDaysDegraded:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        sslCertificateMaxAgeInDaysDown:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severityDegraded:
+          type:
+          - string
+          - 'null'
+        severityDown:
+          type:
+          - string
+          - 'null'
+        logResponseBody:
+          type: boolean
+        ignoreNonHttpErrors:
+          type: boolean
+        disableFollowRedirect:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.IntegrationSettingsBird:
+      type: object
+      properties:
+        accessSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.BirdInboundNumberSettings'
+        callFlowConfig:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberCallFlowConfig'
+        providerWebhookId:
+          type:
+          - string
+          - 'null'
+        configurationStatus:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.CallRoutingConfigurationStatus'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.PingMonitor.IntegrationSettingsPingMonitor:
+      required:
+      - host
+      - intervalInSeconds
+      - timeoutInMilliseconds
+      type: object
+      properties:
+        host:
+          minLength: 1
+          type: string
+        timeoutInMilliseconds:
+          type: integer
+          format: int32
+        intervalInSeconds:
+          type: integer
+          format: int32
+        maxRetries:
+          maximum: 5
+          minimum: 0
+          type: integer
+          format: int32
+        isPaused:
+          type: boolean
+        severityDegraded:
+          type:
+          - string
+          - 'null'
+        severityDown:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.WebhookAuthenticationBearer:
+      type: object
+      properties:
+        token:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceIntegrationSettingsResponse:
+      type: object
+      properties:
+        httpMonitoring:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.HttpMonitoring.IntegrationSettingsHttpMonitoring'
+        heartbeatMonitor:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.HeartbeatMonitor.IntegrationSettingsHeartbeatMonitor'
+        cronJobMonitor:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.CronJobMonitor.IntegrationSettingsCronJobMonitor'
+        pingMonitor:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.PingMonitor.IntegrationSettingsPingMonitor'
+        email:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.IntegrationSettingsEmail'
+        twilio:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.IntegrationSettingsTwilio'
+        bird:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.IntegrationSettingsBird'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.WebhookAuthentication:
+      required:
+      - type
+      type: object
+      properties:
+        privateIpFilter:
+          type:
+          - string
+          - 'null'
+        type:
+          minLength: 1
+          type: string
+        bearer:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.WebhookAuthenticationBearer'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.TwilioInboundNumberSettings:
+      required:
+      - phoneNumber
+      type: object
+      properties:
+        apiBaseDomain:
+          type:
+          - string
+          - 'null'
+        accountSid:
+          type:
+          - string
+          - 'null'
+        authToken:
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          minLength: 1
+          type: string
+        phoneNumberSid:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.InboundNumberPrompt:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        text:
+          type:
+          - string
+          - 'null'
+        locale:
+          type:
+          - string
+          - 'null'
+        voice:
+          type:
+          - string
+          - 'null'
+        audioFile:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberAudioFile'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.IntegrationSettingsEmail:
+      type: object
+      properties:
+        emailAddress:
+          type:
+          - string
+          - 'null'
+        aliases:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.InboundNumberCallFlowConfig:
+      type: object
+      properties:
+        welcomeMessage:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberPrompt'
+        callDisplayMode:
+          type:
+          - string
+          - 'null'
+        attachVoicemailTranscript:
+          type: boolean
+        callerAllowlist:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        callerBlocklist:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        route:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberRouteConfig'
+        menu:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberMenuConfig'
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.CallRoutingConfigurationStatus:
+      type: object
+      properties:
+        lastUpdated:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        validationStatus:
+          type:
+          - string
+          - 'null'
+        resolvedPhoneNumber:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceListResponse:
+      type: object
+      properties:
+        inboundIntegrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.InboundNumberRouteConfig:
+      type: object
+      properties:
+        teamId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        incidentSeverity:
+          type:
+          - string
+          - 'null'
+        directVoicemail:
+          type: boolean
+        sendToVoicemailIfNoResponse:
+          type: boolean
+        voicemailMessage:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberPrompt'
+        closingMessage:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberPrompt'
+        autoResolveOnAnswer:
+          type: boolean
+        skipAlreadyDialedNumbers:
+          type: boolean
+        maxUsersToTry:
+          type: integer
+          format: int32
+        dialTimeoutPerUserInSeconds:
+          type: integer
+          format: int32
+        acceptCallPrompt:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberPrompt'
+        targetConfirmGatherTimeoutSeconds:
+          type: integer
+          format: int32
+        targetConfirmMaxAttempts:
+          type: integer
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.SnoozeSettingsTimeFilter:
+      type: object
+      properties:
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        from:
+          type:
+          - string
+          - 'null'
+          format: time
+        until:
+          type:
+          - string
+          - 'null'
+          format: time
+        snoozeWindowInMinutes:
+          maximum: 1440
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        snoozeUntilAbsolute:
+          type:
+          - string
+          - 'null'
+          format: time
+        snoozeUntilWeekdayAbsolute:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+        teamId:
+          type: string
+          format: uuid
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        isMuted:
+          type: boolean
+        isInMaintenance:
+          type: boolean
+        webhookUrl:
+          type:
+          - string
+          - 'null'
+        snoozeSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.SnoozeSettings'
+        noiseLimitInSeconds:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        webhookAuthentication:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.WebhookAuthentication'
+        integrationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationResourceIntegrationSettingsResponse'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.CronJobMonitor.IntegrationSettingsCronJobMonitor:
+      required:
+      - cronExpression
+      - gracePeriodInSec
+      - severity
+      - timeZoneId
+      type: object
+      properties:
+        gracePeriodInSec:
+          maximum: 31536000
+          minimum: 0
+          type: integer
+          format: int32
+        severity:
+          minLength: 1
+          type: string
+        cronExpression:
+          minLength: 1
+          type: string
+        timeZoneId:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.BirdInboundNumberSettings:
+      type: object
+      properties:
+        apiBaseDomain:
+          type:
+          - string
+          - 'null'
+        accessKey:
+          type:
+          - string
+          - 'null'
+        webhookSigningKey:
+          type:
+          - string
+          - 'null'
+        workspaceId:
+          type:
+          - string
+          - 'null'
+        channelId:
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.InboundNumberAudioFile:
+      type: object
+      properties:
+        objectKey:
+          type:
+          - string
+          - 'null'
+        fileName:
+          type:
+          - string
+          - 'null'
+        contentType:
+          type:
+          - string
+          - 'null'
+        fileSizeBytes:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        durationSeconds:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        uploadedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        uploadedByUserId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.IntegrationSettingsTwilio:
+      type: object
+      properties:
+        accessSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.TwilioInboundNumberSettings'
+        callFlowConfig:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberCallFlowConfig'
+        providerWebhookId:
+          type:
+          - string
+          - 'null'
+        configurationStatus:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.CallRoutingConfigurationStatus'
+      additionalProperties: false
+    AllQuiet.Api.CallRouting.Models.InboundNumberMenuOption:
+      type: object
+      properties:
+        key:
+          type:
+          - string
+          - 'null'
+        route:
+          $ref: '#/components/schemas/AllQuiet.Api.CallRouting.Models.InboundNumberRouteConfig'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.HeartbeatMonitor.IntegrationSettingsHeartbeatMonitor:
+      required:
+      - gracePeriodInSec
+      - intervalInSec
+      - severity
+      type: object
+      properties:
+        intervalInSec:
+          maximum: 31536000
+          minimum: 0
+          type: integer
+          format: int32
+        gracePeriodInSec:
+          maximum: 31536000
+          minimum: 0
+          type: integer
+          format: int32
+        severity:
+          minLength: 1
+          type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

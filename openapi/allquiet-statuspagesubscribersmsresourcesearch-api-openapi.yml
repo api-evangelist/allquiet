@@ -1,0 +1,229 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Status Page Subscriber SMS Resource Search…
+  version: v1
+tags:
+- name: StatusPageSubscriberSMSResourceSearch
+paths:
+  /api/public/v1/status-page-subscriber-sms/search:
+    get:
+      tags:
+      - StatusPageSubscriberSMSResourceSearch
+      summary: Search for a single status page SMS subscriber
+      description: 'Find one SMS subscriber by status page ID and telephone number. Returns 404 when no match is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-page-subscriber-sms:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: StatusPageId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: TelephoneNumber
+        in: query
+        schema:
+          type: string
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-page-subscriber-sms
+        permission: get
+        scope: status-page-subscriber-sms:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageSubscriberSmsSearch
+      x-operation-id-source: derived
+  /api/public/v1/status-page-subscriber-sms/search/list:
+    get:
+      tags:
+      - StatusPageSubscriberSMSResourceSearch
+      summary: List status page SMS subscribers
+      description: 'Returns a paginated list of SMS subscribers filtered by status page and other query parameters.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-page-subscriber-sms:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: StatusPageId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: TelephoneNumber
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-page-subscriber-sms
+        permission: list
+        scope: status-page-subscriber-sms:list
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageSubscriberSmsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceListResponse:
+      type: object
+      properties:
+        statusPageSubscriberSms:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.StatusPages.StatusPageSubscriberSMSResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        statusPageId:
+          type: string
+          format: uuid
+        telephoneNumber:
+          type:
+          - string
+          - 'null'
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

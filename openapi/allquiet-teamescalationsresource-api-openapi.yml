@@ -1,0 +1,792 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Team Escalations Resource API
+  version: v1
+tags:
+- name: TeamEscalationsResource
+paths:
+  /api/public/v1/team-escalations/{id}:
+    get:
+      tags:
+      - TeamEscalationsResource
+      summary: Get team escalation settings
+      description: 'Returns on-call escalation tiers, schedules, and rotations for the team identified by id (team ID).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: get
+        scope: team-escalations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1TeamEscalationsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - TeamEscalationsResource
+      summary: Update team escalation settings
+      description: 'Replace escalation tiers and on-call schedules for the team identified by id (team ID).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: update
+        scope: team-escalations:update
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: putApiPublicV1TeamEscalationsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - TeamEscalationsResource
+      summary: Delete team escalation settings
+      description: 'Remove escalation configuration for the team identified by id (team ID).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: delete
+        scope: team-escalations:delete
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: deleteApiPublicV1TeamEscalationsById
+      x-operation-id-source: derived
+  /api/public/v1/team-escalations/{id}/preview:
+    post:
+      tags:
+      - TeamEscalationsResource
+      summary: Preview team escalation schedule
+      description: 'Calculates on-call schedule segments, rotation handoffs, and human-readable schedule and rotation descriptions for draft escalation tiers over a date range. Nothing is persisted.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Nothing is persisted. Membership ids in the request must belong to the team.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: get
+        scope: team-escalations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: Nothing is persisted. Membership ids in the request must belong to the team.
+      operationId: postApiPublicV1TeamEscalationsByIdPreview
+      x-operation-id-source: derived
+  /api/public/v1/team-escalations:
+    post:
+      tags:
+      - TeamEscalationsResource
+      summary: Create team escalation settings
+      description: 'Define escalation tiers and on-call schedules for a team (teamId in body). The team must already exist and be authorized for the caller.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: create
+        scope: team-escalations:create
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: postApiPublicV1TeamEscalations
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        teamId:
+          type: string
+          format: uuid
+        tierSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TierSettings'
+        escalationTiers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceTier'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewDay:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        segments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewSegment'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.RoundRobinSettings:
+      type: object
+      properties:
+        roundRobinSize:
+          maximum: 100
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewRequest:
+      required:
+      - end
+      - start
+      type: object
+      properties:
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        escalationTiers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceTier'
+        tierSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TierSettings'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationSettings:
+      required:
+      - repeats
+      type: object
+      properties:
+        repeats:
+          minLength: 1
+          type: string
+        startsOnDayOfWeek:
+          type:
+          - string
+          - 'null'
+        startsOnTime:
+          type:
+          - string
+          - 'null'
+          format: time
+        startsOnDateOfMonth:
+          maximum: 30
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        customRepeatUnit:
+          type:
+          - string
+          - 'null'
+        customRepeatValue:
+          maximum: 365
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+        effectiveFrom:
+          type:
+          - string
+          - 'null'
+          format: date
+        autoRotationSize:
+          maximum: 500
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+        rotationMode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewSegment:
+      type: object
+      properties:
+        start:
+          type:
+          - string
+          - 'null'
+          format: time
+        end:
+          type:
+          - string
+          - 'null'
+          format: time
+        rotationIndex:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        members:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewSchedule:
+      type: object
+      properties:
+        tierIndex:
+          type: integer
+          format: int32
+        scheduleIndex:
+          type: integer
+          format: int32
+        displayName:
+          type:
+          - string
+          - 'null'
+        isRotating:
+          type: boolean
+        days:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewDay'
+        handoffs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewHandoff'
+        scheduleDescription:
+          type:
+          - string
+          - 'null'
+        rotationDescription:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceRequest:
+      required:
+      - teamId
+      type: object
+      properties:
+        escalationTiers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceTier'
+        tierSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TierSettings'
+        teamId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewResponse:
+      type: object
+      properties:
+        teamId:
+          type: string
+          format: uuid
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        schedules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewSchedule'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotation:
+      type: object
+      properties:
+        members:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceScheduleSettings:
+      type: object
+      properties:
+        start:
+          type:
+          - string
+          - 'null'
+          format: time
+        end:
+          type:
+          - string
+          - 'null'
+          format: time
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        weeklySchedules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        effectiveFrom:
+          type:
+          - string
+          - 'null'
+          format: date
+        effectiveUntil:
+          type:
+          - string
+          - 'null'
+          format: date
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.TierSettings:
+      type: object
+      properties:
+        repeats:
+          maximum: 99
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsAfterMinutes:
+          maximum: 1440
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoEscalationMode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsPreviewHandoff:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        fromRotationIndex:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        toRotationIndex:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        fromMembers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember'
+        toMembers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.TimeFilter:
+      type: object
+      properties:
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        from:
+          type:
+          - string
+          - 'null'
+          format: time
+        until:
+          type:
+          - string
+          - 'null'
+          format: time
+        duration:
+          type: string
+          format: date-span
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember:
+      required:
+      - teamMembershipId
+      type: object
+      properties:
+        teamMembershipId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceSchedule:
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        scheduleSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceScheduleSettings'
+        rotationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationSettings'
+        roundRobinSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.RoundRobinSettings'
+        rotations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotation'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceTier:
+      type: object
+      properties:
+        autoEscalationAfterMinutes:
+          maximum: 2630000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoEscalationMode:
+          type:
+          - string
+          - 'null'
+        autoEscalationEnabled:
+          type:
+          - boolean
+          - 'null'
+        autoEscalationSeverities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        repeats:
+          maximum: 16
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsAfterMinutes:
+          maximum: 2630000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsTierEscalationMode:
+          type:
+          - string
+          - 'null'
+        schedules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceSchedule'
+        autoEscalationTimeFilters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        autoAssignToTeams:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        autoAssignToTeamsSeverities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        autoAssignToTeamsTimeFilters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        autoAssignToTeamsRepeatAlerts:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

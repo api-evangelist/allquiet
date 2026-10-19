@@ -1,0 +1,142 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Notification Log Resource API
+  version: v1
+tags:
+- name: NotificationLogResource
+paths:
+  /api/public/v1/notification-log/{id}:
+    get:
+      tags:
+      - NotificationLogResource
+      summary: Get a notification log entry by ID
+      description: 'Returns a single notification log entry when the caller is authorized via the related incident or user.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `notification-logs:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Personal access tokens may always read logs delivered to their own user. Logs delivered to other users on an incident require the organization Administrator role or the team Administrator role on one of the incident''s teams.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: notification-logs
+        permission: get
+        scope: notification-logs:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may always read logs delivered to their own user. Logs delivered to other users on an incident require the organization Administrator role or the team Administrator role on one of the incident's teams.
+      operationId: getApiPublicV1NotificationLogById
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        channel:
+          type:
+          - string
+          - 'null'
+        recipient:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

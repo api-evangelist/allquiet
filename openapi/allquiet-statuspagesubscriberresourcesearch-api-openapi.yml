@@ -1,0 +1,229 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Status Page Subscriber Resource Search API
+  version: v1
+tags:
+- name: StatusPageSubscriberResourceSearch
+paths:
+  /api/public/v1/status-page-subscriber/search:
+    get:
+      tags:
+      - StatusPageSubscriberResourceSearch
+      summary: Search for a single status page email subscriber
+      description: 'Find one email subscriber by status page ID and email address. Returns 404 when no match is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-page-subscribers:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: StatusPageId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Email
+        in: query
+        schema:
+          type: string
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-page-subscribers
+        permission: get
+        scope: status-page-subscribers:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageSubscriberSearch
+      x-operation-id-source: derived
+  /api/public/v1/status-page-subscriber/search/list:
+    get:
+      tags:
+      - StatusPageSubscriberResourceSearch
+      summary: List status page email subscribers
+      description: 'Returns a paginated list of email subscribers filtered by status page and other query parameters.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-page-subscribers:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: StatusPageId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Email
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-page-subscribers
+        permission: list
+        scope: status-page-subscribers:list
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageSubscriberSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        statusPageId:
+          type: string
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceListResponse:
+      type: object
+      properties:
+        statusPageSubscribers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageSubscriberResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

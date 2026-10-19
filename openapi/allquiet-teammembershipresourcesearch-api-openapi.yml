@@ -1,0 +1,242 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Team Membership Resource Search API
+  version: v1
+tags:
+- name: TeamMembershipResourceSearch
+paths:
+  /api/public/v1/team-membership/search/list:
+    get:
+      tags:
+      - TeamMembershipResourceSearch
+      summary: List team memberships
+      description: 'Filter memberships by userId, teamId, and optional role with paging (offset/limit, default limit 100, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: Role
+        in: query
+        schema:
+          type: string
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: list
+        scope: team-memberships:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1TeamMembershipSearchList
+      x-operation-id-source: derived
+  /api/public/v1/team-membership/search:
+    get:
+      tags:
+      - TeamMembershipResourceSearch
+      summary: Search for a single team membership
+      description: 'Find one membership by required userId and teamId, optionally filtered by role. Returns 404 when no matching membership exists.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-memberships:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: Role
+        in: query
+        schema:
+          type: string
+      - name: UserId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: TeamId
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-memberships
+        permission: get
+        scope: team-memberships:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1TeamMembershipSearch
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceListResponse:
+      type: object
+      properties:
+        teamMemberships:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamMemberships.TeamMembershipResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        teamId:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        role:
+          type:
+          - string
+          - 'null'
+        activatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

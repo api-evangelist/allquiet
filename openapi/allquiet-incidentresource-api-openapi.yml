@@ -1,0 +1,891 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Incident Resource API
+  version: v1
+tags:
+- name: IncidentResource
+paths:
+  /api/public/v1/incident/{incidentId}:
+    patch:
+      tags:
+      - IncidentResource
+      summary: Update an incident
+      description: 'Apply patch operations to an existing incident (severity, status, attributes, and similar). Rate-limited per incident.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Rate-limited per incident.'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Incidents.IncidentPatchRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Incidents.IncidentPatchRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Incidents.IncidentPatchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: update
+        scope: incidents:update
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: Rate-limited per incident.
+      operationId: patchApiPublicV1IncidentByIncidentId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - IncidentResource
+      summary: Delete an incident
+      description: 'Permanently delete an incident. The incident must be archived first (append the ''Archived'' intent via PATCH).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** For user-linked keys, deletion requires the organization Administrator role or the team Administrator role on one of the incident''s teams. Only archived incidents can be deleted. The incidents:delete permission is only grantable on unrestricted API keys.'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: delete
+        scope: incidents:delete
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: Administrator
+        notes: For user-linked keys, deletion requires the organization Administrator role or the team Administrator role on one of the incident's teams. Only archived incidents can be deleted. The incidents:delete permission is only grantable on unrestricted API keys.
+      operationId: deleteApiPublicV1IncidentByIncidentId
+      x-operation-id-source: derived
+  /api/public/v1/incident:
+    post:
+      tags:
+      - IncidentResource
+      summary: Create an incident
+      description: 'Create a new incident in an authorized team. Subject to creation rate limits.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Organization role (user-linked keys only):** Member when the user has an explicit organization membership. Explicit organization membership is not required; team-based access applies and effective access is gated by the required team role.
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Target teams must belong to the resolved organization. Subject to creation rate limits.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: create
+        scope: incidents:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: true
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: Member
+        notes: Target teams must belong to the resolved organization. Subject to creation rate limits.
+      operationId: postApiPublicV1Incident
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Incidents.AppendIntentOperationUserAssigningOptions:
+      type: object
+      properties:
+        userAssignments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Incidents.AssigningOptionsUserAssignment'
+        repeatAlerts:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationAssigningOptions:
+      type: object
+      properties:
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationEntity'
+        repeatAlerts:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationAffectingOptions:
+      type: object
+      properties:
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationEntity'
+        excludeFromUptimeCalculation:
+          type:
+          - boolean
+          - 'null'
+        overrides:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationAffectingOverrides'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceListResponse:
+      type: object
+      properties:
+        incidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceUser:
+      required:
+      - avatarUrl
+      - displayName
+      - email
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationForwardingOptions:
+      type: object
+      properties:
+        outboundIntegration:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationEntity'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.UpdateAttributesOperation:
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Incidents.UpdateAttributesOperationAttribute'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceCreateUserAssignment:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceEvent:
+      required:
+      - attributeChanges
+      - message
+      - messageIsPublic
+      - modification
+      - onCallUsers
+      - severity
+      - status
+      - teams
+      - unattended
+      - userAssignments
+      type: object
+      properties:
+        severity:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        modification:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceModification'
+        userAssignments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        onCallUsers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        message:
+          type:
+          - string
+          - 'null'
+        messageIsPublic:
+          type:
+          - boolean
+          - 'null'
+        unattended:
+          type: boolean
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        attributeChanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceVoiceMail:
+      required:
+      - downloadUrl
+      - privateDownloadUrl
+      type: object
+      properties:
+        downloadUrl:
+          type:
+          - string
+          - 'null'
+          description: API-key URL for the voicemail file. Requires incidents:get. Follow the redirect to download the audio.
+        privateDownloadUrl:
+          type:
+          - string
+          - 'null'
+          description: Signed-in web app URL for the voicemail file.
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSubIncidentEvent:
+      required:
+      - attributeChanges
+      - modification
+      - severity
+      - status
+      type: object
+      properties:
+        severity:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        modification:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceModification'
+        attributeChanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceCreateRequest:
+      required:
+      - severity
+      - status
+      - title
+      type: object
+      properties:
+        title:
+          maxLength: 1920
+          minLength: 1
+          type: string
+        message:
+          maxLength: 1920
+          type:
+          - string
+          - 'null'
+        messageIsPublic:
+          type:
+          - boolean
+          - 'null'
+        integrationId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        teamIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        status:
+          minLength: 1
+          type: string
+        severity:
+          minLength: 1
+          type: string
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        excludeFromUptimeCalculation:
+          type:
+          - boolean
+          - 'null'
+        statusPageStartOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        statusPageEndOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        userAssignments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceCreateUserAssignment'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Incidents.UpdateAttributesOperationAttribute'
+        publicComment:
+          maxLength: 5000
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperation:
+      required:
+      - intent
+      type: object
+      properties:
+        intent:
+          minLength: 1
+          type: string
+        message:
+          maxLength: 5000
+          type:
+          - string
+          - 'null'
+        messageIsPublic:
+          type:
+          - boolean
+          - 'null'
+        intentOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationIntentOptions'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange:
+      required:
+      - name
+      - newValue
+      - oldValue
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        newValue:
+          type:
+          - string
+          - 'null'
+        oldValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationIntentOptions:
+      type: object
+      properties:
+        snoozingOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationSnoozingOptions'
+        forwardingOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationForwardingOptions'
+        affectingOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationAffectingOptions'
+        assigningOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationAssigningOptions'
+        userAssigningOptions:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperationUserAssigningOptions'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.UpdateAttributesOperationAttribute:
+      required:
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          maxLength: 255
+          minLength: 1
+          type: string
+        value:
+          minLength: 1
+          type: string
+        isImage:
+          type:
+          - boolean
+          - 'null'
+        hideInPreviews:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.ChangeSeverityOperation:
+      required:
+      - severity
+      type: object
+      properties:
+        severity:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceModification:
+      required:
+      - externalUser
+      - intent
+      - timestamp
+      - user
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        intent:
+          type:
+          - string
+          - 'null'
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        externalUser:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUserExternal'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationSnoozingOptions:
+      type: object
+      properties:
+        snoozedUntil:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceAttribute:
+      required:
+      - hideInPreviews
+      - isGroupingKey
+      - isImage
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+        isImage:
+          type: boolean
+        isGroupingKey:
+          type: boolean
+        hideInPreviews:
+          type: boolean
+        voiceMail:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceVoiceMail'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResource:
+      required:
+      - allowedIntents
+      - attributes
+      - createdAt
+      - events
+      - eventsTotalCount
+      - id
+      - integration
+      - isArchived
+      - lastUpdatedAt
+      - onCallUsers
+      - services
+      - snoozed
+      - sourceUser
+      - subIncidents
+      - teams
+      - title
+      - unattended
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type:
+          - string
+          - 'null'
+        integration:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastUpdatedAt:
+          type: string
+          format: date-time
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttribute'
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEvent'
+        eventsTotalCount:
+          type: integer
+          format: int32
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        sourceUser:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        unattended:
+          type: boolean
+        isArchived:
+          type: boolean
+        onCallUsers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        snoozed:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSnoozingProperties'
+        subIncidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSubIncident'
+        allowedIntents:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        canDelete:
+          type:
+          - boolean
+          - 'null'
+        excludeFromUptimeCalculation:
+          type: boolean
+        statusPageStartOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        statusPageEndOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSnoozingProperties:
+      required:
+      - snoozedUntil
+      type: object
+      properties:
+        snoozedUntil:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationEntity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AssigningOptionsUserAssignment:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSubIncident:
+      required:
+      - attributes
+      - createdAt
+      - events
+      - id
+      - lastUpdatedAt
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type:
+          - string
+          - 'null'
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSubIncidentEvent'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttribute'
+        lastUpdatedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Incidents.IncidentPatchRequest:
+      required:
+      - operations
+      type: object
+      properties:
+        operations:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.IncidentPatchRequestOperations'
+      additionalProperties: false
+    AllQuiet.Api.Incidents.AppendIntentOperationAffectingOverrides:
+      type: object
+      properties:
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Incidents.IncidentPatchRequestOperations:
+      type: object
+      properties:
+        changeSeverity:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.ChangeSeverityOperation'
+        appendIntent:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.AppendIntentOperation'
+        overrideAttributes:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.UpdateAttributesOperation'
+        addAttributes:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.UpdateAttributesOperation'
+        upsertAttributes:
+          $ref: '#/components/schemas/AllQuiet.Api.Incidents.UpdateAttributesOperation'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto:
+      required:
+      - displayName
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceUserExternal:
+      required:
+      - avatarUrl
+      - displayName
+      - id
+      - provider
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+        provider:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

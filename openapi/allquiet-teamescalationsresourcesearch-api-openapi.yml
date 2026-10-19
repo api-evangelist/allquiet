@@ -1,0 +1,479 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Team Escalations Resource Search API
+  version: v1
+tags:
+- name: TeamEscalationsResourceSearch
+paths:
+  /api/public/v1/team-escalations/search:
+    get:
+      tags:
+      - TeamEscalationsResourceSearch
+      summary: Search for team escalation settings
+      description: 'Find escalation settings for a single team by team ID. Returns 404 when the team is not found or not accessible.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: get
+        scope: team-escalations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1TeamEscalationsSearch
+      x-operation-id-source: derived
+  /api/public/v1/team-escalations/search/list:
+    get:
+      tags:
+      - TeamEscalationsResourceSearch
+      summary: List team escalation settings
+      description: 'Returns paginated escalation settings for teams visible to the caller (default limit 20, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `team-escalations:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: team-escalations
+        permission: list
+        scope: team-escalations:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1TeamEscalationsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        teamId:
+          type: string
+          format: uuid
+        tierSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TierSettings'
+        escalationTiers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceTier'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Teams.Models.RoundRobinSettings:
+      type: object
+      properties:
+        roundRobinSize:
+          maximum: 100
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationSettings:
+      required:
+      - repeats
+      type: object
+      properties:
+        repeats:
+          minLength: 1
+          type: string
+        startsOnDayOfWeek:
+          type:
+          - string
+          - 'null'
+        startsOnTime:
+          type:
+          - string
+          - 'null'
+          format: time
+        startsOnDateOfMonth:
+          maximum: 30
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        customRepeatUnit:
+          type:
+          - string
+          - 'null'
+        customRepeatValue:
+          maximum: 365
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+        effectiveFrom:
+          type:
+          - string
+          - 'null'
+          format: date
+        autoRotationSize:
+          maximum: 500
+          minimum: 1
+          type:
+          - integer
+          - 'null'
+          format: int32
+        rotationMode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotation:
+      type: object
+      properties:
+        members:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceListResponse:
+      type: object
+      properties:
+        teamEscalations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamEscalationsResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceScheduleSettings:
+      type: object
+      properties:
+        start:
+          type:
+          - string
+          - 'null'
+          format: time
+        end:
+          type:
+          - string
+          - 'null'
+          format: time
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        weeklySchedules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        effectiveFrom:
+          type:
+          - string
+          - 'null'
+          format: date
+        effectiveUntil:
+          type:
+          - string
+          - 'null'
+          format: date
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.TierSettings:
+      type: object
+      properties:
+        repeats:
+          maximum: 99
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsAfterMinutes:
+          maximum: 1440
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoEscalationMode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.TimeFilter:
+      type: object
+      properties:
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        from:
+          type:
+          - string
+          - 'null'
+          format: time
+        until:
+          type:
+          - string
+          - 'null'
+          format: time
+        duration:
+          type: string
+          format: date-span
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationMember:
+      required:
+      - teamMembershipId
+      type: object
+      properties:
+        teamMembershipId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceTier:
+      type: object
+      properties:
+        autoEscalationAfterMinutes:
+          maximum: 2630000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoEscalationMode:
+          type:
+          - string
+          - 'null'
+        autoEscalationEnabled:
+          type:
+          - boolean
+          - 'null'
+        autoEscalationSeverities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        repeats:
+          maximum: 16
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsAfterMinutes:
+          maximum: 2630000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsTierEscalationMode:
+          type:
+          - string
+          - 'null'
+        schedules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceSchedule'
+        autoEscalationTimeFilters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        autoAssignToTeams:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        autoAssignToTeamsSeverities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        autoAssignToTeamsTimeFilters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TimeFilter'
+        autoAssignToTeamsRepeatAlerts:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.TeamEscalations.TeamResourceSchedule:
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        scheduleSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceScheduleSettings'
+        rotationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotationSettings'
+        roundRobinSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.RoundRobinSettings'
+        rotations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.TeamEscalations.TeamResourceRotation'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

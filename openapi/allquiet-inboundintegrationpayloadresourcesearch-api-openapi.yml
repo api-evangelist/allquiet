@@ -1,0 +1,120 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Payload Resource…
+  version: v1
+tags:
+- name: InboundIntegrationPayloadResourceSearch
+paths:
+  /api/public/v1/inbound-integration/{integrationId}/payloads/search/list:
+    get:
+      tags:
+      - InboundIntegrationPayloadResourceSearch
+      summary: List inbound integration payloads
+      description: 'Returns paginated payloads for an inbound integration. Supports cursor-style paging via idLessThan.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-payloads:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: IdLessThan
+        in: query
+        schema:
+          type: string
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-payloads
+        permission: list
+        scope: inbound-integration-payloads:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationByIntegrationIdPayloadsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceListResponse:
+      type: object
+      properties:
+        payloads:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        integrationId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        data: {}
+        ip:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

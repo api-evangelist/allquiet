@@ -1,0 +1,250 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Routing Rule Execution Log Resource API
+  version: v1
+tags:
+- name: RoutingRuleExecutionLogResource
+paths:
+  /api/public/v1/routing/{routingId}/rule-execution-logs/{logId}:
+    get:
+      tags:
+      - RoutingRuleExecutionLogResource
+      summary: Get a single routing rule execution log
+      description: 'Returns one routing rule execution log for a routing.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: routingId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: logId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: get
+        scope: routings:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1RoutingByRoutingIdRuleExecutionLogsByLogId
+      x-operation-id-source: derived
+  /api/public/v1/routing/{routingId}/rule-execution-logs/search/list:
+    get:
+      tags:
+      - RoutingRuleExecutionLogResource
+      summary: List routing rule execution logs
+      description: 'Returns routing rule execution logs for a routing, most recent first. Supports cursor-style paging via createdAtLessThan and idLessThan.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: routingId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: CreatedAtLessThan
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: IdLessThan
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: list
+        scope: routings:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1RoutingByRoutingIdRuleExecutionLogsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        routingId:
+          type: string
+          format: uuid
+        routingRuleId:
+          type: string
+          format: uuid
+        incidentId:
+          type: string
+          format: uuid
+        incidentEventId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        outcome:
+          type:
+          - string
+          - 'null'
+        delayInMinutes:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        routingDisplayName:
+          type:
+          - string
+          - 'null'
+        ruleDisplayName:
+          type:
+          - string
+          - 'null'
+        effectSummary:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceListResponse:
+      type: object
+      properties:
+        ruleExecutionLogs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingRuleExecutionLogResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

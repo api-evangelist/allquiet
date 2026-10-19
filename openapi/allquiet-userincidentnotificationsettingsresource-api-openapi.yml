@@ -1,0 +1,517 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public User Incident Notification Settings…
+  version: v1
+tags:
+- name: UserIncidentNotificationSettingsResource
+paths:
+  /api/public/v1/user/{userId}/incident-notification-settings:
+    get:
+      tags:
+      - UserIncidentNotificationSettingsResource
+      summary: Get incident notification settings for a user
+      description: 'Returns how a user receives incident notifications.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `user-incident-notification-settings:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.
+
+        - **Notes:** Personal access tokens may only access their linked user''s settings.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: user-incident-notification-settings
+        permission: get
+        scope: user-incident-notification-settings:get
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may only access their linked user's settings.
+      operationId: getApiPublicV1UserByUserIdIncidentNotificationSettings
+      x-operation-id-source: derived
+    post:
+      tags:
+      - UserIncidentNotificationSettingsResource
+      summary: Create incident notification settings for a user
+      description: 'Initializes incident notification preferences for the specified user.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `user-incident-notification-settings:create`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Self access:** personal access tokens may write their linked user''s resource even when the user belongs to multiple organizations.
+
+        - **Notes:** Personal access tokens may only modify their linked user''s settings.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: user-incident-notification-settings
+        permission: create
+        scope: user-incident-notification-settings:create
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: true
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may only modify their linked user's settings.
+      operationId: postApiPublicV1UserByUserIdIncidentNotificationSettings
+      x-operation-id-source: derived
+    put:
+      tags:
+      - UserIncidentNotificationSettingsResource
+      summary: Update incident notification settings for a user
+      description: 'Updates incident notification preferences for the specified user.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `user-incident-notification-settings:update`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Self access:** personal access tokens may write their linked user''s resource even when the user belongs to multiple organizations.
+
+        - **Notes:** Personal access tokens may only modify their linked user''s settings. Organization API keys must pass ?provision=true to overwrite settings that are not provisioned (managed by the user in the UI).'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: user-incident-notification-settings
+        permission: update
+        scope: user-incident-notification-settings:update
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: true
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may only modify their linked user's settings. Organization API keys must pass ?provision=true to overwrite settings that are not provisioned (managed by the user in the UI).
+      operationId: putApiPublicV1UserByUserIdIncidentNotificationSettings
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - UserIncidentNotificationSettingsResource
+      summary: Delete incident notification settings for a user
+      description: 'Removes custom incident notification settings for the specified user, reverting to defaults.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `user-incident-notification-settings:delete`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Self access:** personal access tokens may write their linked user''s resource even when the user belongs to multiple organizations.
+
+        - **Notes:** Personal access tokens may only modify their linked user''s settings.'
+      parameters:
+      - name: userId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: user-incident-notification-settings
+        permission: delete
+        scope: user-incident-notification-settings:delete
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: true
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may only modify their linked user's settings.
+      operationId: deleteApiPublicV1UserByUserIdIncidentNotificationSettings
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation:
+      type: object
+      properties:
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requestedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        confirmationCode:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceRequest:
+      type: object
+      properties:
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        shouldSendSMS:
+          type:
+          - boolean
+          - 'null'
+        delayInMinSMS:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldCallVoice:
+          type:
+          - boolean
+          - 'null'
+        delayInMinVoice:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendPush:
+          type:
+          - boolean
+          - 'null'
+        delayInMinPush:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendEmail:
+          type:
+          - boolean
+          - 'null'
+        delayInMinEmail:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        phoneNumberConfirmations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation'
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserIncidentNotificationSettingsResourceResponse:
+      required:
+      - userId
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        shouldSendSMS:
+          type:
+          - boolean
+          - 'null'
+        delayInMinSMS:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldCallVoice:
+          type:
+          - boolean
+          - 'null'
+        delayInMinVoice:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendPush:
+          type:
+          - boolean
+          - 'null'
+        delayInMinPush:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendEmail:
+          type:
+          - boolean
+          - 'null'
+        delayInMinEmail:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

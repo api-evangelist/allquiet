@@ -1,0 +1,141 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Payload Resource API
+  version: v1
+tags:
+- name: InboundIntegrationPayloadResource
+paths:
+  /api/public/v1/inbound-integration/{integrationId}/payloads/{id}:
+    get:
+      tags:
+      - InboundIntegrationPayloadResource
+      summary: Get an inbound integration payload by ID
+      description: 'Returns a single inbound integration payload for the given integration.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-payloads:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-payloads
+        permission: get
+        scope: inbound-integration-payloads:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationByIntegrationIdPayloadsById
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationPayloadResourceResponse:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        integrationId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        data: {}
+        ip:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

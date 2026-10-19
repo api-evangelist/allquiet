@@ -1,0 +1,157 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public On Call API
+  version: v1
+tags:
+- name: On Call
+paths:
+  /api/public/v1/on-call:
+    get:
+      tags:
+      - On Call
+      summary: Get current on-call assignments
+      description: 'Returns users currently on call for teams accessible to the API key, optionally filtered by team IDs, user IDs, or a specific timestamp.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** When userIds is provided, the caller must be able to read each requested user.'
+      parameters:
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: UserIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: Timestamp
+        in: query
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call
+        permission: get
+        scope: on-call:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: When userIds is provided, the caller must be able to read each requested user.
+      operationId: getApiPublicV1OnCall
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OnCall.OnCallResponseMembership:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponseUser'
+        team:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponseTeam'
+        availabilities:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponseAvailability'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCall.OnCallResponseTeam:
+      required:
+      - timeZoneId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCall.OnCallResponseAvailability:
+      type: object
+      properties:
+        tier:
+          type: integer
+          format: int32
+        isOnline:
+          type: boolean
+        fillUp:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCall.OnCallResponse:
+      type: object
+      properties:
+        memberships:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OnCall.OnCallResponseMembership'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCall.OnCallResponseUser:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

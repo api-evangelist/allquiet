@@ -1,0 +1,270 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Team Resource Search API
+  version: v1
+tags:
+- name: TeamResourceSearch
+paths:
+  /api/public/v1/team/search:
+    get:
+      tags:
+      - TeamResourceSearch
+      summary: Search for a single team
+      description: 'Find one team by exact display name within teams visible to the caller. Returns 404 when no matching team is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `teams:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: teams
+        permission: get
+        scope: teams:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1TeamSearch
+      x-operation-id-source: derived
+  /api/public/v1/team/search/list:
+    get:
+      tags:
+      - TeamResourceSearch
+      summary: List teams
+      description: 'List teams visible to the caller with optional display-name filter and paging (offset/limit, default limit 20, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `teams:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: teams
+        permission: list
+        scope: teams:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1TeamSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Teams.Models.IncidentEngagementReportSettings:
+      type: object
+      properties:
+        dayOfWeek:
+          type:
+          - string
+          - 'null'
+        time:
+          type:
+          - string
+          - 'null'
+          format: time
+        disableWeeklyIncidentEngagementReport:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Common.CalendarPublishingSettingsResponse:
+      type: object
+      properties:
+        isPublished:
+          type: boolean
+        publicCalendarUrlOutlook:
+          type:
+          - string
+          - 'null'
+        publicCalendarUrlGoogle:
+          type:
+          - string
+          - 'null'
+        onlyIncludeTier1:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Teams.TeamResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        incidentEngagementReportSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.IncidentEngagementReportSettings'
+        tierSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Models.TierSettings'
+        calendarPublishingSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Common.CalendarPublishingSettingsResponse'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Models.TierSettings:
+      type: object
+      properties:
+        repeats:
+          maximum: 99
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        repeatsAfterMinutes:
+          maximum: 1440
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        autoEscalationMode:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Teams.TeamResourceListResponse:
+      type: object
+      properties:
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Teams.TeamResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

@@ -1,0 +1,136 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Notification Log Resource Search API
+  version: v1
+tags:
+- name: NotificationLogResourceSearch
+paths:
+  /api/public/v1/notification-log/search/list:
+    get:
+      tags:
+      - NotificationLogResourceSearch
+      summary: List notification logs
+      description: 'Returns paginated notification logs filtered by incident ID and/or user ID. Supports cursor-style paging via createdAtLessThan and idLessThan.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `notification-logs:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Either incidentId or userId must be provided. Results are limited to incidents and users the caller can access. Personal access tokens listing an incident''s logs must either scope the query to their own userId or hold the organization Administrator role or the team Administrator role on one of the incident''s teams.'
+      parameters:
+      - name: IncidentId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: CreatedAtLessThan
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: IdLessThan
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: notification-logs
+        permission: list
+        scope: notification-logs:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Either incidentId or userId must be provided. Results are limited to incidents and users the caller can access. Personal access tokens listing an incident's logs must either scope the query to their own userId or hold the organization Administrator role or the team Administrator role on one of the incident's teams.
+      operationId: getApiPublicV1NotificationLogSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Notifications.NotificationLogResourceListResponse:
+      type: object
+      properties:
+        notificationLogs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.Notifications.NotificationLogResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        channel:
+          type:
+          - string
+          - 'null'
+        recipient:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

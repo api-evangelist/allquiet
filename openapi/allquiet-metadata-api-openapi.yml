@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Meta Data API
+  version: v1
+tags:
+- name: MetaData
+paths:
+  /api/public/v1/metadata/ips:
+    get:
+      tags:
+      - MetaData
+      summary: Get All Quiet public IP addresses
+      description: Returns the current list of public IP addresses used by All Quiet for outbound traffic. No authentication required. Results may be cached for up to five minutes.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.MetaData.PublicIpResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.MetaData.PublicIpResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.MetaData.PublicIpResponse'
+      operationId: getApiPublicV1MetadataIps
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.MetaData.PublicIpResponse:
+      type: object
+      properties:
+        ips:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

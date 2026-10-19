@@ -1,0 +1,322 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Audit Log Resource Search API
+  version: v1
+tags:
+- name: AuditLogResourceSearch
+paths:
+  /api/public/v1/auditlog/list:
+    get:
+      tags:
+      - AuditLogResourceSearch
+      summary: List audit log entries for an organization
+      description: 'Returns paginated audit log events for the organization. Auditing must be enabled on the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `audit-log:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Auditing must be enabled on the organization.'
+      parameters:
+      - name: Cursor
+        in: query
+        schema:
+          type: string
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: EntityType
+        in: query
+        schema:
+          type: string
+      - name: EntityId
+        in: query
+        schema:
+          type: string
+      - name: Action
+        in: query
+        schema:
+          type: string
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResourceListResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: audit-log
+        permission: list
+        scope: audit-log:list
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: Auditing must be enabled on the organization.
+      operationId: getApiPublicV1AuditlogList
+      x-operation-id-source: derived
+  /api/public/v1/auditlog/{auditLogId}:
+    get:
+      tags:
+      - AuditLogResourceSearch
+      summary: Get an audit log entry by ID
+      description: 'Returns a single audit log event by its audit log ID. Auditing must be enabled on the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `audit-log:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Auditing must be enabled on the organization.'
+      parameters:
+      - name: auditLogId
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResource'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResource'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResource'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: audit-log
+        permission: get
+        scope: audit-log:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: Auditing must be enabled on the organization.
+      operationId: getApiPublicV1AuditlogByAuditLogId
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Auditing.SignatureStatus:
+      type: object
+      properties:
+        isSigned:
+          type: boolean
+        isValid:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.Auditing.AuditLogModificationResource:
+      type: object
+      properties:
+        userDisplayName:
+          type:
+          - string
+          - 'null'
+        intent:
+          type:
+          - string
+          - 'null'
+        timestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        userIdentifier:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.Auditing.AuditLogResourceListResponse:
+      type: object
+      properties:
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogResource'
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Auditing.AuditLogResource:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        expiresAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        entityType:
+          type:
+          - string
+          - 'null'
+        entityId:
+          type:
+          - string
+          - 'null'
+        entityDisplayName:
+          type:
+          - string
+          - 'null'
+        action:
+          type:
+          - string
+          - 'null'
+        modification:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Auditing.AuditLogModificationResource'
+        signatureStatus:
+          $ref: '#/components/schemas/AllQuiet.Api.Auditing.SignatureStatus'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

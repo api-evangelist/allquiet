@@ -1,0 +1,1042 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Status Page Resource API
+  version: v1
+tags:
+- name: StatusPageResource
+paths:
+  /api/public/v1/status-page/{id}:
+    get:
+      tags:
+      - StatusPageResource
+      summary: Get a status page by ID
+      description: 'Returns a single status page configuration, including branding, services, and visibility settings.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: get
+        scope: status-pages:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - StatusPageResource
+      summary: Update a status page
+      description: 'Updates an existing status page by ID, including services, branding, and public visibility options.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:update`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceUpdateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: update
+        scope: status-pages:update
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: putApiPublicV1StatusPageById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - StatusPageResource
+      summary: Delete a status page
+      description: 'Permanently deletes a status page by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:delete`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: delete
+        scope: status-pages:delete
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: deleteApiPublicV1StatusPageById
+      x-operation-id-source: derived
+  /api/public/v1/status-page:
+    post:
+      tags:
+      - StatusPageResource
+      summary: Create a status page
+      description: 'Creates a new status page in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:create`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: create
+        scope: status-pages:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: postApiPublicV1StatusPage
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceCreateRequest:
+      type: object
+      properties:
+        displayName:
+          maxLength: 1920
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          maxLength: 10000
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        serviceGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceServiceGroupRequest'
+        publicCompanyUrl:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicCompanyName:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicSupportUrl:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicSupportEmail:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        historyInDays:
+          maximum: 365
+          minimum: 7
+          type: integer
+          format: int32
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        disablePublicSubscription:
+          type: boolean
+        disablePublicPage:
+          type: boolean
+        disablePublicJson:
+          type: boolean
+        enableSMSSubscription:
+          type:
+          - boolean
+          - 'null'
+        publicSeverityMappingMinor:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingWarning:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingCritical:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerTextColor:
+          type:
+          - string
+          - 'null'
+        bannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColor:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        primaryTextColor:
+          type:
+          - string
+          - 'null'
+        primaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryTextColor:
+          type:
+          - string
+          - 'null'
+        secondaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColor:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonTextColor:
+          type:
+          - string
+          - 'null'
+        buttonTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        customHostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CustomHostSettingsRequest'
+        privateIpFilter:
+          type:
+          - string
+          - 'null'
+        privateUserAuthenticationRequired:
+          type:
+          - boolean
+          - 'null'
+        decimalPlaces:
+          maximum: 8
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        publicDisplayLiveStateOnly:
+          type: boolean
+        publicHideIncidentDetails:
+          type: boolean
+        publicHideMaintenances:
+          type: boolean
+        passwordProtectionPassword:
+          maxLength: 512
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        method:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError'
+        validationRecords:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp:
+      type: object
+      properties:
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CustomHostSettingsRequest:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        publicCompanyName:
+          type:
+          - string
+          - 'null'
+        publicCompanyUrl:
+          type:
+          - string
+          - 'null'
+        publicSupportUrl:
+          type:
+          - string
+          - 'null'
+        publicSupportEmail:
+          type:
+          - string
+          - 'null'
+        historyInDays:
+          type: integer
+          format: int32
+        disablePublicSubscription:
+          type: boolean
+        disablePublicPage:
+          type:
+          - boolean
+          - 'null'
+        disablePublicJson:
+          type:
+          - boolean
+          - 'null'
+        publicSeverityMappingMinor:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingWarning:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingCritical:
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        serviceGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceGroup'
+        publicBannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        publicBannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        publicBannerTextColor:
+          type:
+          - string
+          - 'null'
+        publicBannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerTextColor:
+          type:
+          - string
+          - 'null'
+        bannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColor:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        primaryTextColor:
+          type:
+          - string
+          - 'null'
+        primaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryTextColor:
+          type:
+          - string
+          - 'null'
+        secondaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColor:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonTextColor:
+          type:
+          - string
+          - 'null'
+        buttonTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        customHostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse'
+        privateIpFilter:
+          type:
+          - string
+          - 'null'
+        privateUserAuthenticationRequired:
+          type:
+          - boolean
+          - 'null'
+        enableSMSSubscription:
+          type:
+          - boolean
+          - 'null'
+        decimalPlaces:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        publicDisplayLiveStateOnly:
+          type: boolean
+        publicHideIncidentDetails:
+          type: boolean
+        publicHideMaintenances:
+          type: boolean
+        isPasswordProtectionPasswordConfigured:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        messages:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        success:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        hostname:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        ownershipVerification:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification'
+        ownershipVerificationHttp:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp'
+        verificationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        ssl:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord:
+      type: object
+      properties:
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+        txtName:
+          type:
+          - string
+          - 'null'
+        txtValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.Models.ServiceGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        publicDisplayName:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceUpdateRequest:
+      type: object
+      properties:
+        displayName:
+          maxLength: 1920
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          maxLength: 10000
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        serviceGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceServiceGroupRequest'
+        publicCompanyUrl:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicCompanyName:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicSupportUrl:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        publicSupportEmail:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+        historyInDays:
+          maximum: 365
+          minimum: 7
+          type: integer
+          format: int32
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        disablePublicSubscription:
+          type: boolean
+        disablePublicPage:
+          type: boolean
+        disablePublicJson:
+          type: boolean
+        enableSMSSubscription:
+          type:
+          - boolean
+          - 'null'
+        publicSeverityMappingMinor:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingWarning:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingCritical:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerTextColor:
+          type:
+          - string
+          - 'null'
+        bannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColor:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        primaryTextColor:
+          type:
+          - string
+          - 'null'
+        primaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryTextColor:
+          type:
+          - string
+          - 'null'
+        secondaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColor:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonTextColor:
+          type:
+          - string
+          - 'null'
+        buttonTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        customHostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CustomHostSettingsRequest'
+        privateIpFilter:
+          type:
+          - string
+          - 'null'
+        privateUserAuthenticationRequired:
+          type:
+          - boolean
+          - 'null'
+        decimalPlaces:
+          maximum: 8
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        publicDisplayLiveStateOnly:
+          type: boolean
+        publicHideIncidentDetails:
+          type: boolean
+        publicHideMaintenances:
+          type: boolean
+        passwordProtectionPassword:
+          maxLength: 512
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        cloudFlareCreateCustomHostNameResponse:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceServiceGroupRequest:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        publicDisplayName:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

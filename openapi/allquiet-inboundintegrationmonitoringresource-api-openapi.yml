@@ -1,0 +1,339 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Monitoring Resource API
+  version: v1
+tags:
+- name: InboundIntegrationMonitoringResource
+paths:
+  /api/public/v1/inbound-integration/{integrationId}/heartbeat-result:
+    get:
+      tags:
+      - InboundIntegrationMonitoringResource
+      summary: Get heartbeat monitor result
+      description: 'Returns the current heartbeat monitor state for an inbound integration.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integrations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.HeartbeatResultResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.HeartbeatResultResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.HeartbeatResultResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integrations
+        permission: get
+        scope: inbound-integrations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationByIntegrationIdHeartbeatResult
+      x-operation-id-source: derived
+  /api/public/v1/inbound-integration/{integrationId}/http-monitoring-results/{resultId}:
+    get:
+      tags:
+      - InboundIntegrationMonitoringResource
+      summary: Get a single HTTP monitoring execution result
+      description: 'Returns one HTTP monitoring execution result for an inbound integration.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integrations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: resultId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integrations
+        permission: get
+        scope: inbound-integrations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationByIntegrationIdHttpMonitoringResultsByResultId
+      x-operation-id-source: derived
+  /api/public/v1/inbound-integration/{integrationId}/http-monitoring-results/search/list:
+    get:
+      tags:
+      - InboundIntegrationMonitoringResource
+      summary: List HTTP monitoring execution results
+      description: 'Returns paginated HTTP monitoring execution results for an inbound integration (default limit 20, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integrations:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: From
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: Until
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: Status
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integrations
+        permission: list
+        scope: inbound-integrations:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationByIntegrationIdHttpMonitoringResultsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultListResponse:
+      type: object
+      properties:
+        httpMonitoringResults:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationHttpMonitoringResultResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        integrationId:
+          type: string
+          format: uuid
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type:
+          - string
+          - 'null'
+        statusReason:
+          type:
+          - string
+          - 'null'
+        totalElapsedInMs:
+          type:
+          - integer
+          - 'null'
+          format: int64
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.HeartbeatResultResourceResponse:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        lastHeartbeatReceivedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        nextHeartbeatExpectedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        isHeartbeatOverdue:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

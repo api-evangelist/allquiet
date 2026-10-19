@@ -1,0 +1,619 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Routing Resource API
+  version: v1
+tags:
+- name: RoutingResource
+paths:
+  /api/public/v1/routing/{id}:
+    get:
+      tags:
+      - RoutingResource
+      summary: Get a routing by ID
+      description: 'Returns a single incident routing configuration, including its rules and team connection settings.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: get
+        scope: routings:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1RoutingById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - RoutingResource
+      summary: Update a routing
+      description: 'Updates an existing incident routing configuration by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceUpdateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: update
+        scope: routings:update
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: putApiPublicV1RoutingById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - RoutingResource
+      summary: Delete a routing
+      description: 'Permanently deletes an incident routing configuration by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: delete
+        scope: routings:delete
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: deleteApiPublicV1RoutingById
+      x-operation-id-source: derived
+  /api/public/v1/routing:
+    post:
+      tags:
+      - RoutingResource
+      summary: Create a routing
+      description: 'Creates a new incident routing configuration for a team.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `routings:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Routings.RoutingResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: routings
+        permission: create
+        scope: routings:create
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: postApiPublicV1Routing
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Routings.RoutingResourceCreateRequest:
+      required:
+      - displayName
+      - teamId
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          minLength: 1
+          type: string
+        teamId:
+          type: string
+          format: uuid
+        rules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRule'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+    AllQuiet.Api.Public.Routings.RoutingResourceUpdateRequest:
+      required:
+      - displayName
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          minLength: 1
+          type: string
+        rules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRule'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+    AllQuiet.Api.Public.Routings.RoutingResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        teamId:
+          type: string
+          format: uuid
+        rules:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRule'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        conditions:
+          $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleConditions'
+        actions:
+          $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleActions'
+        channels:
+          $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleChannels'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Common.TeamConnectionSettings:
+      type: object
+      properties:
+        teamConnectionMode:
+          type:
+          - string
+          - 'null'
+        teamIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleConditions:
+      type: object
+      properties:
+        statuses:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        severities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        integrations:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        intents:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        labelsMatchType:
+          type:
+          - string
+          - 'null'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleAttribute'
+        attributesMatchType:
+          type:
+          - string
+          - 'null'
+        dateRestriction:
+          $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleDateRestriction'
+        schedule:
+          $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleSchedule'
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleSchedule:
+      type: object
+      properties:
+        after:
+          type:
+          - string
+          - 'null'
+          format: time
+        before:
+          type:
+          - string
+          - 'null'
+          format: time
+        daysOfWeek:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        from:
+          type:
+          - string
+          - 'null'
+          format: time
+          readOnly: true
+        until:
+          type:
+          - string
+          - 'null'
+          format: time
+          readOnly: true
+        selectedDays:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleDateRestriction:
+      type: object
+      properties:
+        from:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        until:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleAttribute:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        operator:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+        ignoreCase:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleSetAttribute:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+        isImage:
+          type: boolean
+        hideInPreviews:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleActions:
+      type: object
+      properties:
+        assignToTeams:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        assignToTeamsRepeatAlerts:
+          type: boolean
+        changeSeverity:
+          type:
+          - string
+          - 'null'
+        addInteraction:
+          type:
+          - string
+          - 'null'
+        forwardToOutboundIntegrations:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        affectsServices:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        excludeFromUptimeCalculation:
+          type: boolean
+        comment:
+          maxLength: 5000
+          type:
+          - string
+          - 'null'
+        messageIsPublic:
+          type: boolean
+        snoozeForRelativeInMinutes:
+          maximum: 10080
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        snoozeUntilAbsolute:
+          type:
+          - string
+          - 'null'
+          format: time
+        snoozeUntilWeekdayAbsolute:
+          type:
+          - string
+          - 'null'
+        ruleFlowControl:
+          type:
+          - string
+          - 'null'
+        discard:
+          type: boolean
+        deleteInRelativeInSeconds:
+          maximum: 31536000
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        setAttributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Routings.Models.RoutingRuleSetAttribute'
+        delayActionsInMinutes:
+          maximum: 10080
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Routings.Models.RoutingRuleChannels:
+      type: object
+      properties:
+        outboundIntegrations:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        outboundIntegrationsMuted:
+          type: boolean
+        notificationChannels:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        notificationChannelsMuted:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

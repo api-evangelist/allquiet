@@ -1,0 +1,567 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Status Page Resource Search API
+  version: v1
+tags:
+- name: StatusPageResourceSearch
+paths:
+  /api/public/v1/status-page/search:
+    get:
+      tags:
+      - StatusPageResourceSearch
+      summary: Search for a single status page
+      description: 'Find one status page by exact display name within organizations visible to the caller. Returns 404 when no matching status page is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: get
+        scope: status-pages:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.
+      operationId: getApiPublicV1StatusPageSearch
+      x-operation-id-source: derived
+  /api/public/v1/status-page/search/list:
+    get:
+      tags:
+      - StatusPageResourceSearch
+      summary: List status pages
+      description: 'List status pages visible to the caller with optional organization and display-name filters and paging (offset/limit).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: list
+        scope: status-pages:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.
+      operationId: getApiPublicV1StatusPageSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceListResponse:
+      type: object
+      properties:
+        statusPages:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        method:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError'
+        validationRecords:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp:
+      type: object
+      properties:
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.StatusPageResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        slug:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        publicCompanyName:
+          type:
+          - string
+          - 'null'
+        publicCompanyUrl:
+          type:
+          - string
+          - 'null'
+        publicSupportUrl:
+          type:
+          - string
+          - 'null'
+        publicSupportEmail:
+          type:
+          - string
+          - 'null'
+        historyInDays:
+          type: integer
+          format: int32
+        disablePublicSubscription:
+          type: boolean
+        disablePublicPage:
+          type:
+          - boolean
+          - 'null'
+        disablePublicJson:
+          type:
+          - boolean
+          - 'null'
+        publicSeverityMappingMinor:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingWarning:
+          type:
+          - string
+          - 'null'
+        publicSeverityMappingCritical:
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+        serviceGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceGroup'
+        publicBannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        publicBannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        publicBannerTextColor:
+          type:
+          - string
+          - 'null'
+        publicBannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bannerTextColor:
+          type:
+          - string
+          - 'null'
+        bannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColor:
+          type:
+          - string
+          - 'null'
+        bodyBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColor:
+          type:
+          - string
+          - 'null'
+        secondaryBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        primaryTextColor:
+          type:
+          - string
+          - 'null'
+        primaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        secondaryTextColor:
+          type:
+          - string
+          - 'null'
+        secondaryTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColor:
+          type:
+          - string
+          - 'null'
+        buttonBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+        buttonTextColor:
+          type:
+          - string
+          - 'null'
+        buttonTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+        customHostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse'
+        privateIpFilter:
+          type:
+          - string
+          - 'null'
+        privateUserAuthenticationRequired:
+          type:
+          - boolean
+          - 'null'
+        enableSMSSubscription:
+          type:
+          - boolean
+          - 'null'
+        decimalPlaces:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        publicDisplayLiveStateOnly:
+          type: boolean
+        publicHideIncidentDetails:
+          type: boolean
+        publicHideMaintenances:
+          type: boolean
+        isPasswordProtectionPasswordConfigured:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        messages:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        success:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        hostname:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        ownershipVerification:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification'
+        ownershipVerificationHttp:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp'
+        verificationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        ssl:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord:
+      type: object
+      properties:
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+        txtName:
+          type:
+          - string
+          - 'null'
+        txtValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.Models.ServiceGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        publicDisplayName:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        serviceIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        cloudFlareCreateCustomHostNameResponse:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

@@ -1,0 +1,326 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Maintenance Window…
+  version: v1
+tags:
+- name: InboundIntegrationMaintenanceWindowResource
+paths:
+  /api/public/v1/inbound-integration-maintenance-windows/{id}:
+    get:
+      tags:
+      - InboundIntegrationMaintenanceWindowResource
+      summary: Get an inbound integration maintenance window by ID
+      description: 'Returns a single scheduled maintenance window for an inbound integration.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-maintenance-windows:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-maintenance-windows
+        permission: get
+        scope: inbound-integration-maintenance-windows:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationMaintenanceWindowsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - InboundIntegrationMaintenanceWindowResource
+      summary: Update an inbound integration maintenance window
+      description: 'Updates an existing maintenance window by ID, including its schedule and affected integrations.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-maintenance-windows:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-maintenance-windows
+        permission: update
+        scope: inbound-integration-maintenance-windows:update
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: putApiPublicV1InboundIntegrationMaintenanceWindowsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - InboundIntegrationMaintenanceWindowResource
+      summary: Delete an inbound integration maintenance window
+      description: 'Permanently deletes a maintenance window by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-maintenance-windows:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-maintenance-windows
+        permission: delete
+        scope: inbound-integration-maintenance-windows:delete
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: deleteApiPublicV1InboundIntegrationMaintenanceWindowsById
+      x-operation-id-source: derived
+  /api/public/v1/inbound-integration-maintenance-windows:
+    post:
+      tags:
+      - InboundIntegrationMaintenanceWindowResource
+      summary: Create an inbound integration maintenance window
+      description: 'Schedules a new maintenance window for one or more inbound integrations.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-maintenance-windows:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-maintenance-windows
+        permission: create
+        scope: inbound-integration-maintenance-windows:create
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: postApiPublicV1InboundIntegrationMaintenanceWindows
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.IntegrationMaintenanceWindowResourceRequest:
+      required:
+      - type
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        type:
+          minLength: 1
+          type: string
+        description:
+          maxLength: 1000
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrationMaintenanceWindows.InboundIntegrationMaintenanceWindowResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        integrationId:
+          type: string
+          format: uuid
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        type:
+          type:
+          - string
+          - 'null'
+        description:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

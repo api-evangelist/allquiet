@@ -1,0 +1,326 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Organization Membership Resource API
+  version: v1
+tags:
+- name: OrganizationMembershipResource
+paths:
+  /api/public/v1/organization-membership/{id}:
+    get:
+      tags:
+      - OrganizationMembershipResource
+      summary: Get an organization membership by ID
+      description: 'Returns a single organization membership record.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: get
+        scope: organization-memberships:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OrganizationMembershipById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - OrganizationMembershipResource
+      summary: Update an organization membership
+      description: 'Updates the role of an existing organization membership.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:update`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Owner
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: update
+        scope: organization-memberships:update
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Owner
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: putApiPublicV1OrganizationMembershipById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - OrganizationMembershipResource
+      summary: Delete an organization membership
+      description: 'Removes a user from an organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:delete`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Owner
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: delete
+        scope: organization-memberships:delete
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Owner
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: deleteApiPublicV1OrganizationMembershipById
+      x-operation-id-source: derived
+  /api/public/v1/organization-membership:
+    post:
+      tags:
+      - OrganizationMembershipResource
+      summary: Create an organization membership
+      description: 'Adds a user to an organization with a specified role.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:create`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Owner
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: create
+        scope: organization-memberships:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Owner
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: postApiPublicV1OrganizationMembership
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        organizationId:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        role:
+          type:
+          - string
+          - 'null'
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceRequest:
+      required:
+      - role
+      type: object
+      properties:
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+          format: email
+        role:
+          minLength: 1
+          type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

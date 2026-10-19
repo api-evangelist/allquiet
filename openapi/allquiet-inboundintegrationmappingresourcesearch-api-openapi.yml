@@ -1,0 +1,286 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Inbound Integration Mapping Resource…
+  version: v1
+tags:
+- name: InboundIntegrationMappingResourceSearch
+paths:
+  /api/public/v1/inbound-integration-mapping/search:
+    get:
+      tags:
+      - InboundIntegrationMappingResourceSearch
+      summary: Search for an inbound integration attribute mapping
+      description: 'Find the attribute mapping for a single inbound integration by integration ID. Returns 404 when no mapping exists.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-mappings:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: IntegrationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-mappings
+        permission: get
+        scope: inbound-integration-mappings:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Member
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationMappingSearch
+      x-operation-id-source: derived
+  /api/public/v1/inbound-integration-mapping/search/list:
+    get:
+      tags:
+      - InboundIntegrationMappingResourceSearch
+      summary: List inbound integration attribute mappings
+      description: 'Returns paginated inbound integrations that have attribute mappings configured (default limit 20, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `inbound-integration-mappings:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: inbound-integration-mappings
+        permission: list
+        scope: inbound-integration-mappings:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1InboundIntegrationMappingSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceResponse:
+      type: object
+      properties:
+        integrationId:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        attributesMapping:
+          $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.AttributesMapping'
+        id:
+          type: string
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.AttributesMapping:
+      required:
+      - attributes
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.AttributeMapping'
+        groupingWindowInSeconds:
+          maximum: 86400
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.AttributeMapping:
+      required:
+      - mappings
+      - name
+      type: object
+      properties:
+        name:
+          maxLength: 255
+          minLength: 1
+          type: string
+        isImage:
+          type:
+          - boolean
+          - 'null'
+        hideInPreviews:
+          type:
+          - boolean
+          - 'null'
+        isGroupingKey:
+          type:
+          - boolean
+          - 'null'
+        expand:
+          type:
+          - boolean
+          - 'null'
+        mappings:
+          type: array
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Integrations.Models.Mapping'
+      additionalProperties: false
+    AllQuiet.Api.Integrations.Models.Mapping:
+      type: object
+      properties:
+        xPath:
+          type:
+          - string
+          - 'null'
+        jsonPath:
+          type:
+          - string
+          - 'null'
+        regex:
+          type:
+          - string
+          - 'null'
+        replace:
+          type:
+          - string
+          - 'null'
+        map:
+          type:
+          - string
+          - 'null'
+        static:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceListResponse:
+      type: object
+      properties:
+        inboundIntegrationMappings:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.InboundIntegrations.InboundIntegrationMappingResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

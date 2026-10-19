@@ -1,0 +1,360 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Organization Resource API
+  version: v1
+tags:
+- name: OrganizationResource
+paths:
+  /api/public/v1/organizations:
+    get:
+      tags:
+      - OrganizationResource
+      summary: List organizations accessible to the API key
+      description: 'Returns all organizations the authenticated API key is authorized to read.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organizations:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Common.ListResponse_1__AllQuiet.Api.Public.Organizations.OrganizationResourceResponse__AllQuiet.Api.Public__Version_0.0.4229.0__Culture_neutral__PublicKeyToken_null'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Common.ListResponse_1__AllQuiet.Api.Public.Organizations.OrganizationResourceResponse__AllQuiet.Api.Public__Version_0.0.4229.0__Culture_neutral__PublicKeyToken_null'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Common.ListResponse_1__AllQuiet.Api.Public.Organizations.OrganizationResourceResponse__AllQuiet.Api.Public__Version_0.0.4229.0__Culture_neutral__PublicKeyToken_null'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organizations
+        permission: list
+        scope: organizations:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1Organizations
+      x-operation-id-source: derived
+    post:
+      tags:
+      - OrganizationResource
+      summary: Create an organization
+      description: 'Creates a new organization.
+
+
+        Authorization:
+
+        - Organization API key: creates a sub-organization under the key''s root organization only. The key must be bound to a root organization (IsRootOrganization). rootOrganizationId in the body must not be set; the child inherits the root org billable user. Keys bound to a sub-organization cannot create further sub-organizations.
+
+        - Personal access token (PAT): delegates to the token user''s permissions. Top-level org creation omits rootOrganizationId and is allowed for any user with organizations:create scope. Child org creation requires organizations:create scope plus Owner role on the root org, matching billable user, and the root org must be IsRootOrganization. Sub-organizations cannot be used as rootOrganizationId.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organizations:create`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Organization API keys can create sub-organizations under the key''s root organization only. Personal access tokens creating a child organization require the Owner role on the root organization.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceCreateRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organizations
+        permission: create
+        scope: organizations:create
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Organization API keys can create sub-organizations under the key's root organization only. Personal access tokens creating a child organization require the Owner role on the root organization.
+      operationId: postApiPublicV1Organizations
+      x-operation-id-source: derived
+  /api/public/v1/organizations/{id}:
+    get:
+      tags:
+      - OrganizationResource
+      summary: Get an organization by ID
+      description: 'Returns details for a single organization if the API key has access.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organizations:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organizations
+        permission: get
+        scope: organizations:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OrganizationsById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - OrganizationResource
+      summary: Update an organization
+      description: 'Updates organization properties such as display name.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organizations:update`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required organization role (user-linked keys only):** Owner
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceUpdateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organizations
+        permission: update
+        scope: organizations:update
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Owner
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: putApiPublicV1OrganizationsById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - OrganizationResource
+      summary: Delete an organization
+      description: 'Permanently deletes an organization. The organization must be accessible to the API key.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organizations:delete`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required organization role (user-linked keys only):** Owner
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Organization API keys of a root organization may delete sub-organizations only.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organizations
+        permission: delete
+        scope: organizations:delete
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Owner
+        requiredTeamRoleForUserKeys: null
+        notes: Organization API keys of a root organization may delete sub-organizations only.
+      operationId: deleteApiPublicV1OrganizationsById
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Organizations.OrganizationResourceUpdateRequest:
+      required:
+      - displayName
+      type: object
+      properties:
+        displayName:
+          maxLength: 255
+          minLength: 1
+          type: string
+      additionalProperties: false
+    ? AllQuiet.Api.Common.ListResponse_1__AllQuiet.Api.Public.Organizations.OrganizationResourceResponse__AllQuiet.Api.Public__Version_0.0.4229.0__Culture_neutral__PublicKeyToken_null
+    : type: object
+      properties:
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Organizations.OrganizationResourceResponse'
+      additionalProperties: false
+    AllQuiet.Api.Public.Organizations.OrganizationResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        rootOrganizationId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.Organizations.OrganizationResourceCreateRequest:
+      required:
+      - displayName
+      type: object
+      properties:
+        displayName:
+          maxLength: 255
+          minLength: 1
+          type: string
+        rootOrganizationId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

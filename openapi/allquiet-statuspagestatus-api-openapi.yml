@@ -1,0 +1,808 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Status Page Status API
+  version: v1
+tags:
+- name: StatusPageStatus
+paths:
+  /api/public/v1/status-page/status/{id}:
+    get:
+      tags:
+      - StatusPageStatus
+      summary: Get live status page status
+      description: 'Returns the current public status view for a status page, including component states and active incidents.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `status-pages:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: status-pages
+        permission: get
+        scope: status-pages:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1StatusPageStatusById
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.MediaUploadImageInfoResponse:
+      type: object
+      properties:
+        width:
+          type: integer
+          format: int32
+          readOnly: true
+        height:
+          type: integer
+          format: int32
+          readOnly: true
+        mimeType:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileExtension:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        formatName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileLength:
+          type: integer
+          format: int64
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord:
+      type: object
+      properties:
+        emails:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+        txtName:
+          type:
+          - string
+          - 'null'
+        txtValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageCalculationResultResponse:
+      type: object
+      properties:
+        maintenances:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.MaintenanceDtoResponse'
+          readOnly: true
+        results:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageServiceCalculationResultResponse'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        displayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.ServiceResponse'
+          readOnly: true
+        serviceGroups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.ServiceGroupResponse'
+          readOnly: true
+        slug:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        customHostSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse'
+        historyInDays:
+          type: integer
+          format: int32
+          readOnly: true
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicLogo:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.MediaUploadDataResponse'
+        publicLogoDarkMode:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.MediaUploadDataResponse'
+        publicFavicon:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.MediaUploadDataResponse'
+        publicTitle:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicDescription:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicCompanyName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicCompanyUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicSupportUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicSupportEmail:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        disablePublicSubscription:
+          type: boolean
+          readOnly: true
+        publicSeverityMappingMinor:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicSeverityMappingWarning:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicSeverityMappingCritical:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bannerBackgroundColor:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bannerBackgroundColorDarkMode:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bannerTextColor:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        bannerTextColorDarkMode:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageSubscribeUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageUnsubscribeUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageSubscribeConfirmUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageUnsubscribeConfirmUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageSubscribeSMSConfirmUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicExternalStatusPageUnsubscribeSMSConfirmUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        enableSMSSubscription:
+          type:
+          - boolean
+          - 'null'
+          readOnly: true
+        publicDisplayLiveStateOnly:
+          type: boolean
+          readOnly: true
+        publicHideIncidentDetails:
+          type: boolean
+          readOnly: true
+        publicHideMaintenances:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.ServiceGroupResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        displayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicDisplayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicDescription:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.ServiceResponse'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp:
+      type: object
+      properties:
+        httpBody:
+          type:
+          - string
+          - 'null'
+        httpUrl:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusCalculationResultBlockGroupResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        start:
+          type: string
+          format: date-time
+          readOnly: true
+        end:
+          type: string
+          format: date-time
+          readOnly: true
+        blocks:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusCalculationResultBlockResponse'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError:
+      type: object
+      properties:
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse:
+      type: object
+      properties:
+        errors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        messages:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo'
+        success:
+          type: boolean
+        result:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResult:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        hostname:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        ownershipVerification:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerification'
+        ownershipVerificationHttp:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultOwnershipVerificationHttp'
+        verificationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        ssl:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.MediaUploadDataResponse:
+      type: object
+      properties:
+        publicUrl:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        fileName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        imageInfo:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.MediaUploadImageInfoResponse'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageIncidentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        title:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        severity:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        status:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageIncidentEventResponse'
+          readOnly: true
+        excludeFromUptimeCalculation:
+          type: boolean
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageServiceCalculationResultResponse:
+      type: object
+      properties:
+        service:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.ServiceResponse'
+        result:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusCalculationResultResponse'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.CustomHostSettingsResponse:
+      type: object
+      properties:
+        host:
+          type:
+          - string
+          - 'null'
+        cloudFlareCreateCustomHostNameResponse:
+          $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponse'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSsl:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        method:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        validationErrors:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationError'
+        validationRecords:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.CloudFlareApi.CreateCustomHostNameResponseResultSslValidationRecord'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.ServiceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        displayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicDescription:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicTitle:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusCalculationResultBlockResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        severity:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        start:
+          type: string
+          format: date-time
+          readOnly: true
+        end:
+          type: string
+          format: date-time
+          readOnly: true
+        actualStart:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        utcNow:
+          type: string
+          format: date-time
+          readOnly: true
+        downtime:
+          type: string
+          format: date-span
+          readOnly: true
+        uptime:
+          type: number
+          format: double
+          readOnly: true
+        downtimes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.DowntimeResponse'
+          readOnly: true
+        incidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageIncidentResponse'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.CloudFlareApi.CloudFlareResponseInfo:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageIncidentEventResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        message:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        timestamp:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        intent:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.MaintenanceDtoResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        displayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.ServiceResponse'
+          readOnly: true
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        start:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        end:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        localStartDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        localEndDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        localStartTime:
+          type:
+          - string
+          - 'null'
+          format: time
+          readOnly: true
+        localEndTime:
+          type:
+          - string
+          - 'null'
+          format: time
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.DowntimeResponse:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+          readOnly: true
+        end:
+          type: string
+          format: date-time
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusResponse:
+      type: object
+      properties:
+        statusPage:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageResponse'
+        calculation:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageCalculationResultResponse'
+        status:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Public.StatusPages.Status.StatusCalculationResultResponse:
+      type: object
+      properties:
+        start:
+          type: string
+          format: date-time
+          readOnly: true
+        end:
+          type: string
+          format: date-time
+          readOnly: true
+        actualStart:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          readOnly: true
+        actualEnd:
+          type: string
+          format: date-time
+          readOnly: true
+        utcNow:
+          type: string
+          format: date-time
+          readOnly: true
+        downtime:
+          type: string
+          format: date-span
+          readOnly: true
+        uptime:
+          type: number
+          format: double
+          readOnly: true
+        historyInDays:
+          type: integer
+          format: int32
+          readOnly: true
+        groups:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageStatusCalculationResultBlockGroupResponse'
+          readOnly: true
+        incidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.StatusPages.Status.StatusPageIncidentResponse'
+          readOnly: true
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

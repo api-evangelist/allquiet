@@ -1,0 +1,231 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Organization Membership Resource Search API
+  version: v1
+tags:
+- name: OrganizationMembershipResourceSearch
+paths:
+  /api/public/v1/organization-membership/search:
+    get:
+      tags:
+      - OrganizationMembershipResourceSearch
+      summary: Search for a single organization membership
+      description: 'Find one organization membership by organization ID and user ID. Returns 404 when no matching membership is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: get
+        scope: organization-memberships:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OrganizationMembershipSearch
+      x-operation-id-source: derived
+  /api/public/v1/organization-membership/search/list:
+    get:
+      tags:
+      - OrganizationMembershipResourceSearch
+      summary: List organization memberships
+      description: 'Returns paginated organization memberships filtered by organization ID, user ID, and/or role (default limit 100, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `organization-memberships:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Role
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: organization-memberships
+        permission: list
+        scope: organization-memberships:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1OrganizationMembershipSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceListResponse:
+      type: object
+      properties:
+        organizationMemberships:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.OrganizationMemberships.OrganizationMembershipResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        organizationId:
+          type: string
+          format: uuid
+        userId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        role:
+          type:
+          - string
+          - 'null'
+        isProvisioned:
+          type: boolean
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

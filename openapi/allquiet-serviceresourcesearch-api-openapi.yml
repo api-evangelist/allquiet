@@ -1,0 +1,285 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Service Resource Search API
+  version: v1
+tags:
+- name: ServiceResourceSearch
+paths:
+  /api/public/v1/service/search:
+    get:
+      tags:
+      - ServiceResourceSearch
+      summary: Search for a single service
+      description: 'Find one service by exact display name within organizations visible to the caller. Returns 404 when no matching service is found.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: get
+        scope: services:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.
+      operationId: getApiPublicV1ServiceSearch
+      x-operation-id-source: derived
+  /api/public/v1/service/search/list:
+    get:
+      tags:
+      - ServiceResourceSearch
+      summary: List services
+      description: 'List services visible to the caller with optional organization, status page, and display-name filters and paging (offset/limit).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:list`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.'
+      parameters:
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: OrganizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: StatusPageId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: list
+        scope: services:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Team-scoped API keys are not supported. User-linked keys without an explicit organization membership receive empty results.
+      operationId: getApiPublicV1ServiceSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.StatusPages.Models.ServiceIntegration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        integrationId:
+          type: string
+          format: uuid
+        severities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.Services.ServiceResourceListResponse:
+      type: object
+      properties:
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Teams.Common.TeamConnectionSettings:
+      type: object
+      properties:
+        teamConnectionMode:
+          type:
+          - string
+          - 'null'
+        teamIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate:
+      required:
+      - displayName
+      - message
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        displayName:
+          minLength: 1
+          type: string
+        message:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.Services.ServiceResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate'
+        integrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIntegration'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

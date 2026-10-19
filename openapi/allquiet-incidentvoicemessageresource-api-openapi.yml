@@ -1,0 +1,124 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Incident Voice Message Resource API
+  version: v1
+tags:
+- name: IncidentVoiceMessageResource
+paths:
+  /api/public/v1/incident/{incidentId}/voice-messages/{integrationId}/{voiceMessageId}/download:
+    get:
+      tags:
+      - IncidentVoiceMessageResource
+      summary: Download an incident voice file
+      description: 'Downloads a voicemail audio file linked from an incident. Requires an API key with incidents:get that can read the incident. Responds with a redirect to a short-lived file URL. Follow the redirect to retrieve the audio. Incident responses expose this URL as voiceMail.downloadUrl and the signed-in web app URL as voiceMail.privateDownloadUrl.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Notes:** The voice file must be linked from the incident. The response redirects to a short-lived HTTPS file URL; follow the redirect to download the audio.'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: integrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: voiceMessageId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '302':
+          description: Found
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: get
+        scope: incidents:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: The voice file must be linked from the incident. The response redirects to a short-lived HTTPS file URL; follow the redirect to download the audio.
+      operationId: getApiPublicV1IncidentByIncidentIdVoiceMessagesByIntegrationIdByVoiceMessageIdDownload
+      x-operation-id-source: derived
+components:
+  schemas:
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

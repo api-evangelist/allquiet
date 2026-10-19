@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Auth Resource API
+  version: v1
+tags:
+- name: AuthResource
+paths:
+  /api/public/v1/auth/me:
+    get:
+      tags:
+      - AuthResource
+      summary: Get current API key identity
+      description: Returns the authenticated principal, allowed organizations, effective teams after key restrictions, and granted resource permissions. Use this to verify which organizationId to pass on write endpoints when your key spans multiple organizations.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResponse'
+      operationId: getApiPublicV1AuthMe
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Authentication.PublicApiKeys.AuthMeUserSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Authentication.PublicApiKeys.AuthMeTeamDto:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        organizationId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResourceScope:
+      type: object
+      properties:
+        resource:
+          type:
+          - string
+          - 'null'
+        permissions:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    EntityDto:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        displayName:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        attributes:
+          type:
+          - object
+          - 'null'
+          additionalProperties:
+            type: string
+          readOnly: true
+        type:
+          type:
+          - string
+          - 'null'
+          readOnly: true
+        labels:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+          readOnly: true
+      additionalProperties: false
+    AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeUserSummary'
+        effectiveTeams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeTeamDto'
+        allowedOrganizations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/EntityDto'
+        hasOrganizationWideTeamAccess:
+          type: boolean
+        isUnrestricted:
+          type: boolean
+        resourceScopes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.PublicApiKeys.AuthMeResourceScope'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

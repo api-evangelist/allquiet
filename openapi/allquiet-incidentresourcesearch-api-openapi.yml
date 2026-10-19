@@ -1,0 +1,892 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Incident Resource Search API
+  version: v1
+tags:
+- name: IncidentResourceSearch
+paths:
+  /api/public/v1/incident/search/list:
+    get:
+      tags:
+      - IncidentResourceSearch
+      summary: Search and list incidents
+      description: 'Filter incidents by status, severity, team, user, integration, archive state, and date range. Supports paging (offset/limit; limit max 100) and sorting. Results are limited to incidents visible to the caller''s key. Send If-None-Match with the ETag from a previous response to receive 304 Not Modified when the page is unchanged.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: Statuses
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Severities
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: IntegrationIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: UserIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: SearchTerm
+        in: query
+        schema:
+          maxLength: 200
+          type: string
+      - name: Unattended
+        in: query
+        schema:
+          type: boolean
+      - name: IsArchived
+        in: query
+        schema:
+          type: boolean
+      - name: IncludeSnoozed
+        in: query
+        schema:
+          type: boolean
+      - name: OnlySnoozed
+        in: query
+        schema:
+          type: boolean
+      - name: CreatedFrom
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: CreatedUntil
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: CreatedUntilExclusive
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: LastUpdatedFrom
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: Offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: SortBy
+        in: query
+        schema:
+          type: string
+      - name: Asc
+        in: query
+        schema:
+          type: boolean
+      - name: If-None-Match
+        in: header
+        description: Weak ETag from a previous response. When it still matches, the server returns 304 Not Modified with an empty body.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+              description: Weak entity tag for the current response payload.
+              schema:
+                type: string
+            Cache-Control:
+              description: Always `private, no-cache`.
+              schema:
+                type: string
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceListResponse'
+        '304':
+          description: Not modified. The resource is unchanged; response body is empty.
+          headers:
+            ETag:
+              description: Weak entity tag for the unchanged resource.
+              schema:
+                type: string
+            Cache-Control:
+              description: Always `private, no-cache`.
+              schema:
+                type: string
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: list
+        scope: incidents:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1IncidentSearchList
+      x-operation-id-source: derived
+  /api/public/v1/incident/search/changes:
+    get:
+      tags:
+      - IncidentResourceSearch
+      summary: Poll incident changes
+      description: 'Returns incidents changed since the cursor watermark, ordered by LastUpdatedAt ascending. Use NextCursor on subsequent requests for incremental sync. Optionally pass Since to start from a point in time, or IncidentIds to watch a specific set. For push-based updates, configure an outbound Webhook integration instead of polling.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: Cursor
+        in: query
+        schema:
+          type: string
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: Since
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: IncidentIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: Statuses
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: Severities
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+      - name: IntegrationIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: IsArchived
+        in: query
+        schema:
+          type: boolean
+      - name: IncludeSnoozed
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceChangesResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceChangesResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceChangesResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: list
+        scope: incidents:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1IncidentSearchChanges
+      x-operation-id-source: derived
+  /api/public/v1/incident/search/{incidentId}/markdown:
+    get:
+      tags:
+      - IncidentResourceSearch
+      summary: Get incident as markdown
+      description: 'Returns a markdown representation of the incident timeline and details. Useful for posting to chat or ticketing systems. Access is limited to incidents visible to the caller''s key.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: get
+        scope: incidents:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1IncidentSearchByIncidentIdMarkdown
+      x-operation-id-source: derived
+  /api/public/v1/incident/search/{incidentId}:
+    get:
+      tags:
+      - IncidentResourceSearch
+      summary: Get an incident by ID
+      description: 'Returns a single incident the caller is authorized to view. Returns 404 when the incident does not exist or is outside the key''s allowed teams. Voicemail download attributes include voiceMail.downloadUrl (retrieve the audio with this API key) and voiceMail.privateDownloadUrl (signed-in web app). Send If-None-Match with the ETag from a previous response to receive 304 Not Modified when the incident has not changed.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `incidents:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).'
+      parameters:
+      - name: incidentId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: If-None-Match
+        in: header
+        description: Weak ETag from a previous response. When it still matches, the server returns 304 Not Modified with an empty body.
+        schema:
+          type: string
+      - name: If-Modified-Since
+        in: header
+        description: HTTP-date from a previous Last-Modified header. Used only when If-None-Match is not sent.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          headers:
+            ETag:
+              description: Weak entity tag for the current response payload.
+              schema:
+                type: string
+            Cache-Control:
+              description: Always `private, no-cache`.
+              schema:
+                type: string
+            Last-Modified:
+              description: UTC time the incident was last updated.
+              schema:
+                type: string
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+        '304':
+          description: Not modified. The resource is unchanged; response body is empty.
+          headers:
+            ETag:
+              description: Weak entity tag for the unchanged resource.
+              schema:
+                type: string
+            Cache-Control:
+              description: Always `private, no-cache`.
+              schema:
+                type: string
+            Last-Modified:
+              description: UTC time the incident was last updated.
+              schema:
+                type: string
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: incidents
+        permission: get
+        scope: incidents:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1IncidentSearchByIncidentId
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.Incidents.IncidentResourceAttribute:
+      required:
+      - hideInPreviews
+      - isGroupingKey
+      - isImage
+      - name
+      - value
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        value:
+          type:
+          - string
+          - 'null'
+        isImage:
+          type: boolean
+        isGroupingKey:
+          type: boolean
+        hideInPreviews:
+          type: boolean
+        voiceMail:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceVoiceMail'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceChangesResponse:
+      required:
+      - nextCursor
+      type: object
+      properties:
+        incidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceListResponse:
+      type: object
+      properties:
+        incidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResource'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceUser:
+      required:
+      - avatarUrl
+      - displayName
+      - email
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceVoiceMail:
+      required:
+      - downloadUrl
+      - privateDownloadUrl
+      type: object
+      properties:
+        downloadUrl:
+          type:
+          - string
+          - 'null'
+          description: API-key URL for the voicemail file. Requires incidents:get. Follow the redirect to download the audio.
+        privateDownloadUrl:
+          type:
+          - string
+          - 'null'
+          description: Signed-in web app URL for the voicemail file.
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Public.Incidents.IncidentResource:
+      required:
+      - allowedIntents
+      - attributes
+      - createdAt
+      - events
+      - eventsTotalCount
+      - id
+      - integration
+      - isArchived
+      - lastUpdatedAt
+      - onCallUsers
+      - services
+      - snoozed
+      - sourceUser
+      - subIncidents
+      - teams
+      - title
+      - unattended
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type:
+          - string
+          - 'null'
+        integration:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        lastUpdatedAt:
+          type: string
+          format: date-time
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttribute'
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEvent'
+        eventsTotalCount:
+          type: integer
+          format: int32
+        services:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        sourceUser:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        unattended:
+          type: boolean
+        isArchived:
+          type: boolean
+        onCallUsers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        snoozed:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSnoozingProperties'
+        subIncidents:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSubIncident'
+        allowedIntents:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        canDelete:
+          type:
+          - boolean
+          - 'null'
+        excludeFromUptimeCalculation:
+          type: boolean
+        statusPageStartOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        statusPageEndOverride:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSnoozingProperties:
+      required:
+      - snoozedUntil
+      type: object
+      properties:
+        snoozedUntil:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSubIncident:
+      required:
+      - attributes
+      - createdAt
+      - events
+      - id
+      - lastUpdatedAt
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type:
+          - string
+          - 'null'
+        events:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceSubIncidentEvent'
+        attributes:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttribute'
+        lastUpdatedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto:
+      required:
+      - displayName
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceUserExternal:
+      required:
+      - avatarUrl
+      - displayName
+      - id
+      - provider
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        avatarUrl:
+          type:
+          - string
+          - 'null'
+        provider:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceSubIncidentEvent:
+      required:
+      - attributeChanges
+      - modification
+      - severity
+      - status
+      type: object
+      properties:
+        severity:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        modification:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceModification'
+        attributeChanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceEvent:
+      required:
+      - attributeChanges
+      - message
+      - messageIsPublic
+      - modification
+      - onCallUsers
+      - severity
+      - status
+      - teams
+      - unattended
+      - userAssignments
+      type: object
+      properties:
+        severity:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - string
+          - 'null'
+        modification:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceModification'
+        userAssignments:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        onCallUsers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        message:
+          type:
+          - string
+          - 'null'
+        messageIsPublic:
+          type:
+          - boolean
+          - 'null'
+        unattended:
+          type: boolean
+        teams:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceEntityDto'
+        attributeChanges:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceAttributeChange:
+      required:
+      - name
+      - newValue
+      - oldValue
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+        newValue:
+          type:
+          - string
+          - 'null'
+        oldValue:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Incidents.IncidentResourceModification:
+      required:
+      - externalUser
+      - intent
+      - timestamp
+      - user
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        intent:
+          type:
+          - string
+          - 'null'
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUser'
+        externalUser:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.Incidents.IncidentResourceUserExternal'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

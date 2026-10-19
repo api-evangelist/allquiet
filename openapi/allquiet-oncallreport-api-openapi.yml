@@ -1,0 +1,292 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public On Call Report API
+  version: v1
+tags:
+- name: OnCallReport
+paths:
+  /api/public/v1/on-call-report:
+    get:
+      tags:
+      - OnCallReport
+      summary: Get on-call report for a date range
+      description: 'Returns a detailed on-call report for the organization between the requested start and end dates.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-report:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Results for team-restricted personal access tokens are filtered to their teams.'
+      parameters:
+      - name: Start
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: End
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: TeamIds
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+            format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-report
+        permission: get
+        scope: on-call-report:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: Results for team-restricted personal access tokens are filtered to their teams.
+      operationId: getApiPublicV1OnCallReport
+      x-operation-id-source: derived
+  /api/public/v1/on-call-report/sum:
+    get:
+      tags:
+      - OnCallReport
+      summary: Get aggregated on-call hours for a date range
+      description: 'Returns total on-call duration per user for the organization between the requested start and end dates. Optionally filter by user ID, team ID, or max escalation tier.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `on-call-report:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.
+
+        - **Notes:** Results for team-restricted personal access tokens are filtered to their teams.'
+      parameters:
+      - name: Start
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: End
+        in: query
+        required: true
+        schema:
+          type: string
+          format: date-time
+      - name: UserId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: TeamId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: MaxTier
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportSumResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportSumResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportSumResponse'
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/json:
+              schema:
+                type: string
+            text/json:
+              schema:
+                type: string
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: on-call-report
+        permission: get
+        scope: on-call-report:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: Results for team-restricted personal access tokens are filtered to their teams.
+      operationId: getApiPublicV1OnCallReportSum
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OnCallReport.OnCallReportTeamResponse:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallReport.OnCallReportResponse:
+      required:
+      - onCallHistoryItems
+      type: object
+      properties:
+        onCallHistoryItems:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportOnCallHistoryItemResponse'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallReport.OnCallReportUserSumResponse:
+      required:
+      - netOnCallMinutes
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportUserResponse'
+        netOnCallMinutes:
+          type: integer
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallReport.OnCallReportUserResponse:
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        displayName:
+          type:
+          - string
+          - 'null'
+        email:
+          type:
+          - string
+          - 'null'
+        userName:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallReport.OnCallReportOnCallHistoryItemResponse:
+      required:
+      - end
+      - start
+      - team
+      - tier
+      - user
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportUserResponse'
+        team:
+          $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportTeamResponse'
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        tier:
+          type: integer
+          format: int32
+      additionalProperties: false
+    AllQuiet.Api.Public.OnCallReport.OnCallReportSumResponse:
+      required:
+      - userSums
+      type: object
+      properties:
+        userSums:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OnCallReport.OnCallReportUserSumResponse'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

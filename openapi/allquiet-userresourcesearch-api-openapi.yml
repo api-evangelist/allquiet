@@ -1,0 +1,377 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public User Resource Search API
+  version: v1
+tags:
+- name: UserResourceSearch
+paths:
+  /api/public/v1/user/search:
+    get:
+      tags:
+      - UserResourceSearch
+      summary: Search for a single user
+      description: 'Search by email and/or SCIM external ID. The caller may only access users that share team or organization membership, or that are provisioned in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is limited to the teams and organizations visible to the API key.
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.
+
+        - **Notes:** Root organization user reads apply to the email search only; the SCIM external ID search stays within the caller''s own organizations.'
+      operationId: PublicUserSearchGet
+      parameters:
+      - name: Email
+        in: query
+        schema:
+          type: string
+      - name: ScimExternalId
+        in: query
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: get
+        scope: users:get
+        accessModel: team-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Root organization user reads apply to the email search only; the SCIM external ID search stays within the caller's own organizations.
+  /api/public/v1/user/search/list:
+    get:
+      tags:
+      - UserResourceSearch
+      summary: Search for users in your organization
+      description: 'Only users provisioned in your organization are returned (created via Terraform, Public API, or SCIM). You cannot list users that are only associated by membership. For a single user reachable by membership only, use GET api/public/v1/user/search without the /list suffix. Supports paging (default limit 100, max 100).
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is limited to the teams and organizations visible to the API key.
+
+        - **Notes:** Only users provisioned in organizations visible to the caller are returned. Unlike the single-user search, this list never includes users provisioned in the root organization when the key is bound to a sub-organization.'
+      operationId: PublicUserSearchList
+      parameters:
+      - name: Email
+        in: query
+        schema:
+          type: string
+      - name: DisplayName
+        in: query
+        schema:
+          type: string
+      - name: Offset
+        in: query
+        schema:
+          maximum: 2147483647
+          minimum: 0
+          type: integer
+          format: int32
+      - name: Limit
+        in: query
+        schema:
+          maximum: 100
+          minimum: 1
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: list
+        scope: users:list
+        accessModel: team-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Only users provisioned in organizations visible to the caller are returned. Unlike the single-user search, this list never includes users provisioned in the root organization when the key is bound to a sub-organization.
+components:
+  schemas:
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+    AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation:
+      type: object
+      properties:
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requestedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        confirmationCode:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Common.CalendarPublishingSettingsResponse:
+      type: object
+      properties:
+        isPublished:
+          type: boolean
+        publicCalendarUrlOutlook:
+          type:
+          - string
+          - 'null'
+        publicCalendarUrlGoogle:
+          type:
+          - string
+          - 'null'
+        onlyIncludeTier1:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserResourceListResponse:
+      type: object
+      properties:
+        users:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        userName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        incidentNotificationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.IncidentNotificationSettings'
+        calendarPublishingSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Common.CalendarPublishingSettingsResponse'
+        disableWeeklyIncidentEngagementReport:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Authentication.Models.IncidentNotificationSettings:
+      type: object
+      properties:
+        shouldSendSMS:
+          type:
+          - boolean
+          - 'null'
+        delayInMinSMS:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldCallVoice:
+          type:
+          - boolean
+          - 'null'
+        delayInMinVoice:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendPush:
+          type:
+          - boolean
+          - 'null'
+        delayInMinPush:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendEmail:
+          type:
+          - boolean
+          - 'null'
+        delayInMinEmail:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        phoneNumberConfirmations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation'
+        disabledIntentsEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

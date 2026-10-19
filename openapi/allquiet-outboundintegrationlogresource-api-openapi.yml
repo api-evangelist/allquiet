@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Outbound Integration Log Resource API
+  version: v1
+tags:
+- name: OutboundIntegrationLogResource
+paths:
+  /api/public/v1/outbound-integration/{outboundIntegrationId}/logs/{id}:
+    get:
+      tags:
+      - OutboundIntegrationLogResource
+      summary: Get an outbound integration log entry by ID
+      description: 'Returns a single outbound integration log entry for the given integration.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `outbound-integration-logs:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: outboundIntegrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/Microsoft.AspNetCore.Mvc.ProblemDetails'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: outbound-integration-logs
+        permission: get
+        scope: outbound-integration-logs:get
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: getApiPublicV1OutboundIntegrationByOutboundIntegrationIdLogsById
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        outboundIntegrationId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        description:
+          type:
+          - string
+          - 'null'
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        code:
+          type:
+          - string
+          - 'null'
+        outcome:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    Microsoft.AspNetCore.Mvc.ProblemDetails:
+      type: object
+      properties:
+        type:
+          type:
+          - string
+          - 'null'
+        title:
+          type:
+          - string
+          - 'null'
+        status:
+          type:
+          - integer
+          - 'null'
+          format: int32
+        detail:
+          type:
+          - string
+          - 'null'
+        instance:
+          type:
+          - string
+          - 'null'
+      additionalProperties: {}
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

@@ -1,0 +1,137 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Outbound Integration Log Resource Search…
+  version: v1
+tags:
+- name: OutboundIntegrationLogResourceSearch
+paths:
+  /api/public/v1/outbound-integration/{outboundIntegrationId}/logs/search/list:
+    get:
+      tags:
+      - OutboundIntegrationLogResourceSearch
+      summary: List outbound integration logs
+      description: 'Returns paginated logs for an outbound integration. Supports cursor-style paging via createdAtLessThan and idLessThan, and optional incidentId filter.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `outbound-integration-logs:list`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is checked against the specific resource (team or organization reachability).
+
+        - **Required team role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: outboundIntegrationId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: IncidentId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: CreatedAtLessThan
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: IdLessThan
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: Limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceListResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceListResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceListResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: outbound-integration-logs
+        permission: list
+        scope: outbound-integration-logs:list
+        accessModel: resource-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: Administrator
+        notes: null
+      operationId: getApiPublicV1OutboundIntegrationByOutboundIntegrationIdLogsSearchList
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        outboundIntegrationId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        description:
+          type:
+          - string
+          - 'null'
+        incidentId:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        code:
+          type:
+          - string
+          - 'null'
+        outcome:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceListResponse:
+      type: object
+      properties:
+        logs:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Public.OutboundIntegrations.OutboundIntegrationLogResourceResponse'
+        hasMore:
+          type: boolean
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

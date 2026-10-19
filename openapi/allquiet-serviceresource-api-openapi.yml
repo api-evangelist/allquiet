@@ -1,0 +1,443 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Service Resource API
+  version: v1
+tags:
+- name: ServiceResource
+paths:
+  /api/public/v1/service/{id}:
+    get:
+      tags:
+      - ServiceResource
+      summary: Get a service by ID
+      description: 'Returns a single service in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:get`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: get
+        scope: services:get
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1ServiceById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - ServiceResource
+      summary: Update a service
+      description: 'Updates an existing service by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:update`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceUpdateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: update
+        scope: services:update
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: putApiPublicV1ServiceById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - ServiceResource
+      summary: Delete a service
+      description: 'Permanently deletes a service by ID.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:delete`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: delete
+        scope: services:delete
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: deleteApiPublicV1ServiceById
+      x-operation-id-source: derived
+  /api/public/v1/service:
+    post:
+      tags:
+      - ServiceResource
+      summary: Create a service
+      description: 'Creates a new service in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `services:create`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Administrator
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: provision
+        in: query
+        description: When true, the created or updated resource is marked as provisioned and becomes read-only in the web UI. Defaults to false on create. On update, omitting this parameter preserves the existing provisioned state. Not available for personal access tokens.
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Services.ServiceResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: services
+        permission: create
+        scope: services:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Administrator
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: postApiPublicV1Service
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.StatusPages.Models.ServiceIntegration:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        integrationId:
+          type: string
+          format: uuid
+        severities:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.Services.ServiceResourceUpdateRequest:
+      required:
+      - displayName
+      - publicTitle
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          minLength: 1
+          type: string
+        publicTitle:
+          maxLength: 500
+          minLength: 1
+          type: string
+        publicDescription:
+          maxLength: 10000
+          type:
+          - string
+          - 'null'
+        templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate'
+        integrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIntegration'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+    AllQuiet.Api.Teams.Common.TeamConnectionSettings:
+      type: object
+      properties:
+        teamConnectionMode:
+          type:
+          - string
+          - 'null'
+        teamIds:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
+    AllQuiet.Api.Public.Services.ServiceResourceCreateRequest:
+      required:
+      - displayName
+      - publicTitle
+      type: object
+      properties:
+        displayName:
+          maxLength: 500
+          minLength: 1
+          type: string
+        publicTitle:
+          maxLength: 500
+          minLength: 1
+          type: string
+        publicDescription:
+          maxLength: 10000
+          type:
+          - string
+          - 'null'
+        templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate'
+        integrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIntegration'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+    AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate:
+      required:
+      - displayName
+      - message
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          format: uuid
+        displayName:
+          minLength: 1
+          type: string
+        message:
+          minLength: 1
+          type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.Services.ServiceResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        isProvisioned:
+          type: boolean
+        displayName:
+          type:
+          - string
+          - 'null'
+        publicTitle:
+          type:
+          - string
+          - 'null'
+        publicDescription:
+          type:
+          - string
+          - 'null'
+        templates:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIncidentTemplate'
+        integrations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.StatusPages.Models.ServiceIntegration'
+        teamConnectionSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Teams.Common.TeamConnectionSettings'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

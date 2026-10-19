@@ -1,0 +1,65 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public Time Zone API
+  version: v1
+tags:
+- name: Timezone
+paths:
+  /api/public/v1/timezone:
+    get:
+      tags:
+      - Timezone
+      summary: List supported time zones
+      description: Returns all IANA time zone identifiers supported by All Quiet along with current UTC offset information. No authentication required.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.TimeZoneResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.TimeZoneResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Authentication.TimeZoneResponse'
+      operationId: getApiPublicV1Timezone
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Authentication.TimeZoneResponseItem:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        utcOffset:
+          type: string
+          format: date-span
+        shortDisplayName:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Authentication.TimeZoneResponse:
+      type: object
+      properties:
+        items:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.TimeZoneResponseItem'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header

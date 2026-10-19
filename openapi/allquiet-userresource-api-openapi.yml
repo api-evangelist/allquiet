@@ -1,0 +1,522 @@
+openapi: 3.2.0
+info:
+  title: All Quiet Public User Resource API
+  version: v1
+tags:
+- name: UserResource
+paths:
+  /api/public/v1/user/{id}:
+    get:
+      tags:
+      - UserResource
+      summary: Get a user by ID
+      description: 'Returns a user reachable via shared team or organization membership.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:get`
+
+        - **Accepted key types:** organization API key (org-wide), organization API key (team-scoped), personal access token (org-wide), personal access token (team-scoped)
+
+        - **Access:** Access is limited to the teams and organizations visible to the API key.
+
+        - **Root organization access:** API keys bound to a sub-organization may also read users provisioned in the root organization.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: get
+        scope: users:get
+        accessModel: team-scoped
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - organization API key (team-scoped)
+        - personal access token (org-wide)
+        - personal access token (team-scoped)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: true
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: getApiPublicV1UserById
+      x-operation-id-source: derived
+    put:
+      tags:
+      - UserResource
+      summary: Update a user
+      description: 'Updates profile and settings for a user provisioned in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:update`
+
+        - **Accepted key types:** organization API key (org-wide), personal access token (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Self access:** personal access tokens may write their linked user''s resource even when the user belongs to multiple organizations.
+
+        - **Notes:** Personal access tokens may only update their linked user.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceUpdateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceUpdateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: update
+        scope: users:update
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        - personal access token (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: true
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Personal access tokens may only update their linked user.
+      operationId: putApiPublicV1UserById
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - UserResource
+      summary: Delete a user
+      description: 'Deletes a user provisioned in the organization. Only organization API keys may call this endpoint.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:delete`
+
+        - **Accepted key types:** organization API key (org-wide)
+
+        - **Access:** User-linked keys (personal access tokens) may only act on their own user.
+
+        - **Self access:** personal access tokens may write their linked user''s resource even when the user belongs to multiple organizations.
+
+        - **Notes:** Only organization API keys may delete users. Personal access tokens cannot delete users.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '204':
+          description: No Content
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: delete
+        scope: users:delete
+        accessModel: user-self
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: true
+        requiredOrgRoleForUserKeys: null
+        requiredTeamRoleForUserKeys: null
+        notes: Only organization API keys may delete users. Personal access tokens cannot delete users.
+      operationId: deleteApiPublicV1UserById
+      x-operation-id-source: derived
+  /api/public/v1/user:
+    post:
+      tags:
+      - UserResource
+      summary: Create a user in an organization
+      description: 'Creates a new user provisioned in the organization.
+
+
+        **Required API key permissions**
+
+
+        - **Scope:** `users:create`
+
+        - **Accepted key types:** organization API key (org-wide)
+
+        - **Access:** Operates on a single organization. Pass organizationId when your API key spans multiple organizations.
+
+        - **Required organization role (user-linked keys only):** Member
+
+        - Organization API keys are not subject to organization or team role checks.'
+      parameters:
+      - name: organizationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceCreateRequest'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceCreateRequest'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceCreateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/AllQuiet.Api.Public.Users.UserResourceResponse'
+      security:
+      - ApiKey: []
+      x-api-key-requirements:
+        resource: users
+        permission: create
+        scope: users:create
+        accessModel: org-singleton
+        allowedKeyTypes:
+        - organization API key (org-wide)
+        acceptsDerivedOrgMembershipForUserKeys: false
+        grantsRootOrganizationUserReadAccess: false
+        grantsUserSelfWriteAccess: false
+        requiredOrgRoleForUserKeys: Member
+        requiredTeamRoleForUserKeys: null
+        notes: null
+      operationId: postApiPublicV1User
+      x-operation-id-source: derived
+components:
+  schemas:
+    AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation:
+      type: object
+      properties:
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        confirmedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        requestedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        confirmationCode:
+          type:
+          - string
+          - 'null'
+        type:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Common.CalendarPublishingSettingsResponse:
+      type: object
+      properties:
+        isPublished:
+          type: boolean
+        publicCalendarUrlOutlook:
+          type:
+          - string
+          - 'null'
+        publicCalendarUrlGoogle:
+          type:
+          - string
+          - 'null'
+        onlyIncludeTier1:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Common.CalendarPublishingSettingsRequest:
+      type: object
+      properties:
+        isPublished:
+          type:
+          - boolean
+          - 'null'
+        onlyIncludeTier1:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserResourceUpdateRequest:
+      type: object
+      properties:
+        email:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        displayName:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        incidentNotificationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.IncidentNotificationSettings'
+        calendarPublishingSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Common.CalendarPublishingSettingsRequest'
+        disableWeeklyIncidentEngagementReport:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserResourceResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type:
+          - string
+          - 'null'
+        userName:
+          type:
+          - string
+          - 'null'
+        displayName:
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        incidentNotificationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.IncidentNotificationSettings'
+        calendarPublishingSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Common.CalendarPublishingSettingsResponse'
+        disableWeeklyIncidentEngagementReport:
+          type: boolean
+      additionalProperties: false
+    AllQuiet.Api.Authentication.Models.IncidentNotificationSettings:
+      type: object
+      properties:
+        shouldSendSMS:
+          type:
+          - boolean
+          - 'null'
+        delayInMinSMS:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldCallVoice:
+          type:
+          - boolean
+          - 'null'
+        delayInMinVoice:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendPush:
+          type:
+          - boolean
+          - 'null'
+        delayInMinPush:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        shouldSendEmail:
+          type:
+          - boolean
+          - 'null'
+        delayInMinEmail:
+          maximum: 60
+          minimum: 0
+          type:
+          - integer
+          - 'null'
+          format: int32
+        severitiesEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        phoneNumberConfirmations:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.PhoneNumberConfirmation'
+        disabledIntentsEmail:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsVoice:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsPush:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+        disabledIntentsSMS:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+      additionalProperties: false
+    AllQuiet.Api.Public.Users.UserResourceCreateRequest:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          maxLength: 500
+          minLength: 1
+          type: string
+          format: email
+        userName:
+          maxLength: 100
+          type:
+          - string
+          - 'null'
+        displayName:
+          maxLength: 500
+          type:
+          - string
+          - 'null'
+        phoneNumber:
+          type:
+          - string
+          - 'null'
+        timeZoneId:
+          type:
+          - string
+          - 'null'
+        incidentNotificationSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Authentication.Models.IncidentNotificationSettings'
+        calendarPublishingSettings:
+          $ref: '#/components/schemas/AllQuiet.Api.Common.CalendarPublishingSettingsRequest'
+        disableWeeklyIncidentEngagementReport:
+          type:
+          - boolean
+          - 'null'
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: apiKey
+      description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
+      name: Authorization
+      in: header
