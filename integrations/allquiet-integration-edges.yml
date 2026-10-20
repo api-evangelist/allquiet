@@ -8,22 +8,6 @@ checked:
 - slack/integrations/slack-integration-edges.yml
 marketplace_apps: []
 edges:
-- partner_name: GitHub Marketplace (apps)
-  partner: github
-  partner_match: aggregator
-  type: marketplace
-  marketplace: github-apps
-  channel: partner-built
-  relationship: platform-app
-  direction: third-party
-  evidence: https://github.com/marketplace/all-quiet
-  listing_count: 2
-  apps:
-  - All Quiet
-  - All Quiet EU
-  publisher_name: All Quiet
-  detected_by: sweep-devtools.py
-  detected: '2026-10-14'
 - partner_name: Zapier
   partner: zapier
   partner_match: aggregator
