@@ -6,6 +6,8 @@ checked:
 - https://zapier.com/api/v4/apps/
 - microsoft-teams/integrations/microsoft-teams-integration-edges.yml
 - slack/integrations/slack-integration-edges.yml
+- opentofu/integrations/opentofu-integration-edges.yml
+- terraform/integrations/terraform-integration-edges.yml
 marketplace_apps: []
 edges:
 - partner_name: Zapier
@@ -86,5 +88,39 @@ edges:
   detected: '2026-10-18'
   detected_by: mirror-platform-listings.py
   category: Slack app
+- partner_name: OpenTofu (opentofu-registry)
+  partner: opentofu
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: opentofu-registry
+  evidence: https://search.opentofu.org/provider/allquietapp/allquiet
+  mirror_of: opentofu/integrations/opentofu-integration-edges.yml
+  apps:
+  - allquietapp/allquiet
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
+- partner_name: Terraform (terraform-registry)
+  partner: terraform
+  partner_match: mirror
+  mirror_match: register
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: terraform-registry
+  evidence: https://registry.terraform.io/providers/AllQuietApp/allquiet
+  mirror_of: terraform/integrations/terraform-integration-edges.yml
+  apps:
+  - AllQuietApp/allquiet
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
 source:
 - https://github.com/marketplace?type=apps
