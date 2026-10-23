@@ -790,3 +790,9 @@ components:
       description: 'API key authentication. Pass the key as `Authorization: Bearer <key>` or `X-Api-Key: <key>`. Each operation documents required scopes and accepted key types.'
       name: Authorization
       in: header
+x-provenance:
+  method: harvested
+  publisher: All Quiet
+  source: https://allquiet.app/api/swagger/public-v1/swagger.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
