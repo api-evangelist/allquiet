@@ -429,6 +429,8 @@ apis:
   humanURL: https://docs.allquiet.app/advanced/api
   baseURL: https://allquiet.app/api/public/v1
   tags:
+  - Metadata
+  tags_raw:
   - MetaData
   properties:
   - type: OpenAPI
@@ -1336,6 +1338,8 @@ apis:
   humanURL: https://docs.allquiet.app/advanced/api
   baseURL: https://allquiet.app/api/public/v1
   tags:
+  - Timezone
+  tags_raw:
   - TimeZone
   properties:
   - type: OpenAPI
@@ -1389,6 +1393,8 @@ apis:
   humanURL: https://docs.allquiet.app/advanced/api
   baseURL: https://allquiet.app/api/public/v1
   tags:
+  - User Resource
+  tags_raw:
   - UserResource
   properties:
   - type: OpenAPI
@@ -1441,6 +1447,8 @@ apis:
   humanURL: https://docs.allquiet.app/advanced/api
   baseURL: https://allquiet.app/api/public/v1
   tags:
+  - On-Call
+  tags_raw:
   - On Call
   properties:
   - type: OpenAPI
