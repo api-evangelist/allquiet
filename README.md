@@ -1,4 +1,4 @@
-# All Quiet (allquiet)
+# All Quiet
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,139 +66,125 @@
 
 All Quiet is a lean, SRE-first incident management and on-call alerting platform for engineering teams. Its Public REST API (US and EU regions, API-key authenticated) lets teams programmatically create and manage incidents, configure inbound and outbound integrations, manage teams and escalation schedules, and read who is on call.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/allquiet/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/allquiet/refs/heads/main/apis.yml)
+**Areas:** Incident Management · On-Call · Alerting · Incident Response · DevOps
 
-## Tags
+## All Quiet on APIs.io
 
-- Incident Management
-- On-Call
-- Alerting
-- Incident Response
-- DevOps
+Everything profiled for All Quiet is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/allquiet/](https://apis.io/providers/allquiet/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (5)
 
-- **Created:** 2026-06-21
-- **Modified:** 2026-06-21
+- [All Quiet Inbound Integrations API](https://apis.io/apis/allquiet/allquiet-inbound-integrations-api/) — Integrations that turn external signals into All Quiet incidents.
+- [All Quiet Incidents API](https://apis.io/apis/allquiet/allquiet-incidents-api/) — Create, search, read, update, and delete incidents.
+- [All Quiet On-Call Schedules API](https://apis.io/apis/allquiet/allquiet-on-call-schedules-api/) — On-call lookups, escalation tiers, and on-call overrides.
+- [All Quiet Teams API](https://apis.io/apis/allquiet/allquiet-teams-api/) — Teams, team membership, and organization membership (users).
+- [All Quiet Webhooks API](https://apis.io/apis/allquiet/allquiet-webhooks-api/) — Outbound integrations that forward incidents to third-party platforms.
 
-## APIs
+### Published properties
 
-### All Quiet Incidents API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create, retrieve, search, update (PATCH), and delete incidents, including severity, status, team assignment, user assignments, and attributes. A Markdown rendering of any incident is also available.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.allquiet.app/advanced/api](https://docs.allquiet.app/advanced/api)
-- **Base URL:** `https://allquiet.app/api/public/v1`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Allquiet Agentic Access](https://apis.io/agentic-access/allquiet/allquiet-agentic-access/)
 
-- Incidents
-- Incident Response
-- Alerting
+#### Collections (6)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.allquiet.app/essentials/incident)
-- [API Reference](https://allquiet.app/api/public/swagger-ui/index.html)
-- [OpenAPI](openapi/allquiet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/allquiet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/allquiet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [All Quiet Public API](https://apis.io/collections/allquiet/open-allquiet/)
+- [All Quiet Public Inbound Integrations API](https://apis.io/collections/allquiet/open-allquiet-inbound-integrations-api/)
+- [All Quiet Public Inbound Integrations Incidents API](https://apis.io/collections/allquiet/open-allquiet-incidents-api/)
+- [All Quiet Public Inbound Integrations On-Call Schedules API](https://apis.io/collections/allquiet/open-allquiet-on-call-schedules-api/)
+- [All Quiet Public Inbound Integrations Teams API](https://apis.io/collections/allquiet/open-allquiet-teams-api/)
+- [All Quiet Public Inbound Integrations Webhooks API](https://apis.io/collections/allquiet/open-allquiet-webhooks-api/)
 
-### All Quiet Inbound Integrations API
+#### Security (3)
 
-Manage inbound integrations that turn observability and alerting signals into All Quiet incidents, including the generic inbound webhook endpoint, payload attribute mapping, integration types, and maintenance windows.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.allquiet.app/essentials/inbound](https://docs.allquiet.app/essentials/inbound)
-- **Base URL:** `https://allquiet.app/api/public/v1`
+- [Allquiet Authentication](https://apis.io/security/allquiet/allquiet-authentication/)
+- [Allquiet Domain Security](https://apis.io/security/allquiet/allquiet-domain-security/)
+- [Allquiet Trust Center](https://apis.io/security/allquiet/allquiet-trust-center/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Inbound Integrations
-- Webhooks
-- Alerting
+Published plans, tiers and prices.
 
-#### Properties
+- [Allquiet Plans Pricing](https://apis.io/plans/allquiet/allquiet-plans-pricing/)
 
-- [Documentation](https://docs.allquiet.app/integrations/inbound/webhook)
-- [API Reference](https://allquiet.app/api/public/swagger-ui/index.html)
-- [OpenAPI](openapi/allquiet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/allquiet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/allquiet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### All Quiet Teams API
+Published request limits.
 
-Create, read, update, and delete teams, team memberships, and organization memberships (users), the building blocks for routing incidents and on-call duty.
+- [Allquiet Rate Limits](https://apis.io/rate-limits/allquiet/allquiet-rate-limits/)
 
-- **Human URL:** [https://docs.allquiet.app/essentials/teams](https://docs.allquiet.app/essentials/teams)
-- **Base URL:** `https://allquiet.app/api/public/v1`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Teams
-- Membership
-- Organization
+- [Allquiet Finops](https://apis.io/finops/allquiet/allquiet-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://docs.allquiet.app/essentials/teams)
-- [API Reference](https://allquiet.app/api/public/swagger-ui/index.html)
-- [OpenAPI](openapi/allquiet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/allquiet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/allquiet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### All Quiet On-Call Schedules API
-
-Read who is on call across teams and users at a point in time, configure team escalation tiers and rotations, and create on-call overrides for coverage swaps.
-
-- **Human URL:** [https://docs.allquiet.app/essentials/escalations](https://docs.allquiet.app/essentials/escalations)
-- **Base URL:** `https://allquiet.app/api/public/v1`
-
-#### Tags
-
-- On-Call
-- Schedules
-- Escalations
-
-#### Properties
-
-- [Documentation](https://docs.allquiet.app/essentials/escalations)
-- [API Reference](https://allquiet.app/api/public/swagger-ui/index.html)
-- [OpenAPI](openapi/allquiet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/allquiet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/allquiet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### All Quiet Webhooks API
-
-Manage outbound integrations that forward All Quiet incidents to third-party platforms, including a generic outbound webhook that POSTs incident events to any HTTP endpoint, plus Slack and Mattermost delivery.
-
-- **Human URL:** [https://docs.allquiet.app/integrations/outbound/webhook](https://docs.allquiet.app/integrations/outbound/webhook)
-- **Base URL:** `https://allquiet.app/api/public/v1`
-
-#### Tags
-
-- Webhooks
-- Outbound Integrations
-- Notifications
-
-#### Properties
-
-- [Documentation](https://docs.allquiet.app/essentials/outbound)
-- [API Reference](https://allquiet.app/api/public/swagger-ui/index.html)
-- [OpenAPI](openapi/allquiet-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/allquiet.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/allquiet.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/AllQuietApp)
-- [LinkedIn](https://www.linkedin.com/company/allquiet)
 - [Website](https://allquiet.app/)
 - [Documentation](https://docs.allquiet.app)
-- [Plans](plans/allquiet-plans-pricing.yml)
-- [Rate Limits](rate-limits/allquiet-rate-limits.yml)
-- [Fin Ops](finops/allquiet-finops.yml)
+- [Blog](https://allquiet.app/blog/feed.xml)
+- [GitHub](https://github.com/AllQuietApp)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 28.6** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 47.5 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 15.8 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/allquiet/](https://apis.io/providers/allquiet/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for All Quiet: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/allquiet/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
